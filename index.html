@@ -141,6 +141,18 @@
   .review-item .q{font-weight:600; font-size:.92rem}
   .review-item .a{font-size:.82rem; color:var(--ok); font-family:"Hiragino Kaku Gothic ProN",sans-serif; margin-top:4px}
 
+  /* ---- 問題一覧・暗記シート（開いた状態でも読みやすく）---- */
+  #listBox .li{border-bottom:1px solid var(--line); padding:11px 6px}
+  #listBox .li:nth-child(even){background:#faf7f0}
+  #listBox .li:hover{background:#f6f2e9}
+  #listBox .li-head{display:flex; gap:8px; align-items:baseline; cursor:pointer}
+  #listBox .li-q{flex:1; font-size:.95rem; font-weight:600; color:#2b2b2b; line-height:1.55; white-space:pre-wrap}
+  #listBox .li-type{flex:none; color:#a09a90; font-size:.72rem}
+  #listBox .li-det{margin:9px 0 2px; padding:9px 13px; background:#f1f7f3;
+                   border-left:3px solid var(--ok); border-radius:0 8px 8px 0}
+  #listBox .li-ans{font-size:.95rem; font-weight:700; color:var(--ok); line-height:1.5}
+  #listBox .li-exp{margin-top:6px; font-size:.82rem; color:#6f6a63; line-height:1.65}
+
   .links a{color:var(--accent); text-decoration:none; border-bottom:1px solid transparent; transition:.12s}
   .links a:hover{border-color:var(--accent)}
   .link-row{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.88rem}
@@ -859,15 +871,15 @@ function renderList(){
   const list=listFiltered();
   document.getElementById("listInfo").textContent=`一覧：${list.length} 問（全 ${QUESTIONS.length} 問）　見出しをクリックで答え・解説`;
   document.getElementById("listBox").innerHTML = list.map(q=>
-    `<div style="border-bottom:1px solid var(--line);padding:7px 2px">
-      <div style="cursor:pointer;display:flex;gap:8px;align-items:baseline" onclick="toggleListItem('${q.id}')">
+    `<div class="li">
+      <div class="li-head" onclick="toggleListItem('${q.id}')">
         <span class="tag diff" style="flex:none">★${q.difficulty}</span>
         <span class="tag" style="flex:none">${q.field}</span>
         ${q.source?`<span class="tag" style="flex:none;background:#2f7a4d;color:#fff;border-color:#2f7a4d">📖${q.source}</span>`:""}
-        <span style="flex:1;font-size:.9rem">${q.question}</span>
-        <span style="flex:none;color:#999;font-size:.74rem">${TYPE_LABEL[q.type]}</span>
+        <span class="li-q">${q.question}</span>
+        <span class="li-type">${TYPE_LABEL[q.type]}</span>
       </div>
-      <div id="det_${q.id}" style="display:none;margin:6px 0 4px 10px"></div>
+      <div class="li-det" id="det_${q.id}" style="display:none"></div>
     </div>`).join("") || '<div class="empty">該当する問題がありません。</div>';
   // 「答えを常に表示」がONなら再描画後も開いた状態にする
   const showAll=document.getElementById("lShowAll");
@@ -881,8 +893,8 @@ function answerLabel(q){
 function buildDetail(id){
   const q=QUESTIONS.find(x=>x.id===id);
   const a=answerLabel(q);
-  return `<div class="a">${a.label}：${a.text}</div>
-    <div class="hint" style="margin:4px 0">${q.explanation||""}</div>`;
+  return `<div class="li-ans">${a.label}：${a.text}</div>`
+    + (q.explanation? `<div class="li-exp">${q.explanation}</div>` : "");
 }
 function toggleListItem(id){
   const det=document.getElementById("det_"+id); if(!det) return;

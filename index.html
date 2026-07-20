@@ -882,10 +882,7 @@ function buildDetail(id){
   const q=QUESTIONS.find(x=>x.id===id);
   const a=answerLabel(q);
   return `<div class="a">${a.label}：${a.text}</div>
-    <div class="hint" style="margin:4px 0">${q.explanation||""}</div>
-    <div class="rowbtns no-print">
-      <button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="practiceOne('${id}')">▶ この問題を解く</button>
-      <button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="addReviewManual('${id}')">＋ 復習に追加</button></div>`;
+    <div class="hint" style="margin:4px 0">${q.explanation||""}</div>`;
 }
 function toggleListItem(id){
   const det=document.getElementById("det_"+id); if(!det) return;
@@ -896,18 +893,6 @@ function toggleListItem(id){
     }
     det.style.display="block";
   } else det.style.display="none";
-}
-function practiceOne(id){
-  const q=QUESTIONS.find(x=>x.id===id); if(!q) return;
-  showView("quiz");
-  document.getElementById("quizEmpty").style.display="none";
-  document.getElementById("quizCard").style.display="block";
-  SESSION={list:[q], idx:0, results:[], answered:false};
-  renderQuestion();
-}
-function addReviewManual(id){
-  if(!STATE.reviewIds.includes(id)){ STATE.reviewIds.push(id); STATE.missCount[id]=STATE.missCount[id]||1; saveState(STATE); }
-  alert("復習リストに追加しました。");
 }
 
 /* ---- 問題一覧のフィルタ（演習とは独立）---- */

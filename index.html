@@ -281,7 +281,8 @@
   <!-- ============ 2. 演習モード ============ -->
   <section id="list" class="view">
     <h2 class="title">問題一覧・暗記シート</h2>
-    <p class="lead">分野・難易度・形式・出典・キーワードで絞り込み。見出しは答えが隠れているので、<b>自分で答えを思い浮かべてからクリック</b>して確認できます（暗記シート）。「すべて答えを開く」でまとめ読みも可。その場で1問演習・復習追加もできます。</p>
+    <p class="lead">見出しは答えが隠れているので、<b>自分で答えを思い浮かべてからクリック</b>して確認できます（暗記シート）。「すべて答えを開く」でまとめ読みも可。<br>
+      初期状態は<b>「📖 過去問論点のみ」（594問）</b>を表示しています。「出典」を<b>「すべて」</b>に変えると全1,776問、<b>年度を選ぶ</b>とその年の論点だけに絞れます。</p>
 
     <div class="card no-print">
       <div class="controls">
@@ -306,7 +307,8 @@
   <!-- ============ 3. 演習 ============ -->
   <section id="quiz" class="view">
     <h2 class="title">オリジナル演習</h2>
-    <p class="lead">条件を絞って出題し、自分で答えてから採点します。誤答は自動で復習リストへ／正解すると自動で外れます。「復習リストから」で苦手だけを苦手な順に反復でき、セッション後は誤答だけ再挑戦できます。</p>
+    <p class="lead">条件を絞って出題し、自分で答えてから採点します。誤答は自動で復習リストへ／正解すると自動で外れます。「復習リストから」で苦手だけを苦手な順に反復でき、セッション後は誤答だけ再挑戦できます。<br>
+      初期状態は<b>「📖 過去問論点のみ」（594問）</b>から出題します。「出典」を<b>「すべて」</b>に変えると全1,776問から出題できます。</p>
 
     <div class="card no-print">
       <div class="controls">
@@ -566,6 +568,7 @@ function initQuizFilters(){
   const years=[...new Set(QUESTIONS.filter(q=>q.source).map(q=>q.source))].sort();
   document.getElementById("fSource").innerHTML="<option value=''>すべて</option><option value='any'>📖 過去問論点のみ</option>"
     +years.map(y=>`<option value="${y}">📖 ${y}年の論点</option>`).join("");
+  document.getElementById("fSource").value="any";  // 初期値＝過去問論点のみ
   ["fField","fDiff","fType","fSource","fReview"].forEach(id=>document.getElementById(id).addEventListener("change",updatePoolInfo));
   updatePoolInfo();
 }
@@ -954,6 +957,7 @@ function initListFilters(){
   const years=[...new Set(QUESTIONS.filter(q=>q.source).map(q=>q.source))].sort();
   document.getElementById("lSource").innerHTML="<option value=''>すべて</option><option value='any'>📖 過去問論点のみ</option>"
     +years.map(y=>`<option value="${y}">📖 ${y}年の論点</option>`).join("");
+  document.getElementById("lSource").value="any";  // 初期値＝過去問論点のみ
   ["lField","lType","lSource"].forEach(id=>document.getElementById(id).addEventListener("change",renderList));
   document.getElementById("lKeyword").addEventListener("input",renderList);
   document.getElementById("lShowAll").addEventListener("change",e=>{ e.target.checked? expandAll() : collapseAll(); });

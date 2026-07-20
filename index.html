@@ -174,6 +174,47 @@
     .card{box-shadow:none; break-inside:avoid}
     @page{size:A4; margin:14mm}
   }
+
+  /* ================= スマホ最適化 ================= */
+  /* ヒートマップは自身の中だけで横スクロールさせ、ページ全体を広げない */
+  .heat-wrap{max-width:100%; -webkit-overflow-scrolling:touch}
+
+  @media(max-width:640px){
+    header{padding:14px 12px}
+    header h1{font-size:1.18rem}
+    header .sub{font-size:.72rem}
+    main{padding:14px 12px 48px}
+
+    nav{gap:5px}
+    nav button{padding:10px 13px; font-size:.85rem; min-height:44px}
+
+    /* フィルタは2列。文字16pxでiOSの自動ズームを防ぐ */
+    .controls{gap:8px}
+    .controls .fld{flex:1 1 calc(50% - 4px); min-width:0}
+    .controls .fld select,.controls .fld input{width:100%; font-size:16px; min-height:44px}
+    .controls > .btn{flex:1 1 100%; min-height:46px; font-size:.95rem}
+
+    .btn{min-height:44px; padding:10px 14px}
+    .rowbtns{gap:8px; flex-wrap:wrap}
+    /* チェックボックスは指で押せる大きさに（ラベルごと） */
+    .rowbtns label,.controls label{min-height:44px; align-items:center}
+    input[type=checkbox]{width:22px !important; height:22px !important}
+
+    /* 選択肢・問題文は指で押しやすく、読みやすく */
+    .choice{min-height:48px; font-size:.95rem; padding:12px 14px}
+    .qtext{font-size:1.02rem}
+
+    .chart-box{height:210px}
+    .stat{flex:1 1 calc(50% - 7px)}
+    .grid2{gap:12px}
+
+    /* 一覧：1行目にタグ、2行目に問題文を全幅で置く */
+    #listBox .li{padding:12px 4px}
+    #listBox .li-head{flex-wrap:wrap; row-gap:5px}
+    #listBox .li-type{order:1; margin-left:auto}
+    #listBox .li-q{order:2; flex:1 1 100%; font-size:.95rem}
+    #listBox .li-det{padding:10px 12px}
+  }
 </style>
 </head>
 <body>

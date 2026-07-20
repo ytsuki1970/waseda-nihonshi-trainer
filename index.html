@@ -171,7 +171,8 @@
   <div class="sub">傾向を掴む → オリジナル問題で反復 → ログで戦略修正　｜　MVP v0.1</div>
   <nav>
     <button data-view="dash" class="active">傾向分析</button>
-    <button data-view="quiz">演習・一覧</button>
+    <button data-view="list">問題一覧</button>
+    <button data-view="quiz">演習</button>
     <button data-view="log">学習ログ</button>
   </nav>
 </header>
@@ -225,9 +226,35 @@
   </section>
 
   <!-- ============ 2. 演習モード ============ -->
+  <section id="list" class="view">
+    <h2 class="title">問題一覧・暗記シート</h2>
+    <p class="lead">分野・難易度・形式・出典・キーワードで絞り込み。見出しは答えが隠れているので、<b>自分で答えを思い浮かべてからクリック</b>して確認できます（暗記シート）。「すべて答えを開く」でまとめ読みも可。その場で1問演習・復習追加もできます。</p>
+
+    <div class="card no-print">
+      <div class="controls">
+        <div class="fld"><label class="lbl">分野</label><select id="lField"></select></div>
+        <div class="fld"><label class="lbl">難易度</label><select id="lDiff"></select></div>
+        <div class="fld"><label class="lbl">形式</label><select id="lType"></select></div>
+        <div class="fld"><label class="lbl">出典</label><select id="lSource"></select></div>
+        <div class="fld" style="flex:1;min-width:150px"><label class="lbl">キーワード</label>
+          <input type="text" id="lKeyword" placeholder="用語・人物名など（例：藤原道長）" style="width:100%"></div>
+      </div>
+      <div class="rowbtns no-print" style="margin-top:10px;align-items:center">
+        <button class="btn ghost" onclick="expandAll()">▼ すべて答えを開く</button>
+        <button class="btn ghost" onclick="collapseAll()">▲ すべて閉じる</button>
+        <label class="lbl" style="display:flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap;margin-left:6px">
+          <input type="checkbox" id="lShowAll" style="width:16px;height:16px"> 答えを常に表示</label>
+      </div>
+      <div class="hint" id="listInfo" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card"><div id="listBox"></div></div>
+  </section>
+
+  <!-- ============ 3. 演習 ============ -->
   <section id="quiz" class="view">
-    <h2 class="title">演習・問題一覧</h2>
-    <p class="lead">絞り込むと下に見出し一覧が出ます。見出しをクリックで答え・解説を確認、その場で1問演習や復習追加も。上の「▶ この条件で演習」で一覧の問題をまとめて出題します。誤答は自動で復習リストへ／正解で自動で外れます。</p>
+    <h2 class="title">オリジナル演習</h2>
+    <p class="lead">条件を絞って出題し、自分で答えてから採点します。誤答は自動で復習リストへ／正解すると自動で外れます。「復習リストから」で苦手だけを苦手な順に反復でき、セッション後は誤答だけ再挑戦できます。</p>
 
     <div class="card no-print">
       <div class="controls">
@@ -235,8 +262,6 @@
         <div class="fld"><label class="lbl">難易度</label><select id="fDiff"></select></div>
         <div class="fld"><label class="lbl">形式</label><select id="fType"></select></div>
         <div class="fld"><label class="lbl">出典</label><select id="fSource"></select></div>
-        <div class="fld" style="flex:1;min-width:150px"><label class="lbl">キーワード</label>
-          <input type="text" id="fKeyword" placeholder="用語・人物名など（例：藤原道長）" style="width:100%"></div>
         <div class="fld"><label class="lbl">出題順</label>
           <select id="fOrder"><option value="seq">順番</option><option value="rand">ランダム</option></select></div>
         <div class="fld" style="justify-content:flex-end">
@@ -269,11 +294,6 @@
 
     <div class="card" id="quizEmpty" style="display:none">
       <div class="empty">条件に合う問題がありません。フィルタを緩めてください。</div>
-    </div>
-
-    <div class="card">
-      <div class="hint" id="listInfo" style="margin-bottom:8px"></div>
-      <div id="listBox"></div>
     </div>
   </section>
 
@@ -369,7 +389,8 @@ function showView(id){
   document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active", x.dataset.view===id));
   if(id==="dash") renderDash();
   if(id==="log")  renderLog();
-  if(id==="quiz") renderList();
+  if(id==="list") renderList();
+  if(id==="quiz") updatePoolInfo();
 }
 
 /* =========================================================
@@ -493,24 +514,20 @@ function initQuizFilters(){
   const years=[...new Set(QUESTIONS.filter(q=>q.source).map(q=>q.source))].sort();
   document.getElementById("fSource").innerHTML="<option value=''>すべて</option><option value='any'>📖 過去問論点のみ</option>"
     +years.map(y=>`<option value="${y}">📖 ${y}年の論点</option>`).join("");
-  ["fField","fDiff","fType","fSource","fReview"].forEach(id=>document.getElementById(id).addEventListener("change",onFilterChange));
-  document.getElementById("fKeyword").addEventListener("input",onFilterChange);
-  onFilterChange();
+  ["fField","fDiff","fType","fSource","fReview"].forEach(id=>document.getElementById(id).addEventListener("change",updatePoolInfo));
+  updatePoolInfo();
 }
-function onFilterChange(){ updatePoolInfo(); renderList(); }
 function filterQuestions(){
   const f=document.getElementById("fField").value;
   const d=document.getElementById("fDiff").value;
   const t=document.getElementById("fType").value;
   const src=document.getElementById("fSource").value;
-  const kw=(document.getElementById("fKeyword").value||"").trim();
   const rev=document.getElementById("fReview") && document.getElementById("fReview").checked;
   let pool = QUESTIONS;
   if(rev){ const set=new Set(STATE.reviewIds); pool = QUESTIONS.filter(q=>set.has(q.id)); }
   return pool.filter(q=>
     (!f||q.field===f) && (!d||String(q.difficulty)===d) && (!t||q.type===t) &&
-    (!src || (src==="any" ? !!q.source : q.source===src)) &&
-    (!kw || (q.question+(q.answer||"")+(q.modelAnswer||"")+(q.explanation||"")).indexOf(kw)>=0));
+    (!src || (src==="any" ? !!q.source : q.source===src)));
 }
 function updatePoolInfo(){
   const rev=document.getElementById("fReview") && document.getElementById("fReview").checked;
@@ -698,8 +715,7 @@ function startReviewSession(){
   document.getElementById("fDiff").value = "";
   document.getElementById("fType").value = "";
   document.getElementById("fSource").value = "";
-  document.getElementById("fKeyword").value = "";
-  onFilterChange();
+  updatePoolInfo();
   startQuiz();
 }
 
@@ -839,10 +855,9 @@ function printView(id){
 /* =========================================================
    問題一覧（見出しリスト）
    ========================================================= */
-/* 問題一覧は演習フィルタ(filterQuestions)を共有して描画する */
 function renderList(){
-  const list=filterQuestions();
-  document.getElementById("listInfo").textContent=`一覧：${list.length} 問　見出しをクリックで答え・解説`;
+  const list=listFiltered();
+  document.getElementById("listInfo").textContent=`一覧：${list.length} 問（全 ${QUESTIONS.length} 問）　見出しをクリックで答え・解説`;
   document.getElementById("listBox").innerHTML = list.map(q=>
     `<div style="border-bottom:1px solid var(--line);padding:7px 2px">
       <div style="cursor:pointer;display:flex;gap:8px;align-items:baseline" onclick="toggleListItem('${q.id}')">
@@ -854,18 +869,24 @@ function renderList(){
       </div>
       <div id="det_${q.id}" style="display:none;margin:6px 0 4px 10px"></div>
     </div>`).join("") || '<div class="empty">該当する問題がありません。</div>';
+  // 「答えを常に表示」がONなら再描画後も開いた状態にする
+  const showAll=document.getElementById("lShowAll");
+  if(showAll && showAll.checked) expandAll();
+}
+function buildDetail(id){
+  const q=QUESTIONS.find(x=>x.id===id);
+  const ans=(q.type==="truefalse"||q.type==="choice")?q.choices[q.answer]:(q.answer||q.modelAnswer||"");
+  return `<div class="a">正解 / 要点：${ans}</div>
+    <div class="hint" style="margin:4px 0">${q.explanation||""}</div>
+    <div class="rowbtns no-print">
+      <button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="practiceOne('${id}')">▶ この問題を解く</button>
+      <button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="addReviewManual('${id}')">＋ 復習に追加</button></div>`;
 }
 function toggleListItem(id){
   const det=document.getElementById("det_"+id); if(!det) return;
   if(det.style.display==="none"){
     if(!det.dataset.built){
-      const q=QUESTIONS.find(x=>x.id===id);
-      const ans=(q.type==="truefalse"||q.type==="choice")?q.choices[q.answer]:(q.answer||q.modelAnswer||"");
-      det.innerHTML=`<div class="a">正解 / 要点：${ans}</div>
-        <div class="hint" style="margin:4px 0">${q.explanation||""}</div>
-        <div class="rowbtns no-print">
-          <button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="practiceOne('${id}')">▶ この問題を解く</button>
-          <button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="addReviewManual('${id}')">＋ 復習に追加</button></div>`;
+      det.innerHTML=buildDetail(id);
       det.dataset.built="1";
     }
     det.style.display="block";
@@ -884,10 +905,50 @@ function addReviewManual(id){
   alert("復習リストに追加しました。");
 }
 
+/* ---- 問題一覧のフィルタ（演習とは独立）---- */
+function initListFilters(){
+  document.getElementById("lField").innerHTML="<option value=''>すべて</option>"+FIELDS.map(f=>`<option>${f}</option>`).join("");
+  document.getElementById("lDiff").innerHTML="<option value=''>すべて</option>"+[1,2,3,4,5].map(d=>`<option value="${d}">★${d}</option>`).join("");
+  document.getElementById("lType").innerHTML="<option value=''>すべて</option><option value='truefalse'>正誤</option><option value='short'>一問一答</option><option value='choice'>整序・組合せ</option><option value='essay'>記述(自己採点)</option>";
+  const years=[...new Set(QUESTIONS.filter(q=>q.source).map(q=>q.source))].sort();
+  document.getElementById("lSource").innerHTML="<option value=''>すべて</option><option value='any'>📖 過去問論点のみ</option>"
+    +years.map(y=>`<option value="${y}">📖 ${y}年の論点</option>`).join("");
+  ["lField","lDiff","lType","lSource"].forEach(id=>document.getElementById(id).addEventListener("change",renderList));
+  document.getElementById("lKeyword").addEventListener("input",renderList);
+  document.getElementById("lShowAll").addEventListener("change",e=>{ e.target.checked? expandAll() : collapseAll(); });
+}
+function listFiltered(){
+  const f=document.getElementById("lField").value;
+  const d=document.getElementById("lDiff").value;
+  const t=document.getElementById("lType").value;
+  const src=document.getElementById("lSource").value;
+  const kw=(document.getElementById("lKeyword").value||"").trim();
+  return QUESTIONS.filter(q=>
+    (!f||q.field===f) && (!d||String(q.difficulty)===d) && (!t||q.type===t) &&
+    (!src || (src==="any" ? !!q.source : q.source===src)) &&
+    (!kw || (q.question+(q.answer||"")+(q.modelAnswer||"")+(q.explanation||"")).indexOf(kw)>=0));
+}
+/* ---- 暗記シート：一括開閉 ---- */
+function expandAll(){
+  const list=listFiltered();
+  if(list.length>400 && !confirm(`${list.length} 問の答えを一度に開きます。少し重くなる場合があります。続けますか？\n（分野やキーワードで絞ると軽くなります）`)) return;
+  list.forEach(q=>{
+    const det=document.getElementById("det_"+q.id);
+    if(!det) return;
+    if(!det.dataset.built){ det.innerHTML=buildDetail(q.id); det.dataset.built="1"; }
+    det.style.display="block";
+  });
+}
+function collapseAll(){
+  document.querySelectorAll('#listBox [id^="det_"]').forEach(d=>{ d.style.display="none"; });
+  document.getElementById("lShowAll").checked=false;
+}
+
 /* =========================================================
    起動
    ========================================================= */
 initQuizFilters();
+initListFilters();
 renderDash();
 </script>
 </body>

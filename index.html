@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>早稲田法・日本史トレーナー</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f4f1ea; --panel:#fffdf8; --ink:#2b2620; --sub:#6f665a;
+    --line:#e3dccb; --accent:#7a1f2b; --accent2:#b5843b; --gold:#c9a227;
+    --ok:#2f7a4d; --ng:#b23b3b; --shadow:0 2px 10px rgba(60,45,20,.08);
+    --r:12px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+    background:var(--bg); color:var(--ink); line-height:1.7;
+    -webkit-text-size-adjust:100%;
+  }
+  .sans{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif}
+
+  /* ---- header ---- */
+  header{
+    background:linear-gradient(135deg,#7a1f2b,#5a141d);
+    color:#fdf6e8; padding:18px 20px 14px; box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:20;
+  }
+  header h1{margin:0; font-size:1.25rem; letter-spacing:.05em}
+  header .sub{font-size:.72rem; opacity:.8; margin-top:2px; font-family:"Hiragino Kaku Gothic ProN",sans-serif}
+  nav{display:flex; gap:6px; margin-top:12px; flex-wrap:wrap}
+  nav button{
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.82rem;
+    background:rgba(255,255,255,.12); color:#fdf6e8; border:1px solid rgba(255,255,255,.18);
+    padding:7px 14px; border-radius:999px; cursor:pointer; transition:.15s;
+  }
+  nav button:hover{background:rgba(255,255,255,.22)}
+  nav button.active{background:#fdf6e8; color:var(--accent); font-weight:700; border-color:#fdf6e8}
+
+  main{max-width:1040px; margin:0 auto; padding:20px 16px 60px}
+  section.view{display:none; animation:fade .25s ease}
+  section.view.active{display:block}
+  @keyframes fade{from{opacity:0; transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  h2.title{font-size:1.15rem; margin:4px 0 4px; display:flex; align-items:center; gap:8px}
+  h2.title::before{content:""; width:5px; height:1.05em; background:var(--accent2); border-radius:2px; display:inline-block}
+  .lead{font-size:.82rem; color:var(--sub); margin:0 0 18px; font-family:"Hiragino Kaku Gothic ProN",sans-serif}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
+    padding:18px; margin-bottom:18px; box-shadow:var(--shadow)}
+  .card h3{margin:0 0 12px; font-size:.98rem; display:flex; align-items:center; gap:8px}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+
+  /* ---- 傾向サマリー ---- */
+  .card.summary{background:linear-gradient(180deg,#fffdf8,#fbf6ea); border-color:#e6dcc4}
+  .card.summary h3 .src{margin-left:auto; font-size:.66rem; color:var(--sub); font-weight:400; font-family:"Hiragino Kaku Gothic ProN",sans-serif}
+  .sum-structure{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px}
+  .sum-structure span{font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.76rem; background:#efe8d8; color:#5a4f3d; padding:5px 11px; border-radius:8px}
+  .sum-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  @media(max-width:620px){.sum-grid{grid-template-columns:1fr}}
+  .sum-h{font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.72rem; color:var(--sub); font-weight:700; margin-bottom:7px; letter-spacing:.04em}
+  .badges{display:flex; flex-direction:column; gap:6px}
+  .badge{display:flex; align-items:center; gap:8px; font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.84rem}
+  .badge .mk{width:22px; text-align:center; font-weight:800; border-radius:5px; padding:1px 0; color:#fff; flex:none}
+  .badge .mk.l3{background:var(--accent)}
+  .badge .mk.l2{background:var(--accent2)}
+  .badge .mk.l1{background:#b8ac93}
+  .badge .nm{font-weight:600; flex:none; min-width:5.5em}
+  .badge .nt{color:var(--sub); font-size:.74rem}
+  ul.points{margin:6px 0 0; padding-left:1.1em; font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.84rem}
+  ul.points li{margin-bottom:5px}
+  .src-note{font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.68rem; color:var(--sub); margin-top:12px; padding-top:10px; border-top:1px dashed var(--line)}
+
+  /* ---- heatmap ---- */
+  .heat-wrap{overflow-x:auto}
+  table.heat{border-collapse:collapse; font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.72rem; min-width:520px}
+  table.heat th,table.heat td{border:1px solid var(--line); text-align:center; padding:6px 4px}
+  table.heat th{background:#efe8d8; color:var(--sub); font-weight:600; white-space:nowrap}
+  table.heat th.rowh{text-align:left; padding-left:10px; position:sticky; left:0; background:#efe8d8}
+  table.heat td{width:40px; height:34px; color:#fff; font-weight:700}
+  .legend{display:flex; align-items:center; gap:6px; font-size:.72rem; color:var(--sub);
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif; margin-top:10px; flex-wrap:wrap}
+  .legend .box{width:16px;height:16px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
+
+  .chart-box{position:relative; height:260px}
+
+  /* ---- quiz ---- */
+  .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:4px}
+  .controls .fld{display:flex; flex-direction:column; gap:4px}
+  label.lbl{font-size:.72rem; color:var(--sub); font-family:"Hiragino Kaku Gothic ProN",sans-serif}
+  select,input[type=text],textarea{
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.9rem;
+    padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink)}
+  textarea{width:100%; min-height:80px; resize:vertical}
+  .btn{font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.88rem; cursor:pointer;
+    border:none; border-radius:8px; padding:9px 18px; background:var(--accent); color:#fff; font-weight:700; transition:.15s}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{background:#fff; color:var(--accent); border:1px solid var(--accent)}
+  .btn.sub{background:var(--accent2)}
+  .btn:disabled{opacity:.45; cursor:not-allowed}
+
+  .qmeta{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px}
+  .tag{font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.68rem; padding:3px 9px; border-radius:999px; background:#efe8d8; color:var(--sub)}
+  .tag.diff{background:#f0e2c8; color:#8a6a1e}
+  .qtext{font-size:1.08rem; margin:6px 0 16px; font-weight:600; white-space:pre-wrap}
+  .choices{display:flex; flex-direction:column; gap:10px}
+  .choice{font-family:"Hiragino Kaku Gothic ProN",sans-serif; text-align:left; background:#fff; border:1.5px solid var(--line);
+    border-radius:10px; padding:12px 14px; cursor:pointer; font-size:.95rem; transition:.12s}
+  .choice:hover{border-color:var(--accent2)}
+  .choice.correct{border-color:var(--ok); background:#eef7f0}
+  .choice.wrong{border-color:var(--ng); background:#faeeee}
+  .choice.picked{box-shadow:0 0 0 2px rgba(122,31,43,.15)}
+
+  .result{margin-top:16px; padding:14px 16px; border-radius:10px; font-family:"Hiragino Kaku Gothic ProN",sans-serif; display:none}
+  .result.show{display:block}
+  .result.ok{background:#eef7f0; border:1px solid #bfe0cb}
+  .result.ng{background:#faeeee; border:1px solid #e6c3c3}
+  .result .verdict{font-weight:700; margin-bottom:6px}
+  .result .exp{font-size:.86rem; color:#3f3a30; white-space:pre-wrap}
+  .selfscore{display:flex; gap:8px; margin-top:10px}
+  .model{background:#fbf7ec; border:1px dashed var(--accent2); border-radius:8px; padding:10px 12px; font-size:.86rem; margin-top:6px; font-family:"Hiragino Kaku Gothic ProN",sans-serif}
+  .progress{font-size:.72rem; color:var(--sub); font-family:"Hiragino Kaku Gothic ProN",sans-serif; margin-top:14px}
+  .empty{color:var(--sub); font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.9rem; padding:20px; text-align:center}
+
+  /* ---- stats ---- */
+  .statrow{display:flex; gap:14px; flex-wrap:wrap}
+  .stat{flex:1; min-width:130px; background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
+    padding:16px; text-align:center; box-shadow:var(--shadow)}
+  .stat .num{font-size:1.8rem; font-weight:800; color:var(--accent); font-family:"Hiragino Kaku Gothic ProN",sans-serif}
+  .stat .lab{font-size:.72rem; color:var(--sub); font-family:"Hiragino Kaku Gothic ProN",sans-serif; margin-top:2px}
+  .stat .num.gold{color:var(--gold)}
+
+  table.list{width:100%; border-collapse:collapse; font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.82rem}
+  table.list th,table.list td{border-bottom:1px solid var(--line); padding:8px 10px; text-align:left}
+  table.list th{color:var(--sub); font-weight:600; font-size:.72rem}
+
+  .review-item{border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:10px; background:#fff}
+  .review-item .q{font-weight:600; font-size:.92rem}
+  .review-item .a{font-size:.82rem; color:var(--ok); font-family:"Hiragino Kaku Gothic ProN",sans-serif; margin-top:4px}
+
+  .links a{color:var(--accent); text-decoration:none; border-bottom:1px solid transparent; transition:.12s}
+  .links a:hover{border-color:var(--accent)}
+  .link-row{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.88rem}
+  .link-row .rec{font-size:.68rem; background:var(--gold); color:#fff; padding:2px 8px; border-radius:999px; white-space:nowrap}
+  .muted-link{color:var(--sub)}
+
+  .rowbtns{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px}
+  .hint{font-size:.72rem; color:var(--sub); font-family:"Hiragino Kaku Gothic ProN",sans-serif}
+  input[type=file]{font-family:"Hiragino Kaku Gothic ProN",sans-serif; font-size:.78rem}
+
+  footer{text-align:center; font-size:.68rem; color:var(--sub); font-family:"Hiragino Kaku Gothic ProN",sans-serif; padding:24px 10px 40px}
+
+  /* ---- print (A4: 傾向マップ・復習リスト) ---- */
+  @media print{
+    header,nav,footer,.no-print{display:none !important}
+    body{background:#fff}
+    section.view{display:none !important}
+    section.view.printme{display:block !important}
+    .card{box-shadow:none; break-inside:avoid}
+    @page{size:A4; margin:14mm}
+  }
+</style>
+</head>
+<body>
+
+<header class="no-print">
+  <h1>早稲田法・日本史トレーナー</h1>
+  <div class="sub">傾向を掴む → オリジナル問題で反復 → ログで戦略修正　｜　MVP v0.1</div>
+  <nav>
+    <button data-view="dash" class="active">傾向分析</button>
+    <button data-view="quiz">演習・一覧</button>
+    <button data-view="log">学習ログ</button>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ 1. 傾向分析ダッシュボード ============ -->
+  <section id="dash" class="view active">
+    <h2 class="title">傾向分析ダッシュボード</h2>
+    <p class="lead">公開情報で裏取りした「本物の全体傾向」で重点分野を決める。マップと弱点は印刷してデスクに貼れる。</p>
+
+    <!-- 傾向サマリー（公開情報ベース・検証済み） -->
+    <div class="card summary">
+      <h3>傾向サマリー<span class="src" id="sumUpdated"></span></h3>
+      <div class="sum-structure" id="sumStructure"></div>
+      <div class="sum-grid">
+        <div>
+          <div class="sum-h">時代別の重要度</div>
+          <div class="badges" id="sumEra"></div>
+        </div>
+        <div>
+          <div class="sum-h">テーマ別の重要度</div>
+          <div class="badges" id="sumTheme"></div>
+        </div>
+      </div>
+      <div class="sum-h" style="margin-top:14px">おさえどころ</div>
+      <ul class="points" id="sumPoints"></ul>
+      <div class="src-note" id="sumNote"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>テーマ別 重要度<span class="hint" style="margin-left:auto">公開傾向ベース・目安</span></h3>
+        <div class="chart-box"><canvas id="fieldChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>出題形式の内訳<span class="hint" style="margin-left:auto">目安</span></h3>
+        <div class="chart-box"><canvas id="formatChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>年度 × 時代 マップ<span class="hint" style="margin-left:auto">東進DBで全27年(2000-2026)を分析・時代ののべ件数</span></h3>
+      <div class="heat-wrap"><table class="heat" id="heatTable"></table></div>
+      <div class="legend" id="heatLegend"></div>
+      <div class="src-note" id="heatNote"></div>
+    </div>
+
+    <div class="no-print" style="text-align:right">
+      <button class="btn ghost" onclick="printView('dash')">🖨 傾向マップを印刷</button>
+    </div>
+  </section>
+
+  <!-- ============ 2. 演習モード ============ -->
+  <section id="quiz" class="view">
+    <h2 class="title">演習・問題一覧</h2>
+    <p class="lead">絞り込むと下に見出し一覧が出ます。見出しをクリックで答え・解説を確認、その場で1問演習や復習追加も。上の「▶ この条件で演習」で一覧の問題をまとめて出題します。誤答は自動で復習リストへ／正解で自動で外れます。</p>
+
+    <div class="card no-print">
+      <div class="controls">
+        <div class="fld"><label class="lbl">分野</label><select id="fField"></select></div>
+        <div class="fld"><label class="lbl">難易度</label><select id="fDiff"></select></div>
+        <div class="fld"><label class="lbl">形式</label><select id="fType"></select></div>
+        <div class="fld"><label class="lbl">出典</label><select id="fSource"></select></div>
+        <div class="fld" style="flex:1;min-width:150px"><label class="lbl">キーワード</label>
+          <input type="text" id="fKeyword" placeholder="用語・人物名など（例：藤原道長）" style="width:100%"></div>
+        <div class="fld"><label class="lbl">出題順</label>
+          <select id="fOrder"><option value="seq">順番</option><option value="rand">ランダム</option></select></div>
+        <div class="fld" style="justify-content:flex-end">
+          <label class="lbl" style="display:flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap">
+            <input type="checkbox" id="fReview" style="width:16px;height:16px"> 復習リストから</label></div>
+        <button class="btn" onclick="startQuiz()">▶ この条件で演習</button>
+      </div>
+      <div class="hint" id="poolInfo" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card" id="quizCard" style="display:none">
+      <div class="qmeta" id="qMeta"></div>
+      <div class="qtext" id="qText"></div>
+      <div id="qBody"></div>
+      <div class="result" id="qResult">
+        <div class="verdict" id="qVerdict"></div>
+        <div class="exp" id="qExp"></div>
+        <div id="qModelWrap"></div>
+        <div class="selfscore" id="qSelf" style="display:none">
+          <button class="btn sub" onclick="selfScore(true)">◯ 正解にする</button>
+          <button class="btn ghost" onclick="selfScore(false)">✕ 不正解にする</button>
+        </div>
+      </div>
+      <div class="progress" id="qProgress"></div>
+      <div class="rowbtns no-print">
+        <button class="btn ghost" id="nextBtn" onclick="nextQuestion()" style="display:none">次の問題 →</button>
+        <button class="btn ghost" onclick="endQuiz()">セッション終了して記録</button>
+      </div>
+    </div>
+
+    <div class="card" id="quizEmpty" style="display:none">
+      <div class="empty">条件に合う問題がありません。フィルタを緩めてください。</div>
+    </div>
+
+    <div class="card">
+      <div class="hint" id="listInfo" style="margin-bottom:8px"></div>
+      <div id="listBox"></div>
+    </div>
+  </section>
+
+  <!-- ============ 3. 学習ログ ============ -->
+  <section id="log" class="view">
+    <h2 class="title">学習ログ</h2>
+    <p class="lead">日々の演習量と正答率を記録。連続学習日数と分野別の伸びを可視化。CSVで端末間バックアップ。</p>
+
+    <div class="statrow" style="margin-bottom:18px">
+      <div class="stat"><div class="num gold" id="stStreak">0</div><div class="lab">連続学習日数</div></div>
+      <div class="stat"><div class="num" id="stTotal">0</div><div class="lab">累計 演習数</div></div>
+      <div class="stat"><div class="num" id="stRate">–</div><div class="lab">通算 正答率</div></div>
+      <div class="stat"><div class="num" id="stDays">0</div><div class="lab">学習日数</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card"><h3>日別 正答率の推移</h3><div class="chart-box"><canvas id="trendChart"></canvas></div></div>
+      <div class="card"><h3>分野別 正答率</h3><div class="chart-box"><canvas id="byFieldChart"></canvas></div></div>
+    </div>
+
+    <div class="card printme-target">
+      <h3>復習リスト（誤答した問題）<span class="hint" style="margin-left:auto" id="revCount"></span></h3>
+      <div id="reviewList"></div>
+      <div class="rowbtns no-print" style="margin-top:10px">
+        <button class="btn" onclick="startReviewSession()">▶ 復習リストを演習する</button>
+        <button class="btn ghost" onclick="printView('log')">🖨 復習リストを印刷</button>
+        <button class="btn ghost" onclick="clearReview()">復習リストを空にする</button>
+      </div>
+    </div>
+
+    <div class="card no-print">
+      <h3>データ管理（CSV）</h3>
+      <div class="rowbtns">
+        <button class="btn ghost" onclick="exportLogsCsv()">⬇ 学習ログをCSV書き出し</button>
+        <label class="btn ghost" style="display:inline-block">⬆ CSV読み込み
+          <input type="file" accept=".csv" onchange="importLogsCsv(event)" style="display:none">
+        </label>
+        <button class="btn ghost" onclick="if(confirm('この端末の学習ログと復習リストを全消去します。よろしいですか？'))resetAll()">🗑 全データ初期化</button>
+      </div>
+      <div class="hint" style="margin-top:8px">形式：<code>date,field,correct,total</code>　同じ日付＋分野は読み込み時に加算されます。</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="no-print">
+  早稲田法・日本史トレーナー ｜ 過去問本体は複製せず、テーマ傾向とオリジナル問題のみを扱います。<br>
+  データは各自の端末（localStorage）に保存されます。CSVバックアップを習慣に。
+</footer>
+
+<!-- 初期データ定数 -->
+<script src="data.js"></script>
+<!-- 問題バンク（オリジナル問題・data.jsのQUESTIONSへ追記）-->
+<script src="questions.js"></script>
+<script src="questions_bank2.js"></script>
+<script src="questions_bank3.js"></script>
+<script src="questions_bank4.js"></script>
+<!-- アプリ本体 -->
+<script>
+/* =========================================================
+   ストレージ層
+   ========================================================= */
+const LS_KEY = "waseda_nihonshi_v1";
+
+function loadState(){
+  let s = null;
+  try{ s = JSON.parse(localStorage.getItem(LS_KEY)); }catch(e){ s = null; }
+  if(!s){
+    s = { logs: JSON.parse(JSON.stringify(LOGS_SEED || [])), reviewIds: [], missCount: {} };
+    saveState(s);
+  }
+  if(!Array.isArray(s.logs)) s.logs = [];
+  if(!Array.isArray(s.reviewIds)) s.reviewIds = [];
+  if(!s.missCount || typeof s.missCount!=="object") s.missCount = {};
+  return s;
+}
+function saveState(s){ try{ localStorage.setItem(LS_KEY, JSON.stringify(s)); }catch(e){ console.warn("保存失敗（プレビュー環境ではlocalStorage不可）", e); } }
+let STATE = loadState();
+
+/* =========================================================
+   タブ切替
+   ========================================================= */
+document.querySelectorAll("nav button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    showView(b.dataset.view);
+  });
+});
+function showView(id){
+  document.querySelectorAll("section.view").forEach(v=>v.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active", x.dataset.view===id));
+  if(id==="dash") renderDash();
+  if(id==="log")  renderLog();
+  if(id==="quiz") renderList();
+}
+
+/* =========================================================
+   1. 傾向ダッシュボード
+   ========================================================= */
+let fieldChart, formatChart;
+function renderDash(){
+  renderSummary();
+  buildHeatmap();
+  buildFieldChart();
+  buildFormatChart();
+}
+const MARK = {3:"◎", 2:"◯", 1:"△"};
+function renderSummary(){
+  const S = TREND_SUMMARY;
+  document.getElementById("sumUpdated").textContent = "更新 "+S.updated;
+  document.getElementById("sumStructure").innerHTML = S.structure.map(x=>`<span>${x}</span>`).join("");
+  const badge = it => `<div class="badge"><span class="mk l${it.level}">${MARK[it.level]}</span>`+
+      `<span class="nm">${it.name}</span>${it.note?`<span class="nt">${it.note}</span>`:""}</div>`;
+  document.getElementById("sumEra").innerHTML   = S.eraLevels.map(badge).join("");
+  document.getElementById("sumTheme").innerHTML = S.themeLevels.map(badge).join("");
+  document.getElementById("sumPoints").innerHTML = S.points.map(p=>`<li>${p}</li>`).join("");
+  document.getElementById("sumNote").textContent = "出典：" + S.note;
+}
+function buildHeatmap(){
+  // 分野(縦) × 年度(横) の出題件数
+  const counts = {};
+  ERAS.forEach(f=>counts[f]={});
+  TRENDS.forEach(t=>{
+    if(!counts[t.era]) counts[t.era]={};
+    counts[t.era][t.year] = (counts[t.era][t.year]||0)+1;
+  });
+  let max=1;
+  ERAS.forEach(f=>YEARS.forEach(y=>{ if((counts[f][y]||0)>max) max=counts[f][y]; }));
+
+  const shade = n=>{
+    if(!n) return {bg:"#f6f2e9", txt:""};
+    const ratio = n/max;
+    // 金→臙脂のグラデ
+    const light = 88 - ratio*46;              // L 88→42
+    return {bg:`hsl(${8 - ratio*0}, ${45+ratio*20}%, ${light}%)`, txt:n};
+  };
+
+  let html = "<tr><th class='rowh'>時代＼年度</th>";
+  YEARS.forEach(y=> html += `<th>${String(y).slice(2)}</th>`);
+  html += "</tr>";
+  // 各セルのメモ（確認できた出題例）を tooltip 用に集約
+  const memo = {};
+  TRENDS.forEach(t=>{ if(t.memo){ (memo[t.era]=memo[t.era]||{})[t.year]=t.memo; } });
+
+  ERAS.forEach(f=>{
+    html += `<tr><th class='rowh'>${f}</th>`;
+    YEARS.forEach(y=>{
+      const n = counts[f][y]||0;
+      const s = shade(n);
+      const tip = (memo[f]&&memo[f][y]) ? ` title="${y}年：${memo[f][y].replace(/"/g,'')}"` : "";
+      html += `<td style="background:${s.bg}"${tip}>${s.txt}</td>`;
+    });
+    html += "</tr>";
+  });
+  document.getElementById("heatTable").innerHTML = html;
+
+  // 凡例
+  let lg = "<span>少</span>";
+  [0.15,0.4,0.7,1].forEach(r=>{
+    const l = 88 - r*46;
+    lg += `<span class="box" style="background:hsl(8,${45+r*20}%,${l}%)"></span>`;
+  });
+  lg += "<span>多</span>";
+  document.getElementById("heatLegend").innerHTML = lg;
+
+  // 注記：確認済み件数と使い方
+  const verified = TRENDS.filter(t=>t.verified).length;
+  document.getElementById("heatNote").textContent =
+    `東進データベース等で公開の早稲田法・日本史 2000〜2026年度を大問単位で分析（${TRENDS.length} 件・全て検証済み ${verified} 件）。`+
+    `数値は各大問が扱った時代ののべ件数で、通史の大問は複数時代にカウント。過去問本体は複製していません。`;
+}
+function buildFieldChart(){
+  // テーマ別の重要度（公開傾向ベース・level 1〜3）を棒グラフに
+  const items = TREND_SUMMARY.themeLevels;
+  const labels = items.map(i=>i.name);
+  const data   = items.map(i=>i.level);
+  const colors = items.map(i=> i.level===3?"#7a1f2b" : i.level===2?"#b5843b" : "#b8ac93");
+  if(fieldChart) fieldChart.destroy();
+  fieldChart = new Chart(document.getElementById("fieldChart"),{
+    type:"bar",
+    data:{ labels, datasets:[{ data, backgroundColor:colors, borderRadius:5 }]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ label:c=>["△少なめ","◯重要","◎最重要"][c.raw-1] } } },
+      scales:{
+        y:{ beginAtZero:true, max:3, ticks:{ stepSize:1,
+            callback:v=>({1:"△",2:"◯",3:"◎"}[v]||""), font:{size:13}}},
+        x:{ ticks:{ font:{family:"'Hiragino Kaku Gothic ProN',sans-serif", size:10}}}
+      }}
+  });
+}
+function buildFormatChart(){
+  // 出題形式の目安（記述と選択が1:1、史料が1題）
+  const items = TREND_SUMMARY.formats;
+  const labels = items.map(i=>i.name);
+  const data   = items.map(i=>i.weight);
+  if(formatChart) formatChart.destroy();
+  formatChart = new Chart(document.getElementById("formatChart"),{
+    type:"doughnut",
+    data:{ labels, datasets:[{ data, backgroundColor:["#7a1f2b","#b5843b","#c9a227","#5a8f6b","#8a6a9e"] }]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:"bottom", labels:{ font:{family:"'Hiragino Kaku Gothic ProN',sans-serif", size:11}}}}}
+  });
+}
+
+/* =========================================================
+   2. 演習モード
+   ========================================================= */
+let SESSION = null; // {list, idx, results:[{id,correct}], answered}
+function initQuizFilters(){
+  document.getElementById("fField").innerHTML = "<option value=''>すべて</option>"+FIELDS.map(f=>`<option>${f}</option>`).join("");
+  document.getElementById("fDiff").innerHTML = "<option value=''>すべて</option>"+[1,2,3,4,5].map(d=>`<option value="${d}">★${d}</option>`).join("");
+  document.getElementById("fType").innerHTML = "<option value=''>すべて</option>"
+    +'<option value="truefalse">正誤</option><option value="short">一問一答</option><option value="choice">整序・組合せ</option><option value="essay">記述(自己採点)</option>';
+  const years=[...new Set(QUESTIONS.filter(q=>q.source).map(q=>q.source))].sort();
+  document.getElementById("fSource").innerHTML="<option value=''>すべて</option><option value='any'>📖 過去問論点のみ</option>"
+    +years.map(y=>`<option value="${y}">📖 ${y}年の論点</option>`).join("");
+  ["fField","fDiff","fType","fSource","fReview"].forEach(id=>document.getElementById(id).addEventListener("change",onFilterChange));
+  document.getElementById("fKeyword").addEventListener("input",onFilterChange);
+  onFilterChange();
+}
+function onFilterChange(){ updatePoolInfo(); renderList(); }
+function filterQuestions(){
+  const f=document.getElementById("fField").value;
+  const d=document.getElementById("fDiff").value;
+  const t=document.getElementById("fType").value;
+  const src=document.getElementById("fSource").value;
+  const kw=(document.getElementById("fKeyword").value||"").trim();
+  const rev=document.getElementById("fReview") && document.getElementById("fReview").checked;
+  let pool = QUESTIONS;
+  if(rev){ const set=new Set(STATE.reviewIds); pool = QUESTIONS.filter(q=>set.has(q.id)); }
+  return pool.filter(q=>
+    (!f||q.field===f) && (!d||String(q.difficulty)===d) && (!t||q.type===t) &&
+    (!src || (src==="any" ? !!q.source : q.source===src)) &&
+    (!kw || (q.question+(q.answer||"")+(q.modelAnswer||"")+(q.explanation||"")).indexOf(kw)>=0));
+}
+function updatePoolInfo(){
+  const rev=document.getElementById("fReview") && document.getElementById("fReview").checked;
+  const n=filterQuestions().length;
+  document.getElementById("poolInfo").textContent = rev
+    ? `復習リストから該当：${n} 問（復習リスト全 ${STATE.reviewIds.length} 問）`
+    : `該当：${n} 問（全 ${QUESTIONS.length} 問中）`;
+}
+function startQuiz(){
+  let list = filterQuestions().slice();
+  const rev=document.getElementById("fReview") && document.getElementById("fReview").checked;
+  if(document.getElementById("fOrder").value==="rand"){
+    for(let i=list.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [list[i],list[j]]=[list[j],list[i]]; }
+  } else if(rev){
+    // 復習モードは苦手な順（誤答回数の多い順）に
+    list.sort((a,b)=>(STATE.missCount[b.id]||0)-(STATE.missCount[a.id]||0));
+  }
+  if(list.length===0){
+    document.getElementById("quizCard").style.display="none";
+    document.getElementById("quizEmpty").style.display="block";
+    return;
+  }
+  document.getElementById("quizEmpty").style.display="none";
+  document.getElementById("quizCard").style.display="block";
+  SESSION = { list, idx:0, results:[], answered:false };
+  renderQuestion();
+}
+const TYPE_LABEL = {truefalse:"正誤", short:"一問一答", essay:"記述(自己採点)", choice:"整序・組合せ"};
+function renderQuestion(){
+  const q = SESSION.list[SESSION.idx];
+  SESSION.answered = false;
+  document.getElementById("qMeta").innerHTML =
+    `<span class="tag">${q.field}</span><span class="tag diff">★${q.difficulty}</span><span class="tag">${TYPE_LABEL[q.type]}</span>`
+    + (q.source?`<span class="tag" style="background:#2f7a4d;color:#fff;border-color:#2f7a4d">📖 過去問論点 ${q.source}年</span>`:"");
+  document.getElementById("qText").textContent = q.question;
+  const body = document.getElementById("qBody");
+  const res = document.getElementById("qResult");
+  res.className="result"; res.classList.remove("show");
+  document.getElementById("qSelf").style.display="none";
+  document.getElementById("qModelWrap").innerHTML="";
+  document.getElementById("nextBtn").style.display="none";
+
+  if(q.type==="truefalse"||q.type==="choice"){
+    body.innerHTML = `<div class="choices">`+
+      q.choices.map((c,i)=>`<button class="choice" onclick="answerChoice(${i})">${c}</button>`).join("")+`</div>`;
+  } else if(q.type==="short"){
+    body.innerHTML = `<input type="text" id="shortInput" placeholder="答えを入力" style="width:100%;max-width:360px">
+      <div class="rowbtns"><button class="btn" onclick="answerShort()">解答する</button></div>`;
+  } else { // essay
+    body.innerHTML = `<textarea id="essayInput" placeholder="ここに記述（自己採点用のメモ）"></textarea>
+      <div class="rowbtns"><button class="btn" onclick="answerEssay()">模範解答を見る</button></div>`;
+  }
+  document.getElementById("qProgress").textContent =
+    `${SESSION.idx+1} / ${SESSION.list.length} 問　（正解 ${SESSION.results.filter(r=>r.correct).length}）`;
+}
+function showResult(ok, expHtml, modelHtml){
+  const res=document.getElementById("qResult");
+  res.className = "result show "+(ok?"ok":"ng");
+  document.getElementById("qVerdict").textContent = ok? "◯ 正解" : "✕ 不正解";
+  document.getElementById("qExp").textContent = SESSION.list[SESSION.idx].explanation || "";
+  document.getElementById("qModelWrap").innerHTML = modelHtml||"";
+  document.getElementById("nextBtn").style.display = "inline-block";
+  document.getElementById("nextBtn").textContent = (SESSION.idx < SESSION.list.length-1) ? "次の問題 →" : "最後の問題です → 終了して記録";
+}
+function recordAnswer(ok){
+  const q=SESSION.list[SESSION.idx];
+  SESSION.results.push({id:q.id, correct:ok, field:q.field});
+  SESSION.answered = true;
+  if(ok) removeFromReview(q.id); else addToReview(q.id);
+}
+function answerChoice(i){
+  if(SESSION.answered) return;
+  const q=SESSION.list[SESSION.idx];
+  const ok = (i===q.answer);
+  document.querySelectorAll("#qBody .choice").forEach((el,idx)=>{
+    el.style.pointerEvents="none";
+    if(idx===q.answer) el.classList.add("correct");
+    if(idx===i && !ok) el.classList.add("wrong");
+    if(idx===i) el.classList.add("picked");
+  });
+  recordAnswer(ok);
+  showResult(ok);
+}
+function answerShort(){
+  if(SESSION.answered) return;
+  const q=SESSION.list[SESSION.idx];
+  const val=(document.getElementById("shortInput").value||"").trim();
+  const norm=s=>s.replace(/\s|　/g,"");
+  const ok = norm(val)!=="" && norm(val)===norm(q.answer);
+  document.getElementById("shortInput").disabled=true;
+  const model = `<div class="model"><b>正解：</b>${q.answer}${val?`　／　あなた：${val}`:""}</div>`;
+  recordAnswer(ok);
+  showResult(ok, null, model);
+  // 表記ゆれの可能性 → 自己判定も許可
+  if(!ok && val){
+    document.getElementById("qSelf").style.display="flex";
+  }
+}
+function answerEssay(){
+  if(SESSION.answered) return;
+  const q=SESSION.list[SESSION.idx];
+  const val=(document.getElementById("essayInput").value||"");
+  document.getElementById("essayInput").disabled=true;
+  const model = `<div class="model"><b>模範解答：</b>${q.modelAnswer||"（未設定）"}</div>`;
+  document.getElementById("qResult").className="result show ok";
+  document.getElementById("qVerdict").textContent="自己採点してください";
+  document.getElementById("qExp").textContent = q.explanation||"";
+  document.getElementById("qModelWrap").innerHTML = model;
+  document.getElementById("qSelf").style.display="flex";
+  document.getElementById("nextBtn").style.display="none";
+  SESSION._pendingEssay = true;
+}
+function selfScore(ok){
+  const q=SESSION.list[SESSION.idx];
+  if(SESSION.answered){ // short の再判定
+    // 直前の記録を上書き
+    const last=SESSION.results[SESSION.results.length-1];
+    if(last && last.id===q.id){
+      if(last.correct && !ok) { /* was ok now ng */ }
+      if(!last.correct && ok){ removeFromReview(q.id); }
+      if(last.correct && !ok){ addToReview(q.id); }
+      last.correct=ok;
+    }
+  } else {
+    recordAnswer(ok);
+  }
+  document.getElementById("qSelf").style.display="none";
+  const res=document.getElementById("qResult");
+  res.className="result show "+(ok?"ok":"ng");
+  document.getElementById("qVerdict").textContent = ok?"◯ 正解にした":"✕ 不正解にした";
+  document.getElementById("nextBtn").style.display="inline-block";
+  document.getElementById("nextBtn").textContent = (SESSION.idx < SESSION.list.length-1) ? "次の問題 →":"最後の問題です → 終了して記録";
+  SESSION._pendingEssay=false;
+}
+function nextQuestion(){
+  if(SESSION.idx < SESSION.list.length-1){ SESSION.idx++; renderQuestion(); }
+  else { endQuiz(); }
+}
+function endQuiz(){
+  if(!SESSION || SESSION.results.length===0){
+    document.getElementById("quizCard").style.display="none";
+    SESSION=null; return;
+  }
+  // 分野ごとに集計してログ保存
+  const today = todayStr();
+  const byField = {};
+  SESSION.results.forEach(r=>{
+    byField[r.field] = byField[r.field]||{correct:0,total:0};
+    byField[r.field].total++;
+    if(r.correct) byField[r.field].correct++;
+  });
+  Object.keys(byField).forEach(f=>{
+    mergeLog(today, f, byField[f].correct, byField[f].total);
+  });
+  saveState(STATE);
+  const n=SESSION.results.length, ok=SESSION.results.filter(r=>r.correct).length;
+  const wrongIds=[...new Set(SESSION.results.filter(r=>!r.correct).map(r=>r.id))];
+  SESSION=null;
+  document.getElementById("quizCard").style.display="none";
+  if(wrongIds.length && confirm(`セッション終了！\n${n}問中 ${ok}問 正解（${Math.round(ok/n*100)}%）\n学習ログに記録しました。\n\n間違えた ${wrongIds.length} 問を今すぐもう一度解きますか？`)){
+    const list=wrongIds.map(id=>QUESTIONS.find(q=>q.id===id)).filter(Boolean);
+    document.getElementById("quizEmpty").style.display="none";
+    document.getElementById("quizCard").style.display="block";
+    SESSION={list, idx:0, results:[], answered:false};
+    renderQuestion();
+  } else {
+    alert(`${n}問中 ${ok}問 正解（${Math.round(ok/n*100)}%）を学習ログに記録しました。`);
+  }
+}
+
+/* ---- 復習リスト ---- */
+function addToReview(id){
+  if(!STATE.reviewIds.includes(id)) STATE.reviewIds.push(id);
+  STATE.missCount[id] = (STATE.missCount[id]||0) + 1; // 誤答回数を累積（苦手順の指標）
+  saveState(STATE);
+}
+function removeFromReview(id){ STATE.reviewIds = STATE.reviewIds.filter(x=>x!==id); saveState(STATE); }
+function clearReview(){ if(confirm("復習リストを空にしますか？")){ STATE.reviewIds=[]; STATE.missCount={}; saveState(STATE); renderLog(); } }
+function reviewMastered(id){ removeFromReview(id); renderReview(); }
+function startReviewSession(){
+  if(!STATE.reviewIds.length){ alert("復習リストは空です。演習で誤答すると溜まります。"); return; }
+  showView("quiz");
+  document.getElementById("fReview").checked = true;
+  document.getElementById("fField").value = "";
+  document.getElementById("fDiff").value = "";
+  document.getElementById("fType").value = "";
+  document.getElementById("fSource").value = "";
+  document.getElementById("fKeyword").value = "";
+  onFilterChange();
+  startQuiz();
+}
+
+/* =========================================================
+   3. 学習ログ
+   ========================================================= */
+function todayStr(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function mergeLog(date, field, correct, total){
+  const hit = STATE.logs.find(l=>l.date===date && l.field===field);
+  if(hit){ hit.correct+=correct; hit.total+=total; }
+  else STATE.logs.push({date,field,correct,total});
+}
+let trendChart, byFieldChart;
+function renderLog(){
+  const logs = STATE.logs.slice().sort((a,b)=>a.date<b.date?-1:1);
+  // stats
+  const total = logs.reduce((s,l)=>s+l.total,0);
+  const correct = logs.reduce((s,l)=>s+l.correct,0);
+  const days = new Set(logs.map(l=>l.date)).size;
+  document.getElementById("stTotal").textContent = total;
+  document.getElementById("stRate").textContent = total? Math.round(correct/total*100)+"%" : "–";
+  document.getElementById("stDays").textContent = days;
+  document.getElementById("stStreak").textContent = calcStreak(logs);
+
+  // 日別正答率
+  const byDate={};
+  logs.forEach(l=>{ byDate[l.date]=byDate[l.date]||{c:0,t:0}; byDate[l.date].c+=l.correct; byDate[l.date].t+=l.total; });
+  const dates=Object.keys(byDate).sort();
+  const rates=dates.map(d=>Math.round(byDate[d].c/byDate[d].t*100));
+  if(trendChart) trendChart.destroy();
+  trendChart=new Chart(document.getElementById("trendChart"),{
+    type:"line",
+    data:{ labels:dates.map(d=>d.slice(5)), datasets:[{ data:rates, label:"正答率%",
+      borderColor:"#7a1f2b", backgroundColor:"rgba(122,31,43,.12)", fill:true, tension:.25, pointRadius:4 }]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{ y:{min:0,max:100,ticks:{callback:v=>v+"%",font:{family:"'Hiragino Kaku Gothic ProN',sans-serif"}}},
+               x:{ticks:{font:{family:"'Hiragino Kaku Gothic ProN',sans-serif",size:10}}}}}
+  });
+
+  // 分野別正答率
+  const bf={};
+  logs.forEach(l=>{ bf[l.field]=bf[l.field]||{c:0,t:0}; bf[l.field].c+=l.correct; bf[l.field].t+=l.total; });
+  const flabels=Object.keys(bf);
+  const frates=flabels.map(f=>Math.round(bf[f].c/bf[f].t*100));
+  if(byFieldChart) byFieldChart.destroy();
+  byFieldChart=new Chart(document.getElementById("byFieldChart"),{
+    type:"bar",
+    data:{ labels:flabels, datasets:[{ data:frates,
+      backgroundColor:frates.map(r=> r>=70?"#2f7a4d": r>=50?"#c9a227":"#b23b3b"), borderRadius:5 }]},
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ y:{min:0,max:100,ticks:{callback:v=>v+"%",font:{family:"'Hiragino Kaku Gothic ProN',sans-serif"}}},
+               x:{ticks:{font:{family:"'Hiragino Kaku Gothic ProN',sans-serif",size:11}}}}}
+  });
+
+  renderReview();
+}
+function calcStreak(logs){
+  const set=new Set(logs.map(l=>l.date));
+  if(set.size===0) return 0;
+  let streak=0; let d=new Date();
+  // 今日やってなくても昨日までの連続を見るため、今日が無ければ今日を飛ばす
+  const has=x=>set.has(`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`);
+  if(!has(d)) d.setDate(d.getDate()-1);
+  while(has(d)){ streak++; d.setDate(d.getDate()-1); }
+  return streak;
+}
+function renderReview(){
+  const box=document.getElementById("reviewList");
+  // 苦手な順（誤答回数の多い順）に並べる
+  const ids=STATE.reviewIds.slice().sort((a,b)=>(STATE.missCount[b]||0)-(STATE.missCount[a]||0));
+  document.getElementById("revCount").textContent = ids.length? `${ids.length} 問`:"";
+  if(ids.length===0){ box.innerHTML='<div class="empty">復習リストは空です。演習で誤答すると自動で溜まり、正解すると自動で外れます。</div>'; return; }
+  box.innerHTML = ids.map(id=>{
+    const q=QUESTIONS.find(x=>x.id===id);
+    if(!q) return "";
+    const ans = (q.type==="truefalse"||q.type==="choice") ? q.choices[q.answer] : (q.answer||q.modelAnswer||"");
+    const miss = STATE.missCount[id]||1;
+    return `<div class="review-item">
+      <div class="q"><span style="color:#b23b3b;font-weight:700;margin-right:4px">✕${miss}</span>[${q.field}・★${q.difficulty}] ${q.question}</div>
+      <div class="a">正解 / 要点：${ans}</div>
+      <div class="hint">${q.explanation||""}</div>
+      <div class="rowbtns no-print" style="margin-top:6px"><button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="reviewMastered('${id}')">✓ 覚えた（外す）</button></div>
+    </div>`;
+  }).join("");
+}
+
+/* ---- CSV ---- */
+function exportLogsCsv(){
+  const rows=[["date","field","correct","total"]];
+  STATE.logs.forEach(l=>rows.push([l.date,l.field,l.correct,l.total]));
+  const csv="﻿"+rows.map(r=>r.join(",")).join("\r\n");
+  const blob=new Blob([csv],{type:"text/csv"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=`waseda_nihonshi_log_${todayStr()}.csv`;
+  a.click();
+}
+function importLogsCsv(ev){
+  const file=ev.target.files[0]; if(!file) return;
+  const rd=new FileReader();
+  rd.onload=e=>{
+    try{
+      const text=e.target.result.replace(/^﻿/,"");
+      const lines=text.split(/\r?\n/).filter(x=>x.trim());
+      let start=0;
+      if(/date/i.test(lines[0])) start=1;
+      let added=0;
+      for(let i=start;i<lines.length;i++){
+        const p=lines[i].split(",");
+        if(p.length<4) continue;
+        const date=p[0].trim(), field=p[1].trim(), c=parseInt(p[2]), t=parseInt(p[3]);
+        if(!date||!field||isNaN(c)||isNaN(t)) continue;
+        mergeLog(date,field,c,t); added++;
+      }
+      saveState(STATE); renderLog();
+      alert(`${added} 行を読み込みました。`);
+    }catch(err){ alert("読み込みに失敗しました："+err.message); }
+    ev.target.value="";
+  };
+  rd.readAsText(file);
+}
+function resetAll(){
+  STATE={logs:[],reviewIds:[],missCount:{}}; saveState(STATE); renderLog();
+}
+
+/* =========================================================
+   印刷
+   ========================================================= */
+function printView(id){
+  document.querySelectorAll("section.view").forEach(v=>v.classList.remove("printme"));
+  document.getElementById(id).classList.add("printme");
+  window.print();
+  setTimeout(()=>document.getElementById(id).classList.remove("printme"),500);
+}
+
+/* =========================================================
+   問題一覧（見出しリスト）
+   ========================================================= */
+/* 問題一覧は演習フィルタ(filterQuestions)を共有して描画する */
+function renderList(){
+  const list=filterQuestions();
+  document.getElementById("listInfo").textContent=`一覧：${list.length} 問　見出しをクリックで答え・解説`;
+  document.getElementById("listBox").innerHTML = list.map(q=>
+    `<div style="border-bottom:1px solid var(--line);padding:7px 2px">
+      <div style="cursor:pointer;display:flex;gap:8px;align-items:baseline" onclick="toggleListItem('${q.id}')">
+        <span class="tag diff" style="flex:none">★${q.difficulty}</span>
+        <span class="tag" style="flex:none">${q.field}</span>
+        ${q.source?`<span class="tag" style="flex:none;background:#2f7a4d;color:#fff;border-color:#2f7a4d">📖${q.source}</span>`:""}
+        <span style="flex:1;font-size:.9rem">${q.question}</span>
+        <span style="flex:none;color:#999;font-size:.74rem">${TYPE_LABEL[q.type]}</span>
+      </div>
+      <div id="det_${q.id}" style="display:none;margin:6px 0 4px 10px"></div>
+    </div>`).join("") || '<div class="empty">該当する問題がありません。</div>';
+}
+function toggleListItem(id){
+  const det=document.getElementById("det_"+id); if(!det) return;
+  if(det.style.display==="none"){
+    if(!det.dataset.built){
+      const q=QUESTIONS.find(x=>x.id===id);
+      const ans=(q.type==="truefalse"||q.type==="choice")?q.choices[q.answer]:(q.answer||q.modelAnswer||"");
+      det.innerHTML=`<div class="a">正解 / 要点：${ans}</div>
+        <div class="hint" style="margin:4px 0">${q.explanation||""}</div>
+        <div class="rowbtns no-print">
+          <button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="practiceOne('${id}')">▶ この問題を解く</button>
+          <button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="addReviewManual('${id}')">＋ 復習に追加</button></div>`;
+      det.dataset.built="1";
+    }
+    det.style.display="block";
+  } else det.style.display="none";
+}
+function practiceOne(id){
+  const q=QUESTIONS.find(x=>x.id===id); if(!q) return;
+  showView("quiz");
+  document.getElementById("quizEmpty").style.display="none";
+  document.getElementById("quizCard").style.display="block";
+  SESSION={list:[q], idx:0, results:[], answered:false};
+  renderQuestion();
+}
+function addReviewManual(id){
+  if(!STATE.reviewIds.includes(id)){ STATE.reviewIds.push(id); STATE.missCount[id]=STATE.missCount[id]||1; saveState(STATE); }
+  alert("復習リストに追加しました。");
+}
+
+/* =========================================================
+   起動
+   ========================================================= */
+initQuizFilters();
+renderDash();
+</script>
+</body>
+</html>

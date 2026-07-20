@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: waseda-nihonshi-trainer
+    runtime: static
+    # 静的サイト。ビルド不要（このフォルダをそのまま公開）
+    buildCommand: ""
+    staticPublishPath: .
+    # SPA的なタブ切替は同一ページ内なのでリライト不要だが、
+    # 直リンク対策として index.html にフォールバックさせておく
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

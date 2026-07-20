@@ -792,11 +792,11 @@ function renderReview(){
   box.innerHTML = ids.map(id=>{
     const q=QUESTIONS.find(x=>x.id===id);
     if(!q) return "";
-    const ans = (q.type==="truefalse"||q.type==="choice") ? q.choices[q.answer] : (q.answer||q.modelAnswer||"");
+    const a = answerLabel(q);
     const miss = STATE.missCount[id]||1;
     return `<div class="review-item">
       <div class="q"><span style="color:#b23b3b;font-weight:700;margin-right:4px">✕${miss}</span>[${q.field}・★${q.difficulty}] ${q.question}</div>
-      <div class="a">正解 / 要点：${ans}</div>
+      <div class="a">${a.label}：${a.text}</div>
       <div class="hint">${q.explanation||""}</div>
       <div class="rowbtns no-print" style="margin-top:6px"><button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="reviewMastered('${id}')">✓ 覚えた（外す）</button></div>
     </div>`;
@@ -873,10 +873,15 @@ function renderList(){
   const showAll=document.getElementById("lShowAll");
   if(showAll && showAll.checked) expandAll();
 }
+function answerLabel(q){
+  if(q.type==="essay") return {label:"模範解答", text:q.modelAnswer||""};
+  if(q.type==="truefalse"||q.type==="choice") return {label:"正解", text:q.choices[q.answer]};
+  return {label:"正解", text:q.answer||q.modelAnswer||""};
+}
 function buildDetail(id){
   const q=QUESTIONS.find(x=>x.id===id);
-  const ans=(q.type==="truefalse"||q.type==="choice")?q.choices[q.answer]:(q.answer||q.modelAnswer||"");
-  return `<div class="a">正解 / 要点：${ans}</div>
+  const a=answerLabel(q);
+  return `<div class="a">${a.label}：${a.text}</div>
     <div class="hint" style="margin:4px 0">${q.explanation||""}</div>
     <div class="rowbtns no-print">
       <button class="btn ghost" style="padding:4px 10px;font-size:.8rem" onclick="practiceOne('${id}')">▶ この問題を解く</button>

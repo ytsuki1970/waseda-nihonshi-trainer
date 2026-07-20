@@ -405,6 +405,7 @@
 <script src="questions_bank2.js"></script>
 <script src="questions_bank3.js"></script>
 <script src="questions_bank4.js"></script>
+<script src="questions_bank5.js"></script>
 <!-- アプリ本体 -->
 <script>
 /* =========================================================
@@ -566,8 +567,7 @@ function initQuizFilters(){
   document.getElementById("fType").innerHTML = "<option value=''>すべて</option>"
     +'<option value="truefalse">正誤</option><option value="short">一問一答</option><option value="choice">整序・組合せ</option><option value="essay">記述(自己採点)</option>';
   const years=[...new Set(QUESTIONS.filter(q=>q.source).map(q=>q.source))].sort();
-  document.getElementById("fSource").innerHTML="<option value=''>すべて</option><option value='any'>📖 過去問論点のみ</option>"
-    +years.map(y=>`<option value="${y}">📖 ${y}年の論点</option>`).join("");
+  document.getElementById("fSource").innerHTML=sourceOptionsHtml();
   document.getElementById("fSource").value="any";  // 初期値＝過去問論点のみ
   ["fField","fDiff","fType","fSource","fReview"].forEach(id=>document.getElementById(id).addEventListener("change",updatePoolInfo));
   updatePoolInfo();
@@ -582,7 +582,7 @@ function filterQuestions(){
   if(rev){ const set=new Set(STATE.reviewIds); pool = QUESTIONS.filter(q=>set.has(q.id)); }
   return pool.filter(q=>
     (!f||q.field===f) && (!d||String(q.difficulty)===d) && (!t||q.type===t) &&
-    (!src || (src==="any" ? !!q.source : q.source===src)));
+    matchSource(q, src));
 }
 function updatePoolInfo(){
   const rev=document.getElementById("fReview") && document.getElementById("fReview").checked;
@@ -611,12 +611,45 @@ function startQuiz(){
   renderQuestion();
 }
 const TYPE_LABEL = {truefalse:"正誤", short:"一問一答", essay:"記述(自己採点)", choice:"整序・組合せ"};
+/* 学部名をバッジ用に短縮（未設定＝旧データは法学部とみなす） */
+const FAC_SHORT = {"法学部":"法","社会科学部":"社学","商学部":"商","教育学部":"教育",
+  "文化構想学部":"文構","人間科学部":"人科","国際教養学部":"国教","文学部":"文",
+  "政治経済学部":"政経","第一文学部":"一文"};
+function facShort(f){ if(!f) return "法"; return FAC_SHORT[f] || f.replace(/学部$/,""); }
+/* 出典セレクトの選択肢：学部ごとに「学部まるごと」＋「学部×年度」を並べる
+   値の形式： "" = すべて / "any" = 過去問論点すべて / "fac:法学部" / "法学部|2024" */
+function sourceOptionsHtml(){
+  const map={};
+  QUESTIONS.filter(q=>q.source).forEach(q=>{
+    const f=q.faculty||"法学部";
+    (map[f]=map[f]||new Set()).add(q.source);
+  });
+  const facs=Object.keys(map).sort((a,b)=>map[b].size-map[a].size);
+  let html="<option value=''>すべて（全問）</option><option value='any'>📖 過去問論点のみ（全学部）</option>";
+  facs.forEach(f=>{
+    const ys=[...map[f]].sort();
+    html+=`<optgroup label="${f}">`;
+    html+=`<option value="fac:${f}">📖 ${f} すべて（${ys.length}年）</option>`;
+    html+=ys.map(y=>`<option value="${f}|${y}">　${facShort(f)} ${y}年</option>`).join("");
+    html+=`</optgroup>`;
+  });
+  return html;
+}
+/* 出典フィルタの判定 */
+function matchSource(q, src){
+  if(!src) return true;
+  if(src==="any") return !!q.source;
+  const fac=q.faculty||"法学部";
+  if(src.startsWith("fac:")) return !!q.source && fac===src.slice(4);
+  if(src.includes("|")){ const [f,y]=src.split("|"); return q.source===y && fac===f; }
+  return q.source===src; // 旧形式（年度のみ）との互換
+}
 function renderQuestion(){
   const q = SESSION.list[SESSION.idx];
   SESSION.answered = false;
   document.getElementById("qMeta").innerHTML =
     `<span class="tag">${q.field}</span><span class="tag diff">★${q.difficulty}</span><span class="tag">${TYPE_LABEL[q.type]}</span>`
-    + (q.source?`<span class="tag" style="background:#2f7a4d;color:#fff;border-color:#2f7a4d">📖 過去問論点 ${q.source}年</span>`:"");
+    + (q.source?`<span class="tag" style="background:#2f7a4d;color:#fff;border-color:#2f7a4d">📖 過去問論点 ${facShort(q.faculty)} ${q.source}年</span>`:"");
   document.getElementById("qText").textContent = q.question;
   const body = document.getElementById("qBody");
   const res = document.getElementById("qResult");
@@ -918,7 +951,7 @@ function renderList(){
       <div class="li-head" onclick="toggleListItem('${q.id}')">
         <span class="tag diff" style="flex:none">★${q.difficulty}</span>
         <span class="tag" style="flex:none">${q.field}</span>
-        ${q.source?`<span class="tag" style="flex:none;background:#2f7a4d;color:#fff;border-color:#2f7a4d">📖${q.source}</span>`:""}
+        ${q.source?`<span class="tag" style="flex:none;background:#2f7a4d;color:#fff;border-color:#2f7a4d">📖${facShort(q.faculty)}${q.source}</span>`:""}
         <span class="li-q">${q.question}</span>
         <span class="li-type">${TYPE_LABEL[q.type]}</span>
       </div>
@@ -955,8 +988,7 @@ function initListFilters(){
   document.getElementById("lField").innerHTML="<option value=''>すべて</option>"+FIELDS.map(f=>`<option>${f}</option>`).join("");
   document.getElementById("lType").innerHTML="<option value=''>すべて</option><option value='truefalse'>正誤</option><option value='short'>一問一答</option><option value='choice'>整序・組合せ</option><option value='essay'>記述(自己採点)</option>";
   const years=[...new Set(QUESTIONS.filter(q=>q.source).map(q=>q.source))].sort();
-  document.getElementById("lSource").innerHTML="<option value=''>すべて</option><option value='any'>📖 過去問論点のみ</option>"
-    +years.map(y=>`<option value="${y}">📖 ${y}年の論点</option>`).join("");
+  document.getElementById("lSource").innerHTML=sourceOptionsHtml();
   document.getElementById("lSource").value="any";  // 初期値＝過去問論点のみ
   ["lField","lType","lSource"].forEach(id=>document.getElementById(id).addEventListener("change",renderList));
   document.getElementById("lKeyword").addEventListener("input",renderList);
@@ -969,7 +1001,7 @@ function listFiltered(){
   const kw=(document.getElementById("lKeyword").value||"").trim();
   return QUESTIONS.filter(q=>
     (!f||q.field===f) && (!t||q.type===t) &&
-    (!src || (src==="any" ? !!q.source : q.source===src)) &&
+    matchSource(q, src) &&
     (!kw || (q.question+(q.answer||"")+(q.modelAnswer||"")+(q.explanation||"")).indexOf(kw)>=0));
 }
 /* ---- 暗記シート：一括開閉 ---- */

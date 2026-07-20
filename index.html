@@ -286,7 +286,6 @@
     <div class="card no-print">
       <div class="controls">
         <div class="fld"><label class="lbl">分野</label><select id="lField"></select></div>
-        <div class="fld"><label class="lbl">難易度</label><select id="lDiff"></select></div>
         <div class="fld"><label class="lbl">形式</label><select id="lType"></select></div>
         <div class="fld"><label class="lbl">出典</label><select id="lSource"></select></div>
         <div class="fld" style="flex:1;min-width:150px"><label class="lbl">キーワード</label>
@@ -951,23 +950,21 @@ function toggleListItem(id){
 /* ---- 問題一覧のフィルタ（演習とは独立）---- */
 function initListFilters(){
   document.getElementById("lField").innerHTML="<option value=''>すべて</option>"+FIELDS.map(f=>`<option>${f}</option>`).join("");
-  document.getElementById("lDiff").innerHTML="<option value=''>すべて</option>"+[1,2,3,4,5].map(d=>`<option value="${d}">★${d}</option>`).join("");
   document.getElementById("lType").innerHTML="<option value=''>すべて</option><option value='truefalse'>正誤</option><option value='short'>一問一答</option><option value='choice'>整序・組合せ</option><option value='essay'>記述(自己採点)</option>";
   const years=[...new Set(QUESTIONS.filter(q=>q.source).map(q=>q.source))].sort();
   document.getElementById("lSource").innerHTML="<option value=''>すべて</option><option value='any'>📖 過去問論点のみ</option>"
     +years.map(y=>`<option value="${y}">📖 ${y}年の論点</option>`).join("");
-  ["lField","lDiff","lType","lSource"].forEach(id=>document.getElementById(id).addEventListener("change",renderList));
+  ["lField","lType","lSource"].forEach(id=>document.getElementById(id).addEventListener("change",renderList));
   document.getElementById("lKeyword").addEventListener("input",renderList);
   document.getElementById("lShowAll").addEventListener("change",e=>{ e.target.checked? expandAll() : collapseAll(); });
 }
 function listFiltered(){
   const f=document.getElementById("lField").value;
-  const d=document.getElementById("lDiff").value;
   const t=document.getElementById("lType").value;
   const src=document.getElementById("lSource").value;
   const kw=(document.getElementById("lKeyword").value||"").trim();
   return QUESTIONS.filter(q=>
-    (!f||q.field===f) && (!d||String(q.difficulty)===d) && (!t||q.type===t) &&
+    (!f||q.field===f) && (!t||q.type===t) &&
     (!src || (src==="any" ? !!q.source : q.source===src)) &&
     (!kw || (q.question+(q.answer||"")+(q.modelAnswer||"")+(q.explanation||"")).indexOf(kw)>=0));
 }

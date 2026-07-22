@@ -81,6 +81,21 @@
   table.heat th{background:#efe8d8; color:var(--sub); font-weight:600; white-space:nowrap}
   table.heat th.rowh{text-align:left; padding-left:10px; position:sticky; left:0; background:#efe8d8}
   table.heat td{width:40px; height:34px; color:#fff; font-weight:700}
+  /* 他学部の傾向（参考） */
+  table.heat.fac-cmp td,table.heat.fac-list td{width:auto; color:var(--ink); font-weight:400; height:auto; padding:7px 8px}
+  table.heat.fac-cmp td.rowh,table.heat.fac-list td.rowh{text-align:left; padding-left:10px; font-weight:700; white-space:nowrap}
+  table.heat.fac-list{min-width:640px}
+  .ftstats{display:flex; flex-wrap:wrap; gap:10px}
+  .ftstat{flex:1; min-width:104px; background:#faf7f0; border:1px solid var(--line); border-radius:8px; padding:10px 12px;
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif}
+  .ftstat b{display:block; font-size:1.18rem; color:var(--accent); font-weight:800}
+  .ftstat span{font-size:.68rem; color:var(--sub)}
+  .ftbar{display:flex; align-items:center; gap:8px; font-family:"Hiragino Kaku Gothic ProN",sans-serif;
+    font-size:.76rem; margin-bottom:5px}
+  .ftbar .lb{width:5.4em; color:var(--sub); flex:none}
+  .ftbar .tr{flex:1; height:11px; background:#efe8d8; border-radius:6px; overflow:hidden}
+  .ftbar .tr i{display:block; height:100%; background:var(--accent2); border-radius:6px}
+  .ftbar .vl{width:2.2em; text-align:right; color:var(--sub); flex:none}
   .legend{display:flex; align-items:center; gap:6px; font-size:.72rem; color:var(--sub);
     font-family:"Hiragino Kaku Gothic ProN",sans-serif; margin-top:10px; flex-wrap:wrap}
   .legend .box{width:16px;height:16px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
@@ -273,6 +288,26 @@
       <div class="src-note" id="heatNote"></div>
     </div>
 
+    <!-- ============ 他学部の傾向（参考） ============ -->
+    <div class="card">
+      <h3>併願先の傾向くらべ<span class="hint" style="margin-left:auto">参考データ</span></h3>
+      <p class="lead" style="margin:0 0 12px">
+        併願先がどんな試験かをひと目で。<b>記述率</b>が高いほど漢字で書けるかが問われ、<b>史料率</b>が高いほど初見の史料を読む練習が要ります。
+      </p>
+      <div class="heat-wrap"><table class="heat fac-cmp" id="facCmpTable"></table></div>
+      <div class="src-note" id="facCmpNote"></div>
+    </div>
+
+    <div class="card">
+      <h3>学部別のくわしい傾向</h3>
+      <div class="filters no-print" style="margin-bottom:14px">
+        <label>学部
+          <select id="facSel" onchange="renderFacDetail()"></select>
+        </label>
+      </div>
+      <div id="facDetail"></div>
+    </div>
+
     <div class="no-print" style="text-align:right">
       <button class="btn ghost" onclick="printView('dash')">🖨 傾向マップを印刷</button>
     </div>
@@ -400,6 +435,7 @@
 
 <!-- 初期データ定数 -->
 <script src="data.js"></script>
+<script src="trends_faculty.js"></script>
 <!-- 問題バンク（オリジナル問題・data.jsのQUESTIONSへ追記）-->
 <script src="questions.js"></script>
 <script src="questions_bank2.js"></script>
@@ -465,6 +501,102 @@ function renderDash(){
   buildHeatmap();
   buildFieldChart();
   buildFormatChart();
+  renderFacCmp();
+  renderFacDetail();
+}
+
+/* ---- 他学部の傾向（参考） ---------------------------------------- */
+const FT_ERAS   = ["古代","中世","近世","近代","現代"];
+const FT_FIELDS = ["政治・法制","外交史","社会経済","文化史","宗教・思想"];
+/* 併願先くらべ：法学部を先頭に、記述率の高い順 */
+function facCmpOrder(){
+  const ks = Object.keys(FACULTY_TREND_SUMMARY).filter(k=>k!=="法学部");
+  ks.sort((a,b)=>FACULTY_TREND_SUMMARY[b].writeRate - FACULTY_TREND_SUMMARY[a].writeRate);
+  return ["法学部", ...ks];
+}
+function topKey(obj){
+  let best=null, n=-1;
+  for(const k in obj){ if(obj[k]>n){ n=obj[k]; best=k; } }
+  return n>0 ? best : "—";
+}
+/* 値が高いほど濃い帯。0〜100を想定 */
+function rateCell(v){
+  const a = Math.min(1, v/60);
+  return `<td style="background:rgba(122,31,43,${(a*0.55).toFixed(2)});`+
+         `color:${a>0.55?"#fff":"var(--ink)"};font-weight:700">${v}%</td>`;
+}
+function renderFacCmp(){
+  const S = FACULTY_TREND_SUMMARY;
+  let h = "<tr><th class='rowh'>学部</th><th>年</th><th>大問</th><th>小問</th>"+
+          "<th>記述率</th><th>史料率</th><th>最頻の時代</th><th>最頻の分野</th></tr>";
+  facCmpOrder().forEach(f=>{
+    const s = S[f]; if(!s) return;
+    const me = f==="法学部";
+    h += `<tr${me?" style='background:#fdf6e8'":""}>`+
+         `<td class="rowh"${me?" style='background:#fdf6e8'":""}>${me?"★ ":""}${f}</td>`+
+         `<td>${s.years.length}</td><td>${s.daimonAvg}</td><td>${s.subQAvg}</td>`+
+         rateCell(s.writeRate) + rateCell(s.shiryoRate) +
+         `<td>${topKey(s.eraCount)}</td><td>${topKey(s.fieldCount)}</td></tr>`;
+  });
+  document.getElementById("facCmpTable").innerHTML = h;
+  document.getElementById("facCmpNote").textContent =
+    "★＝第一志望。数字は各学部の直近5年（第一文学部は現存する全4年）を大問単位で読み、"+
+    "小問数・記述数・史料の有無を数えた実測値。大問・小問は1年あたりの平均。"+
+    "法学部だけは全27年ぶんのデータがあるが、ここでは条件をそろえるため直近5年で算出している。"+
+    "テーマの複製はしていない。";
+}
+function barRow(label, n, max){
+  const w = max ? Math.round(n/max*100) : 0;
+  return `<div class="ftbar"><span class="lb">${label}</span>`+
+         `<span class="tr"><i style="width:${w}%"></i></span><span class="vl">${n}</span></div>`;
+}
+function renderFacDetail(){
+  const sel = document.getElementById("facSel");
+  if(!sel.options.length){
+    sel.innerHTML = facCmpOrder().map(f=>`<option value="${f}">${f}</option>`).join("");
+    sel.value = "社会科学部";
+  }
+  const f = sel.value, s = FACULTY_TREND_SUMMARY[f];
+  const box = document.getElementById("facDetail");
+  if(!s){ box.innerHTML = "<p class='lead'>データがありません。</p>"; return; }
+  const rows = FACULTY_TRENDS.filter(r=>r.faculty===f);
+  const eMax = Math.max(...Object.values(s.eraCount));
+  const fMax = Math.max(...Object.values(s.fieldCount));
+  const oMax = Math.max(1, ...Object.values(s.formatCount||{}));
+
+  let h = `<div class="ftstats">`+
+    `<div class="ftstat"><b>${s.years[0]}〜${s.years[s.years.length-1]}</b><span>${s.years.length}年分</span></div>`+
+    `<div class="ftstat"><b>${s.daimonAvg}題</b><span>1年の大問数</span></div>`+
+    `<div class="ftstat"><b>${s.subQAvg}問</b><span>1年の小問数</span></div>`+
+    `<div class="ftstat"><b>${s.writeRate}%</b><span>記述の割合</span></div>`+
+    `<div class="ftstat"><b>${s.shiryoRate}%</b><span>史料つきの大問</span></div></div>`;
+
+  h += `<div class="grid2" style="margin-top:16px">`+
+       `<div><div class="sum-h">どの時代が出るか（大問ののべ数）</div>`+
+         FT_ERAS.map(e=>barRow(e, s.eraCount[e]||0, eMax)).join("")+`</div>`+
+       `<div><div class="sum-h">どの分野が出るか（大問数）</div>`+
+         FT_FIELDS.map(x=>barRow(x, s.fieldCount[x]||0, fMax)).join("")+`</div></div>`;
+
+  const fc = s.formatCount;
+  if(fc && Object.values(fc).some(v=>v>0)){
+    h += `<div style="margin-top:16px"><div class="sum-h">出題の形式（それを含む大問の数）</div>`+
+         Object.keys(fc).filter(k=>fc[k]>0).map(k=>barRow(k, fc[k], oMax)).join("")+`</div>`;
+  }
+
+  h += `<div class="sum-h" style="margin-top:18px">大問ごとの中身</div>`+
+       `<div class="heat-wrap"><table class="heat fac-list"><tr>`+
+       `<th>年</th><th>大問</th><th class="rowh" style="position:static">テーマ</th>`+
+       `<th>時代</th><th>分野</th><th>小問</th><th>記述</th><th>史料</th></tr>`+
+       rows.map(r=>`<tr><td>${r.year}</td><td>${r.daimon}</td>`+
+         `<td style="text-align:left;padding-left:10px">${r.theme}</td>`+
+         `<td>${r.eras.join("・")}</td><td>${r.field}</td>`+
+         `<td>${r.subQ}</td><td>${r.write||"—"}</td><td>${r.shiryo?"○":""}</td></tr>`).join("")+
+       `</table></div>`;
+
+  h += `<div class="src-note">${f==="法学部"
+      ? "法学部はこのページ上部に全27年ぶんの詳しい分析がある。ここは他学部と同じ条件（直近5年）で並べたもの。"
+      : "実際の過去問PDFを大問単位で読み、時代・分野・形式・小問数だけを記録した。テーマ名はこちらで要約したもので、問題文・選択肢・史料の文言は使っていない。"}</div>`;
+  box.innerHTML = h;
 }
 const MARK = {3:"◎", 2:"◯", 1:"△"};
 function renderSummary(){

@@ -1,7 +1,102 @@
-/* 他学部の出題傾向データ（大問単位・直近5年サンプル／第一文学部は全4年）
+/* 学部別の出題傾向データ（大問単位・東進DBに現存する全年度）
    実際の過去問PDFを大問単位で読み、時代・分野・形式・小問数のメタデータのみを抽出。
-   問題文・選択肢・史料の文言は一切複製していない。テーマ名は独自の要約。*/
+   問題文・選択肢・史料の文言は一切複製していない。テーマ名は独自の要約。
+   現存しない学部・日本史が試験科目でない学部は除外：第一文学部（2007年に文学部・文化構想学部へ改組）／政治経済学部（2021年度から学部独自試験に日本史なし）／国際教養学部（学部独自試験に日本史なし） */
 const FACULTY_TRENDS = [
+  {"faculty": "法学部", "year": "2000", "daimon": "I", "theme": "延久の荘園整理令と堀越公方の争乱", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2000", "daimon": "II", "theme": "頼山陽・本居宣長・藤田幽谷の徳川正統論", "eras": ["近世"], "field": "宗教・思想", "formats": ["史料", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "法学部", "year": "2000", "daimon": "III", "theme": "大日本帝国憲法制定と国体論争の展開", "eras": ["近代"], "field": "政治・法制", "formats": ["記述"], "subQ": 12, "mark": 9, "write": 3, "shiryo": false},
+  {"faculty": "法学部", "year": "2000", "daimon": "IV", "theme": "関東大震災と金解禁をめぐる経済政策", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2000", "daimon": "V", "theme": "占領期から高度成長・バブル崩壊の経済史", "eras": ["現代"], "field": "社会経済", "formats": ["記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": false},
+  {"faculty": "法学部", "year": "2001", "daimon": "I", "theme": "応天門の変と長宗我部氏の分国法", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "法学部", "year": "2001", "daimon": "II", "theme": "江戸時代の新田開発と肥料・特産物流通", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "記述"], "subQ": 12, "mark": 10, "write": 2, "shiryo": true},
+  {"faculty": "法学部", "year": "2001", "daimon": "III", "theme": "後藤新平らの台湾・朝鮮植民地統治政策", "eras": ["近代"], "field": "政治・法制", "formats": ["記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": false},
+  {"faculty": "法学部", "year": "2001", "daimon": "IV", "theme": "満州事変から二・二六事件と国策基準", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 12, "mark": 8, "write": 4, "shiryo": true},
+  {"faculty": "法学部", "year": "2001", "daimon": "V", "theme": "55年体制の成立から細川政権まで", "eras": ["現代"], "field": "政治・法制", "formats": ["記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": false},
+  {"faculty": "法学部", "year": "2002", "daimon": "I", "theme": "藤原氏摂関政治の成立と鎌倉幕府滅亡", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
+  {"faculty": "法学部", "year": "2002", "daimon": "II", "theme": "鎖国政策の実態と新井白石の貿易統制", "eras": ["近世"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 11, "mark": 9, "write": 2, "shiryo": true},
+  {"faculty": "法学部", "year": "2002", "daimon": "III", "theme": "岩倉使節団と明治外交・条約改正史", "eras": ["近代"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 12, "mark": 8, "write": 4, "shiryo": true},
+  {"faculty": "法学部", "year": "2002", "daimon": "IV", "theme": "大衆文学・国防思想と国体明徴問題", "eras": ["近代"], "field": "文化史", "formats": ["史料", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2002", "daimon": "V", "theme": "池田内閣の所得倍増と高度成長政策", "eras": ["現代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 1, "mark": 0, "write": 1, "shiryo": true},
+  {"faculty": "法学部", "year": "2003", "daimon": "I", "theme": "飛鳥文化と戦国期の鉱山・築城技術", "eras": ["古代", "近世"], "field": "文化史", "formats": ["記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": false},
+  {"faculty": "法学部", "year": "2003", "daimon": "II", "theme": "幕末の対外政策と異国船打払令", "eras": ["近世"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2003", "daimon": "III", "theme": "日露開戦論争と社会主義者の退社", "eras": ["近代"], "field": "宗教・思想", "formats": ["史料", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2003", "daimon": "IV", "theme": "大正デモクラシーから新体制運動まで", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 13, "mark": 10, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2003", "daimon": "V", "theme": "鳩山一郎内閣の外交成果と内政", "eras": ["現代"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 1, "mark": 0, "write": 1, "shiryo": true},
+  {"faculty": "法学部", "year": "2004", "daimon": "I", "theme": "古事記編纂と中世後期の連歌文化", "eras": ["古代", "中世"], "field": "文化史", "formats": ["記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": false},
+  {"faculty": "法学部", "year": "2004", "daimon": "II", "theme": "江戸幕府の統治機構と思想統制", "eras": ["近世"], "field": "政治・法制", "formats": ["記述"], "subQ": 12, "mark": 9, "write": 3, "shiryo": false},
+  {"faculty": "法学部", "year": "2004", "daimon": "III", "theme": "長谷川如是閑と明治期新聞の個性", "eras": ["近代"], "field": "文化史", "formats": ["史料", "記述"], "subQ": 12, "mark": 9, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2004", "daimon": "IV", "theme": "大正デモクラシーと普選運動・婦人参政権", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2004", "daimon": "V", "theme": "田中角栄内閣の外交成果と経済動向", "eras": ["現代"], "field": "社会経済", "formats": ["史料", "記述"], "subQ": 1, "mark": 0, "write": 1, "shiryo": true},
+  {"faculty": "法学部", "year": "2005", "daimon": "I", "theme": "平将門の乱と豊臣秀吉の伴天連追放令", "eras": ["古代", "近世"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 9, "mark": 5, "write": 4, "shiryo": true},
+  {"faculty": "法学部", "year": "2005", "daimon": "II", "theme": "江戸期の商業発展と米市場・廻船問屋", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2005", "daimon": "III", "theme": "隈板内閣と足尾鉱毒事件・田中正造", "eras": ["近代"], "field": "政治・法制", "formats": ["記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": false},
+  {"faculty": "法学部", "year": "2005", "daimon": "IV", "theme": "太平洋戦争期の外交宣言と戦局展開", "eras": ["近代"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 12, "mark": 9, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2005", "daimon": "V", "theme": "GHQの五大改革指令と講和問題", "eras": ["現代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 4, "mark": 3, "write": 1, "shiryo": true},
+  {"faculty": "法学部", "year": "2006", "daimon": "I", "theme": "仏教興隆と守護・建武政権の展開", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2006", "daimon": "II", "theme": "徳政令と世直し一揆の展開", "eras": ["中世", "近世"], "field": "社会経済", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "法学部", "year": "2006", "daimon": "III", "theme": "徳富蘇峰の自伝にみる明治政治史", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2006", "daimon": "IV", "theme": "戦後賠償問題とアジア外交の展開", "eras": ["現代"], "field": "外交史", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "法学部", "year": "2007", "daimon": "I", "theme": "神祇信仰と神仏習合の展開", "eras": ["古代", "中世"], "field": "宗教・思想", "formats": ["記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2007", "daimon": "II", "theme": "幕藩体制の確立と鎖国政策の展開", "eras": ["近世"], "field": "政治・法制", "formats": ["記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "法学部", "year": "2007", "daimon": "III", "theme": "明治期の対朝鮮・対清外交と韓国併合", "eras": ["近代"], "field": "外交史", "formats": ["記述"], "subQ": 12, "mark": 6, "write": 6, "shiryo": false},
+  {"faculty": "法学部", "year": "2007", "daimon": "IV", "theme": "日米関係の協調から対立・摩擦への変遷", "eras": ["近代", "現代"], "field": "外交史", "formats": ["記述"], "subQ": 12, "mark": 5, "write": 7, "shiryo": false},
+  {"faculty": "法学部", "year": "2008", "daimon": "I", "theme": "鉱山開発と貨幣・金属生産の歴史", "eras": ["古代", "中世"], "field": "社会経済", "formats": ["記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2008", "daimon": "II", "theme": "天保期の廻船・問屋と流通統制", "eras": ["近世"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2008", "daimon": "III", "theme": "明治期の教育制度と学校令の展開", "eras": ["近代"], "field": "文化史", "formats": ["記述"], "subQ": 12, "mark": 6, "write": 6, "shiryo": false},
+  {"faculty": "法学部", "year": "2008", "daimon": "IV", "theme": "石橋湛山の社説にみる昭和政治史", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 12, "mark": 6, "write": 6, "shiryo": true},
+  {"faculty": "法学部", "year": "2009", "daimon": "I", "theme": "中世の銭貨流通と経済構造の転換", "eras": ["古代", "中世"], "field": "社会経済", "formats": ["記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2009", "daimon": "II", "theme": "異国船来航をめぐる幕府の外交姿勢", "eras": ["近世"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
+  {"faculty": "法学部", "year": "2009", "daimon": "III", "theme": "大正〜昭和戦前期の政変と外交(日記史料)", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 12, "mark": 7, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2009", "daimon": "IV", "theme": "産業統制から財閥解体・石油危機まで", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["史料", "記述"], "subQ": 12, "mark": 6, "write": 6, "shiryo": true},
+  {"faculty": "法学部", "year": "2010", "daimon": "I", "theme": "東大寺盧舎那大仏の造立と復興史", "eras": ["古代", "中世"], "field": "宗教・思想", "formats": ["記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2010", "daimon": "II", "theme": "江戸時代の四つの窓口と対外関係", "eras": ["近世"], "field": "外交史", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "法学部", "year": "2010", "daimon": "III", "theme": "外国人の日記に見る条約改正と外交", "eras": ["近代"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": true},
+  {"faculty": "法学部", "year": "2010", "daimon": "IV", "theme": "近現代日本における政官財の汚職事件", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["記述"], "subQ": 12, "mark": 5, "write": 7, "shiryo": false},
+  {"faculty": "法学部", "year": "2011", "daimon": "I", "theme": "東国と西国からみる日本通史の地域差", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["記述"], "subQ": 8, "mark": 3, "write": 5, "shiryo": false},
+  {"faculty": "法学部", "year": "2011", "daimon": "II", "theme": "戦国大名の家訓にみる合理的思考", "eras": ["中世"], "field": "宗教・思想", "formats": ["史料", "記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": true},
+  {"faculty": "法学部", "year": "2011", "daimon": "III", "theme": "大正政変から米騒動期の政党政治(日記史料)", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 11, "mark": 6, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2011", "daimon": "IV", "theme": "幕末開国から沖縄返還までの対外関係", "eras": ["近代", "現代"], "field": "外交史", "formats": ["記述"], "subQ": 11, "mark": 4, "write": 7, "shiryo": false},
+  {"faculty": "法学部", "year": "2012", "daimon": "I", "theme": "陶磁器の歴史と時代ごとの文化的変遷", "eras": ["古代", "中世"], "field": "文化史", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "法学部", "year": "2012", "daimon": "II", "theme": "方丈記に見る福原遷都と社会変化", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2012", "daimon": "III", "theme": "田中正造の書簡に見る足尾鉱毒事件", "eras": ["近代"], "field": "社会経済", "formats": ["史料", "記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": true},
+  {"faculty": "法学部", "year": "2012", "daimon": "IV", "theme": "治安維持法下の政治対立と戦後改革との連続性", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "法学部", "year": "2013", "daimon": "I", "theme": "古代日本における地震災害と朝廷の対応", "eras": ["古代"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2013", "daimon": "II", "theme": "フビライの日本征服の試みと蒙古襲来", "eras": ["中世"], "field": "外交史", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2013", "daimon": "III", "theme": "秋田雨雀日記に見る大正〜昭和戦前の社会", "eras": ["近代"], "field": "文化史", "formats": ["史料", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2013", "daimon": "IV", "theme": "大浜信泉の沖縄返還構想と日米交渉", "eras": ["現代"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2014", "daimon": "I", "theme": "東アジア国際関係と古代国家形成", "eras": ["古代"], "field": "外交史", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2014", "daimon": "II", "theme": "欧米人の記録に見る中世〜近世の対外交易", "eras": ["中世", "近世"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2014", "daimon": "III", "theme": "福田英子の自伝に見る自由民権運動と大阪事件", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2014", "daimon": "IV", "theme": "電力国家管理から原子力発電への歴史", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 4, "write": 6, "shiryo": true},
+  {"faculty": "法学部", "year": "2015", "daimon": "I", "theme": "平城京の都市構造と奈良時代の政治史", "eras": ["古代"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2015", "daimon": "II", "theme": "近世の身分社会と村落・都市の変容", "eras": ["近世"], "field": "社会経済", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "法学部", "year": "2015", "daimon": "III", "theme": "日露戦争前後の政局(法学者妻日記)", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2015", "daimon": "IV", "theme": "近代警察制度の展開と戦後改革", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "法学部", "year": "2016", "daimon": "I", "theme": "奈良時代後期〜平安初期の政治と仏教", "eras": ["古代"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2016", "daimon": "II", "theme": "中世〜近世における徳政令の展開", "eras": ["中世", "近世"], "field": "社会経済", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2016", "daimon": "III", "theme": "大正期の政党内閣交代(吉野作造日記)", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2016", "daimon": "IV", "theme": "近代〜現代のエネルギー・電力政策史", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["記述"], "subQ": 10, "mark": 4, "write": 6, "shiryo": false},
+  {"faculty": "法学部", "year": "2017", "daimon": "I", "theme": "古墳時代の政治体制と東アジア交流", "eras": ["古代"], "field": "外交史", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2017", "daimon": "II", "theme": "中世武家社会における所領支配の変遷", "eras": ["中世"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2017", "daimon": "III", "theme": "大正期の政変と米騒動(日記史料)", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2017", "daimon": "IV", "theme": "シャウプ税制勧告書にみる戦後税制改革", "eras": ["現代"], "field": "社会経済", "formats": ["史料", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2018", "daimon": "I", "theme": "大化改新から大宝律令への律令国家形成", "eras": ["古代"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2018", "daimon": "II", "theme": "琉球中継貿易と南蛮貿易・日本海交易の展開", "eras": ["中世", "近世"], "field": "外交史", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2018", "daimon": "III", "theme": "植木枝盛日記にみる自由民権運動", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "法学部", "year": "2018", "daimon": "IV", "theme": "高度経済成長の基盤と公害・ニクソンショック", "eras": ["現代"], "field": "社会経済", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2019", "daimon": "I", "theme": "藤原京・平城京の都城制と都市生活", "eras": ["古代"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2019", "daimon": "II", "theme": "鎌倉から江戸期にかけての徳政令の変遷", "eras": ["中世", "近世"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "法学部", "year": "2019", "daimon": "III", "theme": "妹尾義郎日記にみる戦間期の政党政治", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2019", "daimon": "IV", "theme": "要人暗殺にみる近代日本のテロリズム", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2020", "daimon": "I", "theme": "摂関政治から院政・鎌倉幕府成立まで", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 4, "write": 6, "shiryo": false},
+  {"faculty": "法学部", "year": "2020", "daimon": "II", "theme": "享保・寛政・天保の三大改革の比較", "eras": ["近世"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": false},
+  {"faculty": "法学部", "year": "2020", "daimon": "III", "theme": "石橋湛山の大正期対外論説(小日本主義)", "eras": ["近代"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "法学部", "year": "2020", "daimon": "IV", "theme": "占領期の教育改革と教育基本法の制定", "eras": ["現代"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 4, "write": 6, "shiryo": false},
+  {"faculty": "法学部", "year": "2021", "daimon": "I", "theme": "五畿七道と東海道(交通路と地方支配)", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "法学部", "year": "2021", "daimon": "II", "theme": "一揆の歴史(国人〜土一揆〜百姓一揆〜明治)", "eras": ["中世", "近世"], "field": "社会経済", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "法学部", "year": "2021", "daimon": "III", "theme": "通信の歴史(電報・情報戦の史料)", "eras": ["近代"], "field": "外交史", "formats": ["史料", "記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": true},
+  {"faculty": "法学部", "year": "2021", "daimon": "IV", "theme": "円ドル為替と戦後経済(ニクソン〜プラザ〜バブル)", "eras": ["現代"], "field": "社会経済", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
   {"faculty": "法学部", "year": "2022", "daimon": "I", "theme": "改元(年号)の歴史", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
   {"faculty": "法学部", "year": "2022", "daimon": "II", "theme": "琉球王国と対外関係(琉球処分まで)", "eras": ["近世"], "field": "外交史", "formats": ["記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
   {"faculty": "法学部", "year": "2022", "daimon": "III", "theme": "大津事件・司法権独立(日記史料1891)", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": true},
@@ -22,6 +117,78 @@ const FACULTY_TRENDS = [
   {"faculty": "法学部", "year": "2026", "daimon": "II", "theme": "「幕府」の語源と三武家政権", "eras": ["中世", "近世"], "field": "政治・法制", "formats": ["記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
   {"faculty": "法学部", "year": "2026", "daimon": "III", "theme": "井上馨訃報記事(1915新聞史料)", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": true},
   {"faculty": "法学部", "year": "2026", "daimon": "IV", "theme": "自由貿易体制 世界恐慌〜GATT〜WTO", "eras": ["現代"], "field": "社会経済", "formats": ["記述"], "subQ": 10, "mark": 4, "write": 6, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2000", "daimon": "I", "theme": "古代~近世の統治機構変遷", "eras": ["古代", "中世", "近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "史料"], "subQ": 13, "mark": 13, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2000", "daimon": "II", "theme": "幕末開国期の条約と外交交渉", "eras": ["近世", "近代"], "field": "外交史", "formats": ["正誤", "史料", "空欄補充", "一問一答"], "subQ": 13, "mark": 13, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2000", "daimon": "III", "theme": "近代日本の財政と経済恐慌", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "一問一答"], "subQ": 14, "mark": 14, "write": 0, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2001", "daimon": "I", "theme": "古代~中世の政争と争乱史", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["正誤", "史料", "空欄補充"], "subQ": 13, "mark": 13, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2001", "daimon": "II", "theme": "江戸幕藩体制と大名統制", "eras": ["近世", "近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "整序組合せ"], "subQ": 13, "mark": 13, "write": 0, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2001", "daimon": "III", "theme": "昭和戦前~戦後の政治体制転換", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["正誤", "史料", "空欄補充"], "subQ": 14, "mark": 14, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2002", "daimon": "I", "theme": "古代~中世初期の政治と荘園", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["史料", "正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2002", "daimon": "II", "theme": "南蛮貿易とキリスト教禁教", "eras": ["近世"], "field": "外交史", "formats": ["空欄補充", "史料", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2002", "daimon": "III", "theme": "近世中期の農業と新田開発", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "正誤", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2002", "daimon": "IV", "theme": "近代日本の大陸政策と外交", "eras": ["近代"], "field": "外交史", "formats": ["史料", "正誤", "記述", "整序組合せ"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2003", "daimon": "I", "theme": "古代~中世の史料と荘園政治", "eras": ["古代", "中世"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2003", "daimon": "II", "theme": "鎌倉仏教思想と幕府法制", "eras": ["中世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "記述", "史料", "整序組合せ"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2003", "daimon": "III", "theme": "近世後期の農村風俗と統制", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "正誤", "記述", "空欄補充"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2003", "daimon": "IV", "theme": "大正~昭和初期の政党内閣", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "正誤", "記述", "空欄補充"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2004", "daimon": "I", "theme": "鑑真の渡来と摂関政治の展開", "eras": ["古代"], "field": "宗教・思想", "formats": ["史料", "正誤", "空欄補充", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2004", "daimon": "II", "theme": "神皇正統記に見る中世史観", "eras": ["古代", "中世"], "field": "宗教・思想", "formats": ["史料", "正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2004", "daimon": "III", "theme": "近世~近代の経済思想の展開", "eras": ["近世", "近代"], "field": "宗教・思想", "formats": ["空欄補充", "正誤", "記述", "史料"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2004", "daimon": "IV", "theme": "大正~昭和初期の外交と軍部", "eras": ["近代"], "field": "外交史", "formats": ["史料", "正誤", "記述", "整序組合せ"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2005", "daimon": "I", "theme": "説話にみる因果応報と浄土信仰", "eras": ["古代"], "field": "宗教・思想", "formats": ["正誤", "空欄補充", "一問一答", "史料"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2005", "daimon": "II", "theme": "武士団の形成と鎌倉幕府の支配", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["正誤", "記述", "整序組合せ", "一問一答"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2005", "daimon": "III", "theme": "天保期の幕政改革と洋学弾圧", "eras": ["近世"], "field": "政治・法制", "formats": ["記述", "一問一答", "史料"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2005", "daimon": "IV", "theme": "明治期の教育制度と文化政策", "eras": ["近代"], "field": "文化史", "formats": ["正誤", "空欄補充", "史料", "一問一答"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2006", "daimon": "I", "theme": "古代~中世初期の対外交渉史", "eras": ["古代"], "field": "外交史", "formats": ["一問一答", "正誤", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2006", "daimon": "II", "theme": "応仁の乱期の惣村と座の発達", "eras": ["中世"], "field": "社会経済", "formats": ["一問一答", "正誤", "記述", "史料"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2006", "daimon": "III", "theme": "江戸期の日朝外交と朝鮮通信使", "eras": ["近世"], "field": "外交史", "formats": ["一問一答", "正誤", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2006", "daimon": "IV", "theme": "近代郵便制度から戦後経済復興史", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["記述", "一問一答", "史料"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2007", "daimon": "I", "theme": "原始~院政期の文化通史", "eras": ["古代"], "field": "文化史", "formats": ["正誤", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2007", "daimon": "II", "theme": "鎌倉~戦国期の法制と土地支配", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2007", "daimon": "III", "theme": "江戸幕府の法制と改革思想", "eras": ["近世"], "field": "政治・法制", "formats": ["一問一答", "正誤", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2007", "daimon": "IV", "theme": "昭和戦前の思想統制と国体論", "eras": ["近代"], "field": "政治・法制", "formats": ["記述", "一問一答", "正誤", "史料"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2008", "daimon": "I", "theme": "律令国家の形成と地方支配", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "記述", "一問一答", "史料"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2008", "daimon": "II", "theme": "鎌倉幕府滅亡と南北朝の動乱", "eras": ["中世"], "field": "政治・法制", "formats": ["記述", "一問一答", "正誤", "史料"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2008", "daimon": "III", "theme": "禁教政策と鎖国体制の形成", "eras": ["近世"], "field": "外交史", "formats": ["一問一答", "正誤", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2008", "daimon": "IV", "theme": "明治期の法典編纂と近代化", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "一問一答", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2009", "daimon": "I", "theme": "古代の政治・社会に関する史料", "eras": ["古代"], "field": "政治・法制", "formats": ["史料", "空欄補充", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2009", "daimon": "II", "theme": "日明貿易と倭寇の展開", "eras": ["中世"], "field": "外交史", "formats": ["史料", "空欄補充", "記述", "正誤"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2009", "daimon": "III", "theme": "幕藩体制の統制策と開港", "eras": ["近世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "記述", "正誤"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2009", "daimon": "IV", "theme": "北方領土と日韓外交の歴史", "eras": ["近世", "近代", "現代"], "field": "外交史", "formats": ["史料", "空欄補充", "記述", "正誤"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2010", "daimon": "I", "theme": "磐井の乱と延喜の荘園整理令", "eras": ["古代"], "field": "政治・法制", "formats": ["史料", "空欄補充", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2010", "daimon": "II", "theme": "鎌倉新仏教と旧仏教の展開", "eras": ["中世"], "field": "宗教・思想", "formats": ["史料", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2010", "daimon": "III", "theme": "貨幣経済の発展と幕府の対外政策", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "空欄補充", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2010", "daimon": "IV", "theme": "岩倉使節団と張作霖爆殺事件", "eras": ["近代"], "field": "外交史", "formats": ["史料", "空欄補充", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2011", "daimon": "I", "theme": "長屋王の変と奈良時代の政変", "eras": ["古代"], "field": "政治・法制", "formats": ["史料", "空欄補充", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2011", "daimon": "II", "theme": "元寇後の御家人と荘園経済", "eras": ["中世"], "field": "社会経済", "formats": ["史料", "空欄補充", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2011", "daimon": "III", "theme": "蘭学の発展と幕末藩の洋式技術", "eras": ["近世"], "field": "文化史", "formats": ["史料", "空欄補充", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2011", "daimon": "IV", "theme": "第一次大戦参戦とワシントン体制", "eras": ["近代"], "field": "外交史", "formats": ["史料", "空欄補充", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2011", "daimon": "V", "theme": "高度経済成長と55年体制", "eras": ["現代"], "field": "社会経済", "formats": ["正誤", "整序組合せ"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2012", "daimon": "I", "theme": "古事記の成立と摂関政治", "eras": ["古代"], "field": "政治・法制", "formats": ["史料", "空欄補充", "正誤", "整序組合せ"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2012", "daimon": "II", "theme": "徳政令と中世商業の発達", "eras": ["中世"], "field": "社会経済", "formats": ["史料", "空欄補充", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2012", "daimon": "III", "theme": "江戸儒学・国学から近代史学へ", "eras": ["近世", "近代"], "field": "文化史", "formats": ["史料", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2012", "daimon": "IV", "theme": "明治初期の法整備と地租改正", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "空欄補充", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2012", "daimon": "V", "theme": "太平洋戦争開戦への道", "eras": ["近代"], "field": "外交史", "formats": ["史料", "空欄補充", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2013", "daimon": "I", "theme": "律令国家の税制と地方支配", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2013", "daimon": "II", "theme": "戦国期の地方文化伝播と儒学", "eras": ["中世", "近世"], "field": "文化史", "formats": ["正誤", "整序組合せ", "空欄補充"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2013", "daimon": "III", "theme": "正徳の治と近世の貨幣・外交", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2013", "daimon": "IV", "theme": "近代軍事制度と統帥権問題", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "整序組合せ"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2013", "daimon": "V", "theme": "GHQの五大改革指令と戦後改革", "eras": ["現代"], "field": "政治・法制", "formats": ["正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2014", "daimon": "I", "theme": "古代の軍事・警察制度の変遷", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2014", "daimon": "II", "theme": "新補地頭と御成敗式目", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤", "空欄補充"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2014", "daimon": "III", "theme": "享保・寛政・天保の改革", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2014", "daimon": "IV", "theme": "結核と近代産業・社会問題", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "空欄補充"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2014", "daimon": "V", "theme": "高度経済成長と公害・社会変化", "eras": ["現代"], "field": "社会経済", "formats": ["正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2015", "daimon": "I", "theme": "遣唐使の派遣と大陸文化交流", "eras": ["古代"], "field": "外交史", "formats": ["正誤", "空欄補充"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2015", "daimon": "II", "theme": "建武の新政と南北朝の動乱", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2015", "daimon": "III", "theme": "化政期の文化と庶民生活の変化", "eras": ["近世"], "field": "文化史", "formats": ["正誤", "空欄補充"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "社会科学部", "year": "2015", "daimon": "IV", "theme": "松方財政と近代の金融制度", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "空欄補充"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2015", "daimon": "V", "theme": "共産党の転向と無産政党運動", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "整序組合せ"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2016", "daimon": "I", "theme": "平氏政権の栄華と官職体系", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2016", "daimon": "II", "theme": "室町期の東アジア交易と文化", "eras": ["中世"], "field": "外交史", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2016", "daimon": "III", "theme": "バテレン追放令と秀吉の宗教政策", "eras": ["近世"], "field": "宗教・思想", "formats": ["正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2016", "daimon": "IV", "theme": "大正デモクラシーと護憲運動", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "整序組合せ"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "社会科学部", "year": "2016", "daimon": "V", "theme": "満州事変から戦後憲法制定へ", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
   {"faculty": "社会科学部", "year": "2017", "daimon": "I", "theme": "法制度と司法の歴史的変遷", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "政治・法制", "formats": ["正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
   {"faculty": "社会科学部", "year": "2017", "daimon": "II", "theme": "都・東京の変遷と生活文化", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "社会経済", "formats": ["正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
   {"faculty": "社会科学部", "year": "2017", "daimon": "III", "theme": "教育と政治思想の歴史", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "文化史", "formats": ["正誤", "一問一答", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
@@ -42,6 +209,84 @@ const FACULTY_TRENDS = [
   {"faculty": "社会科学部", "year": "2024", "daimon": "II", "theme": "徳政令の歴史的展開", "eras": ["中世", "近世"], "field": "政治・法制", "formats": ["正誤", "一問一答", "空欄補充", "史料", "論述"], "subQ": 8, "mark": 7, "write": 1, "shiryo": true},
   {"faculty": "社会科学部", "year": "2024", "daimon": "III", "theme": "日本外交史の通時的展開", "eras": ["古代", "中世", "近世", "近代"], "field": "外交史", "formats": ["正誤", "一問一答", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
   {"faculty": "社会科学部", "year": "2024", "daimon": "IV", "theme": "海外留学・使節派遣の歴史", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "文化史", "formats": ["正誤", "一問一答", "整序組合せ", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2006", "daimon": "I", "theme": "古代国家形成と摂関院政", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2006", "daimon": "II", "theme": "中世の商業座と社会経済変化", "eras": ["中世", "近世"], "field": "社会経済", "formats": ["史料", "正誤", "空欄補充", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2006", "daimon": "III", "theme": "江戸幕府の対外貿易統制", "eras": ["近世"], "field": "外交史", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2006", "daimon": "IV", "theme": "日露戦争後の大陸進出と満州", "eras": ["近代"], "field": "外交史", "formats": ["正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2006", "daimon": "V", "theme": "55年体制の政治史と産業革命", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "商学部", "year": "2006", "daimon": "VI", "theme": "漂流民の海外知識と大衆文化", "eras": ["近世", "近代"], "field": "文化史", "formats": ["空欄補充", "記述"], "subQ": 10, "mark": 0, "write": 10, "shiryo": false},
+  {"faculty": "商学部", "year": "2007", "daimon": "I", "theme": "古代~中世初期の争乱史", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["正誤", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2007", "daimon": "II", "theme": "承久の乱と室町幕府文化", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "正誤", "一問一答", "空欄補充"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2007", "daimon": "III", "theme": "近世の鉄砲規制と農村社会", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "正誤", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2007", "daimon": "IV", "theme": "文明開化と近代日本の金融史", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2007", "daimon": "V", "theme": "大日本帝国憲法と大正デモクラシー", "eras": ["近代"], "field": "政治・法制", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2007", "daimon": "VI", "theme": "昭和戦前の国家改造と戦後経済復興", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["空欄補充", "記述"], "subQ": 9, "mark": 0, "write": 9, "shiryo": false},
+  {"faculty": "商学部", "year": "2008", "daimon": "I", "theme": "古代の市場・荘園と対外交流", "eras": ["古代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "一問一答", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2008", "daimon": "II", "theme": "御成敗式目と室町期守護権限", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "一問一答", "正誤", "空欄補充", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2008", "daimon": "III", "theme": "義民伝説と近世後期の民衆運動", "eras": ["近世", "近代"], "field": "政治・法制", "formats": ["史料", "正誤", "空欄補充", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2008", "daimon": "IV", "theme": "不平等条約改正と日露日韓関係", "eras": ["近世", "近代"], "field": "外交史", "formats": ["正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2008", "daimon": "V", "theme": "日独関係と満州事変・日中戦争", "eras": ["近代"], "field": "外交史", "formats": ["正誤", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2008", "daimon": "VI", "theme": "戦後復興と財閥解体・高度成長", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["空欄補充", "記述"], "subQ": 8, "mark": 0, "write": 8, "shiryo": false},
+  {"faculty": "商学部", "year": "2009", "daimon": "I", "theme": "墾田永年私財法と平安京遷都", "eras": ["古代"], "field": "政治・法制", "formats": ["史料", "空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2009", "daimon": "II", "theme": "院政期の政治と中世宗教一揆", "eras": ["中世"], "field": "宗教・思想", "formats": ["史料", "正誤", "空欄補充", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2009", "daimon": "III", "theme": "島原の乱と幕府の禁教政策", "eras": ["近世"], "field": "政治・法制", "formats": ["史料", "正誤", "空欄補充", "一問一答", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2009", "daimon": "IV", "theme": "明治国家建設と日露戦後外交", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2009", "daimon": "V", "theme": "産業革命期の労働問題と戦後改革", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2009", "daimon": "VI", "theme": "戦時統制経済と高度経済成長", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["空欄補充", "記述"], "subQ": 8, "mark": 0, "write": 8, "shiryo": false},
+  {"faculty": "商学部", "year": "2010", "daimon": "I", "theme": "古代仏教史の展開と浄土信仰", "eras": ["古代"], "field": "宗教・思想", "formats": ["空欄補充", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2010", "daimon": "II", "theme": "中世の争乱と日明貿易", "eras": ["中世"], "field": "外交史", "formats": ["空欄補充", "正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2010", "daimon": "III", "theme": "寛政の改革と幕政の展開", "eras": ["近世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2010", "daimon": "IV", "theme": "近代日本の内政外交と一政治家の回想", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2010", "daimon": "V", "theme": "明治・大正期の政党内閣の変遷", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2010", "daimon": "VI", "theme": "大戦景気と都市生活の変容", "eras": ["近代"], "field": "社会経済", "formats": ["記述", "論述"], "subQ": 8, "mark": 0, "write": 8, "shiryo": false},
+  {"faculty": "商学部", "year": "2011", "daimon": "I", "theme": "旧石器〜古墳時代の社会と国家形成", "eras": ["古代"], "field": "政治・法制", "formats": ["空欄補充", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2011", "daimon": "II", "theme": "院政期の政変と山城国一揆", "eras": ["中世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "整序組合せ", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2011", "daimon": "III", "theme": "蘭学の発展と解体新書", "eras": ["近世"], "field": "文化史", "formats": ["空欄補充", "正誤", "整序組合せ", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2011", "daimon": "IV", "theme": "明治期の教育制度と思想", "eras": ["近代"], "field": "文化史", "formats": ["空欄補充", "正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2011", "daimon": "V", "theme": "大戦景気から金融恐慌への経済変動", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "記述", "空欄補充"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2011", "daimon": "VI", "theme": "戦後復興期のインフレと労働運動", "eras": ["現代"], "field": "社会経済", "formats": ["記述", "論述"], "subQ": 8, "mark": 0, "write": 8, "shiryo": false},
+  {"faculty": "商学部", "year": "2012", "daimon": "I", "theme": "平安時代の政変と藤原氏の台頭", "eras": ["古代"], "field": "政治・法制", "formats": ["空欄補充", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2012", "daimon": "II", "theme": "鎌倉幕府成立から戦国期の政変", "eras": ["中世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "整序組合せ", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2012", "daimon": "III", "theme": "近世の身分制度と身分認識", "eras": ["近世"], "field": "社会経済", "formats": ["空欄補充", "正誤", "整序組合せ", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2012", "daimon": "IV", "theme": "幕末維新期の人物群像と明治政界", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2012", "daimon": "V", "theme": "戦間期の協調外交と満州事変", "eras": ["近代"], "field": "外交史", "formats": ["正誤", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2012", "daimon": "VI", "theme": "日中戦争期の戦時統制経済", "eras": ["近代"], "field": "社会経済", "formats": ["記述", "論述"], "subQ": 8, "mark": 0, "write": 8, "shiryo": false},
+  {"faculty": "商学部", "year": "2013", "daimon": "I", "theme": "考古・文献史料からみる古代社会", "eras": ["古代"], "field": "文化史", "formats": ["正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2013", "daimon": "II", "theme": "院政期から室町期の政変と文化", "eras": ["中世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2013", "daimon": "III", "theme": "近世大名家訓にみる統治思想", "eras": ["近世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2013", "daimon": "IV", "theme": "歴代首相の施政方針と明治の内政外交", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2013", "daimon": "V", "theme": "大正期の社会運動と思想弾圧", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2013", "daimon": "VI", "theme": "高度経済成長とその終焉", "eras": ["現代"], "field": "社会経済", "formats": ["記述", "論述"], "subQ": 8, "mark": 0, "write": 8, "shiryo": false},
+  {"faculty": "商学部", "year": "2014", "daimon": "I", "theme": "神信仰と仏教・密教の展開", "eras": ["古代"], "field": "宗教・思想", "formats": ["正誤", "空欄補充"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2014", "daimon": "II", "theme": "中世の一揆と戦国大名の分国法", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2014", "daimon": "III", "theme": "江戸時代の質地請け戻し慣行", "eras": ["近世"], "field": "社会経済", "formats": ["正誤", "空欄補充", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2014", "daimon": "IV", "theme": "政治家の自伝にみる明治政治史", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2014", "daimon": "V", "theme": "労働運動の展開と近代教育制度", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "記述", "空欄補充"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2014", "daimon": "VI", "theme": "高度経済成長後の経済政策と貿易摩擦", "eras": ["現代"], "field": "社会経済", "formats": ["正誤", "記述", "空欄補充"], "subQ": 9, "mark": 4, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2015", "daimon": "I", "theme": "奈良時代の皇位継承と天皇系譜", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2015", "daimon": "II", "theme": "鎌倉幕府の徳政令と織豊期の楽市楽座", "eras": ["中世", "近世"], "field": "社会経済", "formats": ["正誤", "空欄補充", "史料", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2015", "daimon": "III", "theme": "近世の貨幣・貿易と学問の発展", "eras": ["近世"], "field": "社会経済", "formats": ["正誤", "一問一答", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2015", "daimon": "IV", "theme": "幕末開港から明治産業革命期の貿易", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "記述", "空欄補充"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2015", "daimon": "V", "theme": "二・二六事件と昭和初期の軍部・政党政治", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2015", "daimon": "VI", "theme": "戦後の民主化改革(政党・労働・教育)", "eras": ["現代"], "field": "政治・法制", "formats": ["正誤", "記述", "空欄補充"], "subQ": 9, "mark": 4, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2016", "daimon": "I", "theme": "古代の書物・史書編纂と文化史", "eras": ["古代"], "field": "文化史", "formats": ["正誤", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2016", "daimon": "II", "theme": "建武の新政から南北朝内乱期の政治", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤", "史料", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2016", "daimon": "III", "theme": "徳川家康の神格化と将軍権威", "eras": ["近世"], "field": "宗教・思想", "formats": ["正誤", "一問一答", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2016", "daimon": "IV", "theme": "キリスト教社会主義者の自伝にみる明治社会運動", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2016", "daimon": "V", "theme": "明治期の経済基盤整備と昭和恐慌・金解禁政策", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "記述", "空欄補充"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "商学部", "year": "2016", "daimon": "VI", "theme": "プラザ合意後のバブル経済と平成不況", "eras": ["現代"], "field": "社会経済", "formats": ["正誤", "記述", "空欄補充", "整序組合せ"], "subQ": 9, "mark": 4, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2017", "daimon": "I", "theme": "平安時代初期の政治改革と弘仁貞観文化", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2017", "daimon": "II", "theme": "平氏政権から戦国期にいたる対外貿易", "eras": ["中世"], "field": "外交史", "formats": ["正誤", "空欄補充", "史料", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2017", "daimon": "III", "theme": "「鎖国」概念の成立と江戸時代の対外関係", "eras": ["近世"], "field": "外交史", "formats": ["正誤", "空欄補充", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2017", "daimon": "IV", "theme": "日露戦争と日比谷焼打事件", "eras": ["近代"], "field": "外交史", "formats": ["正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2017", "daimon": "V", "theme": "明治~昭和戦前期の産業革命と重化学工業化", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "記述", "空欄補充"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "商学部", "year": "2017", "daimon": "VI", "theme": "戦後復興から高度経済成長期の経済・社会", "eras": ["現代"], "field": "社会経済", "formats": ["正誤", "記述", "空欄補充", "整序組合せ"], "subQ": 9, "mark": 4, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2018", "daimon": "I", "theme": "古代日本の対中国・朝鮮半島外交", "eras": ["古代"], "field": "外交史", "formats": ["正誤", "空欄補充"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2018", "daimon": "II", "theme": "院政の展開と武家政権の成立", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["正誤", "空欄補充"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "商学部", "year": "2018", "daimon": "III", "theme": "新井白石の自伝にみる正徳の治", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2018", "daimon": "IV", "theme": "大正デモクラシーと護憲運動・普通選挙法", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "史料"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "商学部", "year": "2018", "daimon": "V", "theme": "明治期の通貨制度確立と大正・昭和初期の大衆文化", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "記述", "空欄補充"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "商学部", "year": "2018", "daimon": "VI", "theme": "敗戦後の国民生活・インフレと大衆運動", "eras": ["現代"], "field": "社会経済", "formats": ["正誤", "記述", "空欄補充", "整序組合せ"], "subQ": 9, "mark": 4, "write": 5, "shiryo": false},
   {"faculty": "商学部", "year": "2019", "daimon": "I", "theme": "摂関政治と皇位継承", "eras": ["古代"], "field": "政治・法制", "formats": ["空欄補充", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
   {"faculty": "商学部", "year": "2019", "daimon": "II", "theme": "鎌倉幕府の成立と支配体制", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
   {"faculty": "商学部", "year": "2019", "daimon": "III", "theme": "江戸の都市政策と経済改革", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "空欄補充", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
@@ -72,6 +317,102 @@ const FACULTY_TRENDS = [
   {"faculty": "商学部", "year": "2026", "daimon": "IV", "theme": "自由民権運動の展開", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
   {"faculty": "商学部", "year": "2026", "daimon": "V", "theme": "近代日本の金融制度史", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "整序組合せ", "記述", "一問一答"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
   {"faculty": "商学部", "year": "2026", "daimon": "VI", "theme": "占領期の政党と戦後混乱", "eras": ["現代"], "field": "政治・法制", "formats": ["記述", "正誤", "論述"], "subQ": 9, "mark": 4, "write": 5, "shiryo": false},
+  {"faculty": "教育学部", "year": "2000", "daimon": "I", "theme": "律令法の成立と格式の展開", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2000", "daimon": "II", "theme": "中世の政権交代と三種の神器", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "一問一答", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2000", "daimon": "III", "theme": "近世の民衆生活と地方産業", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "空欄補充", "記述", "一問一答"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2000", "daimon": "IV", "theme": "昭和恐慌と金融恐慌の経緯", "eras": ["近代"], "field": "社会経済", "formats": ["空欄補充", "記述", "一問一答"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2000", "daimon": "V", "theme": "労働運動と出版文化の展開", "eras": ["近代"], "field": "社会経済", "formats": ["史料", "一問一答", "記述"], "subQ": 5, "mark": 3, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2001", "daimon": "I", "theme": "摂関政治期の朝廷儀式と信仰", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 9, "mark": 7, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2001", "daimon": "II", "theme": "中世の政変と畿内の争乱", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "一問一答", "記述"], "subQ": 9, "mark": 7, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2001", "daimon": "III", "theme": "株仲間・問屋の展開と統制", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "空欄補充", "記述", "一問一答"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2001", "daimon": "IV", "theme": "攘夷運動と戦後領土処理の宣言", "eras": ["近世", "近代"], "field": "外交史", "formats": ["史料", "記述", "一問一答"], "subQ": 5, "mark": 3, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2001", "daimon": "V", "theme": "高度経済成長と労使関係の変容", "eras": ["現代"], "field": "社会経済", "formats": ["空欄補充", "記述", "一問一答", "整序組合せ"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2002", "daimon": "I", "theme": "古代の氏姓秩序と支配体制", "eras": ["古代"], "field": "政治・法制", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 9, "mark": 6, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2002", "daimon": "II", "theme": "琉球王国と蝦夷地アイヌの動向", "eras": ["中世", "近世"], "field": "外交史", "formats": ["空欄補充", "記述", "一問一答"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2002", "daimon": "III", "theme": "徳川綱吉期の幕政機構の変遷", "eras": ["近世"], "field": "政治・法制", "formats": ["空欄補充", "記述", "一問一答", "正誤"], "subQ": 11, "mark": 8, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2002", "daimon": "IV", "theme": "大正期社会運動の展開と諸団体", "eras": ["近代"], "field": "社会経済", "formats": ["史料", "記述", "一問一答"], "subQ": 6, "mark": 3, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2002", "daimon": "V", "theme": "征韓論争と開戦前の国策決定", "eras": ["近代"], "field": "外交史", "formats": ["史料", "記述", "一問一答", "整序組合せ"], "subQ": 4, "mark": 2, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2003", "daimon": "I", "theme": "平安期の班田制崩壊と延喜の治", "eras": ["古代"], "field": "政治・法制", "formats": ["記述", "一問一答", "正誤"], "subQ": 10, "mark": 7, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2003", "daimon": "II", "theme": "室町期の土一揆と国一揆の展開", "eras": ["中世"], "field": "社会経済", "formats": ["空欄補充", "記述", "一問一答"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2003", "daimon": "III", "theme": "江戸幕府の寺院統制と宗門改め", "eras": ["近世"], "field": "宗教・思想", "formats": ["空欄補充", "記述", "一問一答", "正誤"], "subQ": 9, "mark": 6, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2003", "daimon": "IV", "theme": "明治初期の地租改正と殖産興業", "eras": ["近代"], "field": "社会経済", "formats": ["空欄補充", "記述", "一問一答", "正誤"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2003", "daimon": "V", "theme": "近代〜現代の政治外交の推移", "eras": ["近代", "現代"], "field": "外交史", "formats": ["空欄補充", "記述", "一問一答", "整序組合せ"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2004", "daimon": "I", "theme": "漢字の受容と仮名文字の成立", "eras": ["古代"], "field": "文化史", "formats": ["空欄補充", "記述", "一問一答", "正誤"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2004", "daimon": "II", "theme": "中世〜近世初期の政権交代史", "eras": ["中世", "近世"], "field": "政治・法制", "formats": ["史料", "記述", "一問一答"], "subQ": 7, "mark": 5, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2004", "daimon": "III", "theme": "近世産業の発達と諸国の特産品", "eras": ["近世"], "field": "社会経済", "formats": ["記述", "一問一答"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "教育学部", "year": "2004", "daimon": "IV", "theme": "太平洋戦争の展開と沖縄戦", "eras": ["近代"], "field": "外交史", "formats": ["記述", "一問一答", "正誤"], "subQ": 12, "mark": 9, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2004", "daimon": "V", "theme": "大正期の対外論と自由民権終焉", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述", "一問一答"], "subQ": 5, "mark": 3, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2005", "daimon": "I", "theme": "国司制度の成立と変容", "eras": ["古代"], "field": "政治・法制", "formats": ["記述", "正誤", "空欄補充"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2005", "daimon": "II", "theme": "室町文化と日明外交", "eras": ["中世"], "field": "外交史", "formats": ["空欄補充", "正誤", "一問一答"], "subQ": 7, "mark": 4, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2005", "daimon": "III", "theme": "近世の百姓支配と領主像", "eras": ["近世"], "field": "社会経済", "formats": ["記述", "正誤", "空欄補充"], "subQ": 7, "mark": 5, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2005", "daimon": "IV", "theme": "天保期の対外危機と幕政批判", "eras": ["近世"], "field": "政治・法制", "formats": ["記述", "空欄補充", "正誤"], "subQ": 4, "mark": 2, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2005", "daimon": "V", "theme": "戦前日本資本主義の展開", "eras": ["近代"], "field": "社会経済", "formats": ["記述", "空欄補充", "整序組合せ", "正誤"], "subQ": 8, "mark": 7, "write": 1, "shiryo": false},
+  {"faculty": "教育学部", "year": "2005", "daimon": "VI", "theme": "自由民権運動と教科書検定訴訟", "eras": ["近代"], "field": "政治・法制", "formats": ["空欄補充", "一問一答", "記述"], "subQ": 4, "mark": 2, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2006", "daimon": "I", "theme": "古墳時代の対外交流と文化伝来", "eras": ["古代"], "field": "文化史", "formats": ["記述", "正誤", "空欄補充", "整序組合せ"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2006", "daimon": "II", "theme": "東大寺大仏の造立と再建の歴史", "eras": ["古代", "中世", "近世"], "field": "文化史", "formats": ["一問一答", "正誤", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2006", "daimon": "III", "theme": "江戸の身分制と農村復興思想", "eras": ["近世", "近代"], "field": "社会経済", "formats": ["記述", "正誤", "空欄補充"], "subQ": 9, "mark": 6, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2006", "daimon": "IV", "theme": "第一次大戦期の日中外交とワシントン体制", "eras": ["近代"], "field": "外交史", "formats": ["記述", "空欄補充", "正誤", "一問一答"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2006", "daimon": "V", "theme": "岩倉使節団と東京裁判", "eras": ["近代", "現代"], "field": "外交史", "formats": ["一問一答", "正誤", "記述"], "subQ": 5, "mark": 3, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2007", "daimon": "I", "theme": "古代東北支配と蝦夷戦争", "eras": ["古代"], "field": "政治・法制", "formats": ["記述", "正誤", "空欄補充"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2007", "daimon": "II", "theme": "元寇の国書とキリシタン布教", "eras": ["中世", "近世"], "field": "外交史", "formats": ["一問一答", "正誤", "記述"], "subQ": 9, "mark": 7, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2007", "daimon": "III", "theme": "慶安の御触書と藩政改革の再検討", "eras": ["近世"], "field": "社会経済", "formats": ["記述", "正誤", "一問一答"], "subQ": 9, "mark": 7, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2007", "daimon": "IV", "theme": "明治期の啓蒙思想と社会主義", "eras": ["近代"], "field": "宗教・思想", "formats": ["記述", "正誤", "空欄補充"], "subQ": 8, "mark": 7, "write": 1, "shiryo": false},
+  {"faculty": "教育学部", "year": "2007", "daimon": "V", "theme": "戦後政治と安保・賠償問題", "eras": ["現代"], "field": "政治・法制", "formats": ["記述", "空欄補充", "整序組合せ", "正誤"], "subQ": 3, "mark": 2, "write": 1, "shiryo": false},
+  {"faculty": "教育学部", "year": "2008", "daimon": "I", "theme": "古代の男女観とジェンダー規範", "eras": ["古代"], "field": "社会経済", "formats": ["記述", "正誤", "空欄補充"], "subQ": 9, "mark": 7, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2008", "daimon": "II", "theme": "日明貿易と戦国期の鉱山開発", "eras": ["中世", "近世"], "field": "社会経済", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2008", "daimon": "III", "theme": "江戸後期の開国勧告国書", "eras": ["近世"], "field": "外交史", "formats": ["記述", "正誤", "空欄補充", "一問一答"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2008", "daimon": "IV", "theme": "満蒙権益と満州事変", "eras": ["近代"], "field": "外交史", "formats": ["記述", "正誤", "一問一答"], "subQ": 6, "mark": 5, "write": 1, "shiryo": false},
+  {"faculty": "教育学部", "year": "2008", "daimon": "V", "theme": "戦後日本の歴史認識問題", "eras": ["現代"], "field": "政治・法制", "formats": ["記述", "正誤"], "subQ": 2, "mark": 1, "write": 1, "shiryo": false},
+  {"faculty": "教育学部", "year": "2009", "daimon": "I", "theme": "古代仏教の受容と性格変化", "eras": ["古代"], "field": "宗教・思想", "formats": ["記述", "正誤", "空欄補充"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2009", "daimon": "II", "theme": "中世の政治統一と禅宗文化", "eras": ["中世"], "field": "政治・法制", "formats": ["記述", "一問一答", "正誤"], "subQ": 7, "mark": 5, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2009", "daimon": "III", "theme": "天保期の百姓一揆と幕末対外関係", "eras": ["近世"], "field": "社会経済", "formats": ["記述", "正誤", "一問一答"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2009", "daimon": "IV", "theme": "大日本帝国憲法の制定と規定", "eras": ["近代"], "field": "政治・法制", "formats": ["記述", "空欄補充", "正誤"], "subQ": 8, "mark": 7, "write": 1, "shiryo": false},
+  {"faculty": "教育学部", "year": "2009", "daimon": "V", "theme": "近現代の政治団体宣言と時局日記", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["記述", "一問一答"], "subQ": 4, "mark": 2, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2010", "daimon": "I", "theme": "文字文化の受容と律令法整備", "eras": ["古代"], "field": "政治・法制", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2010", "daimon": "II", "theme": "鎌倉・室町期の一揆と徳政", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2010", "daimon": "III", "theme": "出版文化の成立と読者層の広がり", "eras": ["近世"], "field": "文化史", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2010", "daimon": "IV", "theme": "地主制の成立から農地改革まで", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2010", "daimon": "V", "theme": "近代女性文学者と原爆文学", "eras": ["近代", "現代"], "field": "文化史", "formats": ["史料", "空欄補充", "記述", "一問一答"], "subQ": 4, "mark": 3, "write": 1, "shiryo": true},
+  {"faculty": "教育学部", "year": "2011", "daimon": "I", "theme": "7世紀の東アジア情勢と国内改革", "eras": ["古代"], "field": "政治・法制", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2011", "daimon": "II", "theme": "荘園公領制の成立と荘園絵図", "eras": ["中世"], "field": "社会経済", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 7, "mark": 5, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2011", "daimon": "III", "theme": "江戸時代の幕府と朝廷の関係", "eras": ["近世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2011", "daimon": "IV", "theme": "明治~昭和戦前の対外戦争史", "eras": ["近代"], "field": "外交史", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2011", "daimon": "V", "theme": "戦後日本の外交政策と行政改革", "eras": ["現代"], "field": "政治・法制", "formats": ["空欄補充", "記述", "一問一答"], "subQ": 4, "mark": 2, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2012", "daimon": "I", "theme": "奈良時代の疫病流行と政治的動揺", "eras": ["古代"], "field": "政治・法制", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2012", "daimon": "II", "theme": "中世農業技術の発展と村落自治", "eras": ["中世"], "field": "社会経済", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 7, "mark": 5, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2012", "daimon": "III", "theme": "大塩平八郎の乱と幕政批判", "eras": ["近世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2012", "daimon": "IV", "theme": "近代の詔書・法令に見る国家と宗教", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "記述", "正誤", "一問一答"], "subQ": 6, "mark": 3, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2012", "daimon": "V", "theme": "高度経済成長と公害問題", "eras": ["現代"], "field": "社会経済", "formats": ["空欄補充", "記述", "正誤", "一問一答", "整序組合せ"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2013", "daimon": "I", "theme": "懐風藻に見る奈良時代皇族・貴族の系譜", "eras": ["古代"], "field": "文化史", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2013", "daimon": "II", "theme": "院政の展開と荘園公領制", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 9, "mark": 7, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2013", "daimon": "III", "theme": "琉球王国の朝貢貿易と島津氏の侵攻", "eras": ["中世", "近世"], "field": "外交史", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答", "整序組合せ"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2013", "daimon": "IV", "theme": "在野の歴史家・吉田東伍の生涯と業績", "eras": ["近代"], "field": "文化史", "formats": ["空欄補充", "記述", "正誤", "一問一答", "整序組合せ"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2013", "daimon": "V", "theme": "近世〜現代の対外関係史料", "eras": ["近世", "近代", "現代"], "field": "外交史", "formats": ["史料", "空欄補充", "記述", "一問一答", "整序組合せ"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2014", "daimon": "I", "theme": "古代における占い・神託と信仰", "eras": ["古代"], "field": "宗教・思想", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2014", "daimon": "II", "theme": "花押・印判に見る武家の文書行政", "eras": ["中世", "近世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2014", "daimon": "III", "theme": "江戸後期の郡中議定と地域社会の自治", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2014", "daimon": "IV", "theme": "近代〜現代の女性運動・平和運動", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["史料", "空欄補充", "記述", "正誤", "一問一答", "整序組合せ"], "subQ": 7, "mark": 4, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2014", "daimon": "V", "theme": "アジア太平洋戦争期の総動員体制と国民生活", "eras": ["現代"], "field": "社会経済", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2015", "daimon": "I", "theme": "律令の整備と格式・令の解釈", "eras": ["古代"], "field": "政治・法制", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2015", "daimon": "II", "theme": "世界遺産からみる中世の文化と貿易", "eras": ["古代", "中世"], "field": "文化史", "formats": ["空欄補充", "正誤", "一問一答", "記述"], "subQ": 9, "mark": 7, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2015", "daimon": "III", "theme": "儒学者の経世論と近世社会の変容", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "記述", "正誤", "一問一答"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2015", "daimon": "IV", "theme": "近代社会運動の三期区分と展開", "eras": ["近代"], "field": "社会経済", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2015", "daimon": "V", "theme": "戦後の女性解放運動と法整備", "eras": ["現代"], "field": "社会経済", "formats": ["記述", "空欄補充", "整序組合せ"], "subQ": 4, "mark": 1, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2016", "daimon": "I", "theme": "戸口の変化にみる律令制の衰退", "eras": ["古代"], "field": "社会経済", "formats": ["史料", "記述", "空欄補充", "正誤"], "subQ": 7, "mark": 5, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2016", "daimon": "II", "theme": "絵巻物にみる中世の市場と流通", "eras": ["中世"], "field": "社会経済", "formats": ["史料", "正誤", "空欄補充", "一問一答", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2016", "daimon": "III", "theme": "田中丘隅の農政提言と享保改革", "eras": ["近世"], "field": "政治・法制", "formats": ["史料", "記述", "空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2016", "daimon": "IV", "theme": "明治維新の歴史的性格をめぐる論争", "eras": ["近代"], "field": "政治・法制", "formats": ["記述", "空欄補充", "正誤", "整序組合せ"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2016", "daimon": "V", "theme": "戦時下の言論統制と戦後の戦犯裁判", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["史料", "記述", "空欄補充", "正誤", "一問一答"], "subQ": 6, "mark": 4, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2017", "daimon": "I", "theme": "平家物語にみる桓武平氏と平氏政権", "eras": ["古代"], "field": "政治・法制", "formats": ["史料", "記述", "空欄補充", "正誤", "一問一答"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2017", "daimon": "II", "theme": "太田道灌と関東戦国期の政治抗争", "eras": ["中世"], "field": "政治・法制", "formats": ["空欄補充", "記述", "一問一答", "正誤"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "教育学部", "year": "2017", "daimon": "III", "theme": "近世民衆思想にみる平等観の萌芽", "eras": ["近世"], "field": "宗教・思想", "formats": ["史料", "記述", "空欄補充", "正誤", "一問一答"], "subQ": 9, "mark": 6, "write": 3, "shiryo": true},
+  {"faculty": "教育学部", "year": "2017", "daimon": "IV", "theme": "近代の言論・集会取締り法制史", "eras": ["近代"], "field": "政治・法制", "formats": ["記述", "空欄補充", "正誤", "整序組合せ", "一問一答"], "subQ": 6, "mark": 5, "write": 1, "shiryo": false},
+  {"faculty": "教育学部", "year": "2017", "daimon": "V", "theme": "石橋湛山の外交論と戦後公職追放", "eras": ["近代", "現代"], "field": "外交史", "formats": ["史料", "記述", "空欄補充", "正誤", "一問一答"], "subQ": 5, "mark": 3, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2018", "daimon": "I", "theme": "ヤマト政権の地方支配拡大と統一", "eras": ["古代"], "field": "政治・法制", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "教育学部", "year": "2018", "daimon": "II", "theme": "守護の職権拡大と中世法制史", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "記述", "空欄補充", "正誤"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2018", "daimon": "III", "theme": "高札にみる近世民衆運動の展開", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "記述", "空欄補充", "正誤", "一問一答"], "subQ": 9, "mark": 7, "write": 2, "shiryo": true},
+  {"faculty": "教育学部", "year": "2018", "daimon": "IV", "theme": "大正政治史と護憲運動の展開", "eras": ["近代"], "field": "政治・法制", "formats": ["記述", "空欄補充", "正誤", "整序組合せ"], "subQ": 6, "mark": 5, "write": 1, "shiryo": false},
+  {"faculty": "教育学部", "year": "2018", "daimon": "V", "theme": "琉球処分から沖縄返還への歩み", "eras": ["近代", "現代"], "field": "外交史", "formats": ["史料", "記述", "空欄補充", "正誤"], "subQ": 5, "mark": 2, "write": 3, "shiryo": true},
   {"faculty": "教育学部", "year": "2019", "daimon": "I", "theme": "郡司・国司の任用制度と地方支配", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
   {"faculty": "教育学部", "year": "2019", "daimon": "II", "theme": "鎌倉幕府滅亡期の悪党と得宗専制", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "正誤", "空欄補充", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": true},
   {"faculty": "教育学部", "year": "2019", "daimon": "III", "theme": "鎖国祖法観の動揺と対外的危機", "eras": ["近世"], "field": "外交史", "formats": ["記述", "正誤", "史料"], "subQ": 9, "mark": 7, "write": 2, "shiryo": true},
@@ -98,6 +439,54 @@ const FACULTY_TRENDS = [
   {"faculty": "教育学部", "year": "2026", "daimon": "III", "theme": "田沼時代論と近世社会の性格", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "整序組合せ", "史料", "論述"], "subQ": 9, "mark": 8, "write": 1, "shiryo": true},
   {"faculty": "教育学部", "year": "2026", "daimon": "IV", "theme": "秩父事件から大正政変までの民衆運動", "eras": ["近代"], "field": "社会経済", "formats": ["記述", "空欄補充", "正誤", "史料", "整序組合せ"], "subQ": 7, "mark": 6, "write": 1, "shiryo": true},
   {"faculty": "教育学部", "year": "2026", "daimon": "V", "theme": "日本の帝国主義的拡大とその批判論", "eras": ["近代", "現代"], "field": "外交史", "formats": ["記述", "空欄補充", "正誤", "史料"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2007", "daimon": "I", "theme": "天皇の即位と政治史", "eras": ["古代", "中世", "近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2007", "daimon": "II", "theme": "地方支配制度の変遷", "eras": ["古代", "中世", "近世", "近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 11, "mark": 7, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2007", "daimon": "III", "theme": "喫茶文化と茶道の展開", "eras": ["古代", "中世", "近世", "近代"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述", "整序組合せ", "一問一答"], "subQ": 12, "mark": 7, "write": 5, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2007", "daimon": "IV", "theme": "検地から農地改革までの土地制度", "eras": ["近世", "近代", "現代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "整序組合せ", "一問一答"], "subQ": 10, "mark": 6, "write": 4, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2008", "daimon": "I", "theme": "宮都・都市の盛衰史", "eras": ["古代", "中世", "近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2008", "daimon": "II", "theme": "裁判制度と法の変遷", "eras": ["古代", "中世", "近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 11, "mark": 7, "write": 4, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2008", "daimon": "III", "theme": "交通制度と流通の変遷", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["正誤", "空欄補充"], "subQ": 9, "mark": 5, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2008", "daimon": "IV", "theme": "近世~現代の宗教政策", "eras": ["近世", "近代", "現代"], "field": "宗教・思想", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 12, "mark": 6, "write": 6, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2009", "daimon": "I", "theme": "古代~中世の対外交流史", "eras": ["古代", "中世"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 10, "mark": 4, "write": 6, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2009", "daimon": "II", "theme": "一揆の形態と時代変化", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2009", "daimon": "III", "theme": "武家政治の変遷", "eras": ["古代", "中世", "近世", "近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 11, "mark": 7, "write": 4, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2009", "daimon": "IV", "theme": "近世~近代の教育制度", "eras": ["近世", "近代"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 11, "mark": 6, "write": 5, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2010", "daimon": "I", "theme": "中央行政組織の変遷", "eras": ["古代", "中世", "近世", "近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 11, "mark": 7, "write": 4, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2010", "daimon": "II", "theme": "内乱からみる政治史", "eras": ["古代", "中世", "近世", "近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "整序組合せ", "一問一答"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2010", "daimon": "III", "theme": "身分制度の歴史的変遷", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "社会経済", "formats": ["正誤", "空欄補充"], "subQ": 10, "mark": 4, "write": 6, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2010", "daimon": "IV", "theme": "近世~現代の農村社会経済史", "eras": ["近世", "近代", "現代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2011", "daimon": "I", "theme": "東大寺大仏の造立と再興史", "eras": ["古代", "中世", "近世"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2011", "daimon": "II", "theme": "日本における風刺表現の変遷", "eras": ["古代", "中世", "近世", "近代"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2011", "daimon": "III", "theme": "日本国王号をめぐる対外関係史", "eras": ["古代", "中世", "近世"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 11, "mark": 7, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2011", "daimon": "IV", "theme": "教科書における女性史の変遷", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 10, "mark": 7, "write": 3, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2012", "daimon": "I", "theme": "古代・中世の史書と軍記文学", "eras": ["古代", "中世"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2012", "daimon": "II", "theme": "稲作と水田開発の歴史", "eras": ["古代", "中世"], "field": "社会経済", "formats": ["一問一答", "正誤", "空欄補充", "記述"], "subQ": 12, "mark": 8, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2012", "daimon": "III", "theme": "災害・飢饉の歴史と社会対応", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 12, "mark": 6, "write": 6, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2012", "daimon": "IV", "theme": "宮都から近代都市への変遷", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 12, "mark": 6, "write": 6, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2013", "daimon": "I", "theme": "意見・言論と政治批判の歴史", "eras": ["古代", "中世", "近世", "近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 11, "mark": 7, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2013", "daimon": "II", "theme": "古代から近代の学問と学術史", "eras": ["古代", "中世", "近世", "近代"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2013", "daimon": "III", "theme": "貿易・貨幣の展開と対外関係", "eras": ["古代", "中世", "近世"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 11, "mark": 6, "write": 5, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2013", "daimon": "IV", "theme": "運輸・交通手段の発達史", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 12, "mark": 8, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2014", "daimon": "I", "theme": "農耕祭祀と行基の社会事業", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "宗教・思想", "formats": ["正誤", "空欄補充", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2014", "daimon": "II", "theme": "荘園制から近代までの経済史", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2014", "daimon": "III", "theme": "刑罰制度の変遷と国家権力", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2014", "daimon": "IV", "theme": "身分制と立身出世の歴史", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 12, "mark": 8, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2015", "daimon": "I", "theme": "日本仏教史の展開", "eras": ["古代", "中世"], "field": "宗教・思想", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2015", "daimon": "II", "theme": "鉄器・鉄生産の歴史", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["空欄補充", "記述", "正誤", "一問一答"], "subQ": 11, "mark": 7, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2015", "daimon": "III", "theme": "琉球と蝦夷の歴史", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "外交史", "formats": ["記述", "空欄補充", "正誤", "一問一答"], "subQ": 11, "mark": 6, "write": 5, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2015", "daimon": "IV", "theme": "近世~現代の農村社会と政策", "eras": ["近世", "近代", "現代"], "field": "社会経済", "formats": ["正誤", "一問一答", "空欄補充", "記述"], "subQ": 11, "mark": 7, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2016", "daimon": "I", "theme": "教育機関・施設の歴史", "eras": ["古代", "中世", "近世"], "field": "文化史", "formats": ["空欄補充", "記述", "正誤"], "subQ": 12, "mark": 7, "write": 5, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2016", "daimon": "II", "theme": "地域社会の展開と統合", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["記述", "正誤", "空欄補充"], "subQ": 10, "mark": 6, "write": 4, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2016", "daimon": "III", "theme": "古代~現代の税制史", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "社会経済", "formats": ["記述", "正誤", "空欄補充"], "subQ": 11, "mark": 6, "write": 5, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2016", "daimon": "IV", "theme": "日本の歴史観・歴史学の展開", "eras": ["中世", "近世", "近代"], "field": "文化史", "formats": ["整序組合せ", "記述", "正誤"], "subQ": 11, "mark": 7, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2017", "daimon": "I", "theme": "交通網の歴史", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["記述", "正誤", "一問一答", "空欄補充"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2017", "daimon": "II", "theme": "貴族・武家の家の形成と系譜意識", "eras": ["古代", "中世", "近世"], "field": "政治・法制", "formats": ["一問一答", "記述", "正誤", "空欄補充"], "subQ": 11, "mark": 8, "write": 3, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2017", "daimon": "III", "theme": "将軍権力の対外的称号", "eras": ["中世", "近世"], "field": "外交史", "formats": ["正誤", "記述", "一問一答"], "subQ": 11, "mark": 7, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2017", "daimon": "IV", "theme": "日本と台湾の関係史", "eras": ["近世", "近代", "現代"], "field": "外交史", "formats": ["正誤", "記述", "一問一答"], "subQ": 12, "mark": 8, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2018", "daimon": "I", "theme": "明治期文明史論にみる歴史観", "eras": ["古代", "中世", "近世", "近代"], "field": "文化史", "formats": ["史料", "正誤", "記述", "一問一答"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
+  {"faculty": "文化構想学部", "year": "2018", "daimon": "II", "theme": "先例と新儀の相克", "eras": ["古代", "中世", "近世", "近代"], "field": "政治・法制", "formats": ["記述", "空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2018", "daimon": "III", "theme": "日本の医学・薬学発展史", "eras": ["古代", "中世", "近世", "近代"], "field": "文化史", "formats": ["記述", "正誤", "一問一答"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "文化構想学部", "year": "2018", "daimon": "IV", "theme": "対外戦争の歴史認識変遷", "eras": ["中世", "近世", "近代", "現代"], "field": "外交史", "formats": ["正誤", "記述", "整序組合せ"], "subQ": 11, "mark": 7, "write": 4, "shiryo": false},
   {"faculty": "文化構想学部", "year": "2019", "daimon": "I", "theme": "天皇と上皇の権力関係史", "eras": ["古代", "中世", "近世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "記述", "整序組合せ"], "subQ": 11, "mark": 7, "write": 4, "shiryo": false},
   {"faculty": "文化構想学部", "year": "2019", "daimon": "II", "theme": "仏教伝来と宗派の展開", "eras": ["古代", "中世", "近世"], "field": "宗教・思想", "formats": ["空欄補充", "正誤", "記述", "一問一答"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
   {"faculty": "文化構想学部", "year": "2019", "daimon": "III", "theme": "近世・近代の日欧関係史", "eras": ["近世", "近代"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
@@ -118,51 +507,72 @@ const FACULTY_TRENDS = [
   {"faculty": "文化構想学部", "year": "2026", "daimon": "II", "theme": "軍事からみる国家権力史", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 11, "mark": 7, "write": 4, "shiryo": true},
   {"faculty": "文化構想学部", "year": "2026", "daimon": "III", "theme": "天皇制度の歴史的展開", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 12, "mark": 9, "write": 3, "shiryo": true},
   {"faculty": "文化構想学部", "year": "2026", "daimon": "IV", "theme": "学校教育制度の変遷", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 12, "mark": 7, "write": 5, "shiryo": false},
-  {"faculty": "政治経済学部", "year": "2015", "daimon": "I", "theme": "古代~中世の教育制度の変遷", "eras": ["古代", "中世"], "field": "文化史", "formats": ["史料", "正誤", "一問一答", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2015", "daimon": "II", "theme": "近世の経済政策と庶民文化", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "正誤", "一問一答", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2015", "daimon": "III", "theme": "殖産興業と開拓使払下げ事件", "eras": ["近代"], "field": "社会経済", "formats": ["史料", "空欄補充", "一問一答", "正誤", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2015", "daimon": "IV", "theme": "両大戦間期の外交と国際協調", "eras": ["近代"], "field": "外交史", "formats": ["史料", "一問一答", "正誤", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2015", "daimon": "V", "theme": "戦後日本の経済政策の変遷", "eras": ["現代"], "field": "社会経済", "formats": ["史料", "一問一答", "正誤", "記述", "論述"], "subQ": 6, "mark": 4, "write": 2, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2016", "daimon": "I", "theme": "藤原道長と後鳥羽上皇の系図", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "一問一答", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": false},
-  {"faculty": "政治経済学部", "year": "2016", "daimon": "II", "theme": "露米交渉と幕末開国の経緯", "eras": ["近世"], "field": "外交史", "formats": ["史料", "正誤", "一問一答", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2016", "daimon": "III", "theme": "大日本帝国憲法と衆議院選挙法", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "一問一答", "空欄補充", "正誤", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2016", "daimon": "IV", "theme": "米騒動から昭和恐慌期の経済", "eras": ["近代"], "field": "社会経済", "formats": ["史料", "正誤", "一問一答", "整序組合せ", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2016", "daimon": "V", "theme": "戦後衆議院選挙制度の変遷", "eras": ["現代"], "field": "政治・法制", "formats": ["史料", "整序組合せ", "一問一答", "正誤", "論述"], "subQ": 5, "mark": 4, "write": 1, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2017", "daimon": "I", "theme": "古代~中世の旅と交通の発達", "eras": ["古代", "中世"], "field": "社会経済", "formats": ["正誤", "一問一答", "空欄補充", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": false},
-  {"faculty": "政治経済学部", "year": "2017", "daimon": "II", "theme": "江戸時代の特産品と貿易制度", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "正誤", "一問一答", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2017", "daimon": "III", "theme": "地租改正・秩禄処分と鉄道業", "eras": ["近代"], "field": "社会経済", "formats": ["史料", "整序組合せ", "正誤", "一問一答", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2017", "daimon": "IV", "theme": "第一次大戦期の外交と米騒動", "eras": ["近代"], "field": "外交史", "formats": ["史料", "一問一答", "空欄補充", "論述"], "subQ": 4, "mark": 3, "write": 1, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2017", "daimon": "V", "theme": "戦後歴代首相の施政方針演説", "eras": ["現代"], "field": "政治・法制", "formats": ["史料", "整序組合せ", "一問一答", "正誤", "空欄補充", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2018", "daimon": "I", "theme": "銭貨の鋳造と流通の歴史", "eras": ["古代", "中世", "近世"], "field": "社会経済", "formats": ["正誤", "一問一答", "空欄補充", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
-  {"faculty": "政治経済学部", "year": "2018", "daimon": "II", "theme": "幕末の外交政策と遣米使節", "eras": ["近世"], "field": "外交史", "formats": ["史料", "一問一答", "正誤", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2018", "daimon": "III", "theme": "日清戦争前後の貿易と経済論", "eras": ["近代"], "field": "社会経済", "formats": ["史料", "一問一答", "論述"], "subQ": 4, "mark": 3, "write": 1, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2018", "daimon": "IV", "theme": "桂園時代と第一次護憲運動", "eras": ["近代"], "field": "政治・法制", "formats": ["一問一答", "記述"], "subQ": 6, "mark": 2, "write": 4, "shiryo": false},
-  {"faculty": "政治経済学部", "year": "2018", "daimon": "V", "theme": "高度成長期の政党政治と経済", "eras": ["現代"], "field": "社会経済", "formats": ["史料", "一問一答", "正誤", "空欄補充", "記述"], "subQ": 11, "mark": 8, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2019", "daimon": "I", "theme": "太政官制度と摂関・幕府政治", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "一問一答", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
-  {"faculty": "政治経済学部", "year": "2019", "daimon": "II", "theme": "報徳仕法と諸産業・貨幣制度", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "一問一答", "正誤", "空欄補充", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2019", "daimon": "III", "theme": "幕末の朝廷と倒幕運動の展開", "eras": ["近世"], "field": "政治・法制", "formats": ["一問一答", "整序組合せ", "記述"], "subQ": 6, "mark": 3, "write": 3, "shiryo": false},
-  {"faculty": "政治経済学部", "year": "2019", "daimon": "IV", "theme": "幕末~戦前期の物価変動史", "eras": ["近世", "近代"], "field": "社会経済", "formats": ["史料", "一問一答", "正誤", "論述"], "subQ": 4, "mark": 3, "write": 1, "shiryo": true},
-  {"faculty": "政治経済学部", "year": "2019", "daimon": "V", "theme": "戦後日本の外交条約史", "eras": ["現代"], "field": "外交史", "formats": ["史料", "整序組合せ", "空欄補充", "正誤", "一問一答", "記述"], "subQ": 12, "mark": 10, "write": 2, "shiryo": true},
-  {"faculty": "国際教養学部", "year": "2015", "daimon": "I", "theme": "遣隋使と律令国家の成立", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 9, "write": 1, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2015", "daimon": "II", "theme": "中世~近世の朝廷と幕府の関係", "eras": ["中世", "近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 10, "mark": 9, "write": 1, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2015", "daimon": "III", "theme": "自由民権運動から政党内閣の成立", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "整序組合せ"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2015", "daimon": "IV", "theme": "太平洋戦争開戦前後の日米外交", "eras": ["近代", "現代"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 9, "write": 1, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2016", "daimon": "I", "theme": "倭国形成と東アジア外交", "eras": ["古代"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2016", "daimon": "II", "theme": "鎌倉~江戸の幕府地方支配制度", "eras": ["中世", "近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2016", "daimon": "III", "theme": "幕末開国から条約改正達成まで", "eras": ["近世", "近代"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2016", "daimon": "IV", "theme": "GHQ占領下の民主化改革", "eras": ["現代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2017", "daimon": "I", "theme": "世界文化遺産と日本の文化財", "eras": ["古代", "中世", "近世", "近代"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2017", "daimon": "II", "theme": "倭寇と東アジア貿易・外交", "eras": ["中世", "近世"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
-  {"faculty": "国際教養学部", "year": "2017", "daimon": "III", "theme": "日韓関係と韓国併合への道程", "eras": ["近代"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
-  {"faculty": "国際教養学部", "year": "2017", "daimon": "IV", "theme": "満州事変前後の知識人と政治思想", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2018", "daimon": "I", "theme": "貴族日記に見る中世政変史", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
-  {"faculty": "国際教養学部", "year": "2018", "daimon": "II", "theme": "南蛮貿易から鎖国体制の形成", "eras": ["近世"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2018", "daimon": "III", "theme": "満州事変と日米関係の悪化", "eras": ["近代"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述", "史料", "整序組合せ"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
-  {"faculty": "国際教養学部", "year": "2018", "daimon": "IV", "theme": "閔妃暗殺事件と日本の朝鮮干渉", "eras": ["近代"], "field": "外交史", "formats": ["空欄補充", "記述", "一問一答", "史料"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
-  {"faculty": "国際教養学部", "year": "2019", "daimon": "I", "theme": "古代~中世の貨幣と市場経済", "eras": ["古代", "中世"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2019", "daimon": "II", "theme": "室町~江戸初期の対外関係", "eras": ["中世", "近世"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述", "一問一答"], "subQ": 10, "mark": 8, "write": 2, "shiryo": false},
-  {"faculty": "国際教養学部", "year": "2019", "daimon": "III", "theme": "明治期の労働運動と工場労働", "eras": ["近代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 10, "mark": 7, "write": 3, "shiryo": true},
-  {"faculty": "国際教養学部", "year": "2019", "daimon": "IV", "theme": "占領政策転換(逆コース)と冷戦", "eras": ["現代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 10, "mark": 8, "write": 2, "shiryo": true},
+  {"faculty": "文学部", "year": "2007", "daimon": "I", "theme": "縄文〜奈良時代の宗教と信仰の展開", "eras": ["古代"], "field": "宗教・思想", "formats": ["空欄補充", "正誤", "一問一答", "記述"], "subQ": 6, "mark": 5, "write": 1, "shiryo": false},
+  {"faculty": "文学部", "year": "2007", "daimon": "II", "theme": "8世紀東アジア外交と渤海・新羅", "eras": ["古代"], "field": "外交史", "formats": ["整序組合せ", "空欄補充", "記述", "正誤", "一問一答"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2007", "daimon": "III", "theme": "中世荘園公領制の成立と展開", "eras": ["中世"], "field": "社会経済", "formats": ["記述", "空欄補充", "整序組合せ", "正誤", "一問一答"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2007", "daimon": "IV", "theme": "近世の商業政策と株仲間の盛衰", "eras": ["近世"], "field": "社会経済", "formats": ["記述", "空欄補充", "正誤", "一問一答", "史料"], "subQ": 8, "mark": 5, "write": 3, "shiryo": true},
+  {"faculty": "文学部", "year": "2007", "daimon": "V", "theme": "近代の人権問題と戦後占領・冷戦体制", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["記述", "空欄補充", "一問一答", "正誤"], "subQ": 12, "mark": 6, "write": 6, "shiryo": false},
+  {"faculty": "文学部", "year": "2007", "daimon": "VI", "theme": "肖像画・肖像彫刻にみる日本美術史", "eras": ["中世", "近世", "近代"], "field": "文化史", "formats": ["空欄補充", "記述"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2008", "daimon": "I", "theme": "縄文〜弥生時代の社会と技術変革", "eras": ["古代"], "field": "社会経済", "formats": ["一問一答", "正誤", "空欄補充", "記述"], "subQ": 6, "mark": 5, "write": 1, "shiryo": false},
+  {"faculty": "文学部", "year": "2008", "daimon": "II", "theme": "律令制下の地方行政と税制", "eras": ["古代"], "field": "政治・法制", "formats": ["一問一答", "正誤", "空欄補充", "記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2008", "daimon": "III", "theme": "鎌倉〜室町期の公武関係と南北朝動乱", "eras": ["中世"], "field": "政治・法制", "formats": ["一問一答", "正誤", "空欄補充", "記述"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2008", "daimon": "IV", "theme": "江戸〜近代の歴史書編纂事業", "eras": ["近世"], "field": "文化史", "formats": ["一問一答", "正誤", "空欄補充", "記述"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2008", "daimon": "V", "theme": "近代日本の対外戦争と軍部の台頭", "eras": ["近代", "現代"], "field": "外交史", "formats": ["記述", "一問一答", "正誤", "空欄補充"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2008", "daimon": "VI", "theme": "仏像彫刻と絵画にみる日本美術史", "eras": ["古代", "中世", "近世"], "field": "文化史", "formats": ["空欄補充", "記述"], "subQ": 7, "mark": 3, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2009", "daimon": "I", "theme": "世界文化遺産にみる日本の歴史", "eras": ["古代", "中世", "近世"], "field": "文化史", "formats": ["一問一答", "正誤", "空欄補充", "記述"], "subQ": 7, "mark": 6, "write": 1, "shiryo": false},
+  {"faculty": "文学部", "year": "2009", "daimon": "II", "theme": "8世紀女帝時代の文化事業", "eras": ["古代"], "field": "文化史", "formats": ["一問一答", "正誤", "空欄補充", "記述", "史料"], "subQ": 8, "mark": 6, "write": 2, "shiryo": true},
+  {"faculty": "文学部", "year": "2009", "daimon": "III", "theme": "中世商工業の発達と座・都市", "eras": ["中世"], "field": "社会経済", "formats": ["正誤", "一問一答", "空欄補充", "記述"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2009", "daimon": "IV", "theme": "江戸幕府の武断政治から文治政治への転換", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 7, "mark": 4, "write": 3, "shiryo": true},
+  {"faculty": "文学部", "year": "2009", "daimon": "V", "theme": "近代〜現代の民衆運動と大衆文化", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["一問一答", "空欄補充", "記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2009", "daimon": "VI", "theme": "日本絵画・彫刻の様式展開史", "eras": ["古代", "中世", "近世"], "field": "文化史", "formats": ["空欄補充", "記述"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2010", "daimon": "I", "theme": "東アジア地域史の時代区分比較", "eras": ["古代", "中世"], "field": "文化史", "formats": ["正誤", "一問一答", "空欄補充", "記述"], "subQ": 7, "mark": 6, "write": 1, "shiryo": false},
+  {"faculty": "文学部", "year": "2010", "daimon": "II", "theme": "律令制下の民衆負担と税制", "eras": ["古代"], "field": "社会経済", "formats": ["正誤", "一問一答", "空欄補充", "記述"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2010", "daimon": "III", "theme": "中世軍記物語と合戦絵巻の展開", "eras": ["中世"], "field": "文化史", "formats": ["記述", "整序組合せ", "正誤", "一問一答"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2010", "daimon": "IV", "theme": "江戸時代の四つの窓口と対外貿易", "eras": ["近世"], "field": "外交史", "formats": ["記述", "正誤", "一問一答"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2010", "daimon": "V", "theme": "近代立憲政治の発達と政党内閣", "eras": ["近代"], "field": "政治・法制", "formats": ["記述", "一問一答", "正誤", "史料"], "subQ": 10, "mark": 6, "write": 4, "shiryo": true},
+  {"faculty": "文学部", "year": "2010", "daimon": "VI", "theme": "江戸期洋学資料にみる蘭学の発展", "eras": ["近世"], "field": "文化史", "formats": ["記述", "一問一答", "正誤"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2011", "daimon": "I", "theme": "弥生社会の形成とクニの成立", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 7, "mark": 6, "write": 1, "shiryo": false},
+  {"faculty": "文学部", "year": "2011", "daimon": "II", "theme": "橘氏の興亡と奈良・平安期の氏族政治", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2011", "daimon": "III", "theme": "鎌倉新仏教と禅宗の展開", "eras": ["中世"], "field": "宗教・思想", "formats": ["正誤", "空欄補充", "記述"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2011", "daimon": "IV", "theme": "天保期の飢饉・大塩の乱と天保改革", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2011", "daimon": "V", "theme": "満州事変期の政党政治と軍部台頭", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "文学部", "year": "2011", "daimon": "VI", "theme": "江戸中期文化の再区分と絵画・文学", "eras": ["近世"], "field": "文化史", "formats": ["空欄補充", "記述", "一問一答"], "subQ": 6, "mark": 3, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2012", "daimon": "I", "theme": "縄文社会の形成と弥生文化への移行", "eras": ["古代"], "field": "社会経済", "formats": ["正誤", "記述"], "subQ": 6, "mark": 5, "write": 1, "shiryo": false},
+  {"faculty": "文学部", "year": "2012", "daimon": "II", "theme": "律令国家の銭貨政策と貨幣流通", "eras": ["古代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2012", "daimon": "III", "theme": "鎌倉・室町幕府の権力構造と下剋上", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2012", "daimon": "IV", "theme": "江戸時代の石高制と農業・新田開発", "eras": ["近世"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2012", "daimon": "V", "theme": "明治〜昭和戦前の政党政治と議会政治", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2012", "daimon": "VI", "theme": "狩野派の画風継承と障壁画の展開", "eras": ["中世", "近世"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2013", "daimon": "I", "theme": "弥生時代のクニの形成と古墳出現", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 6, "mark": 4, "write": 2, "shiryo": true},
+  {"faculty": "文学部", "year": "2013", "daimon": "II", "theme": "藤原氏の権力確立と摂関政治", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2013", "daimon": "III", "theme": "中世荘園公領制の展開と地頭・守護", "eras": ["中世"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2013", "daimon": "IV", "theme": "江戸幕府の朝廷統制と公家諸法度", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2013", "daimon": "V", "theme": "明治期の条約改正交渉と対朝鮮外交", "eras": ["近代"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2013", "daimon": "VI", "theme": "大和絵の系譜と琳派・浮世絵への展開", "eras": ["中世", "近世"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2014", "daimon": "I", "theme": "旧石器・縄文・弥生時代の生活と社会変化", "eras": ["古代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2014", "daimon": "II", "theme": "古代の交通制度と兵役・防人", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 8, "mark": 4, "write": 4, "shiryo": true},
+  {"faculty": "文学部", "year": "2014", "daimon": "III", "theme": "中世の地震観と政変をめぐる心性", "eras": ["中世"], "field": "宗教・思想", "formats": ["正誤", "空欄補充", "記述", "史料"], "subQ": 8, "mark": 4, "write": 4, "shiryo": true},
+  {"faculty": "文学部", "year": "2014", "daimon": "IV", "theme": "近世日本の対外関係と鎖国の形成", "eras": ["近世"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2014", "daimon": "V", "theme": "明治〜昭和の財閥形成と経済政策", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 11, "mark": 6, "write": 5, "shiryo": false},
+  {"faculty": "文学部", "year": "2014", "daimon": "VI", "theme": "室町時代の水墨画と禅文化のサロン", "eras": ["中世"], "field": "文化史", "formats": ["空欄補充", "記述", "一問一答"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2015", "daimon": "I", "theme": "倭国と中国王朝の外交関係の変遷", "eras": ["古代"], "field": "外交史", "formats": ["正誤", "記述"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2015", "daimon": "II", "theme": "律令制の土地制度と荘園の形成", "eras": ["古代"], "field": "社会経済", "formats": ["正誤", "記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2015", "daimon": "III", "theme": "中世における内乱・戦乱の諸相", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤", "記述", "整序組合せ"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2015", "daimon": "IV", "theme": "参勤交代と大名統制がもたらした社会変化", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2015", "daimon": "V", "theme": "近代日本における公園の成立と政治的利用", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 10, "mark": 7, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2015", "daimon": "VI", "theme": "浮世絵の成立と発展", "eras": ["近世", "近代"], "field": "文化史", "formats": ["正誤", "記述"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2016", "daimon": "I", "theme": "縄文時代の文化と社会", "eras": ["古代"], "field": "文化史", "formats": ["正誤", "記述"], "subQ": 5, "mark": 4, "write": 1, "shiryo": false},
+  {"faculty": "文学部", "year": "2016", "daimon": "II", "theme": "古代における対外戦争と内乱", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 8, "mark": 6, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2016", "daimon": "III", "theme": "守護の権限拡大と武家社会の変容", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2016", "daimon": "IV", "theme": "石高制による近世の土地・大名支配", "eras": ["近世", "近代"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2016", "daimon": "V", "theme": "大正デモクラシーと護憲運動", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "文学部", "year": "2016", "daimon": "VI", "theme": "肖像美術の歴史的展開", "eras": ["古代", "中世", "近世", "近代"], "field": "文化史", "formats": ["正誤", "記述"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2017", "daimon": "I", "theme": "石器時代の石材利用と精神文化", "eras": ["古代"], "field": "文化史", "formats": ["正誤"], "subQ": 6, "mark": 6, "write": 0, "shiryo": false},
+  {"faculty": "文学部", "year": "2017", "daimon": "II", "theme": "古代の女性天皇とその治世", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
+  {"faculty": "文学部", "year": "2017", "daimon": "III", "theme": "中世都市の発展と鎌倉・京都の関係", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤", "記述", "整序組合せ"], "subQ": 7, "mark": 5, "write": 2, "shiryo": false},
+  {"faculty": "文学部", "year": "2017", "daimon": "IV", "theme": "近世社会における治安維持のしくみ", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "文学部", "year": "2017", "daimon": "V", "theme": "近代日米関係史と沖縄の帰属問題", "eras": ["近代", "現代"], "field": "外交史", "formats": ["正誤", "記述"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "文学部", "year": "2017", "daimon": "VI", "theme": "日本美術の意匠的特徴とその展開", "eras": ["古代", "近世"], "field": "文化史", "formats": ["正誤", "記述"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
   {"faculty": "文学部", "year": "2018", "daimon": "I", "theme": "原始社会の生活と倭人伝", "eras": ["古代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 6, "mark": 5, "write": 1, "shiryo": false},
   {"faculty": "文学部", "year": "2018", "daimon": "II", "theme": "飛鳥・奈良仏教の受容と発展", "eras": ["古代"], "field": "宗教・思想", "formats": ["正誤", "空欄補充", "記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
   {"faculty": "文学部", "year": "2018", "daimon": "III", "theme": "中世の朝廷儀礼と祭礼文化", "eras": ["中世", "近世"], "field": "文化史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
@@ -193,6 +603,85 @@ const FACULTY_TRENDS = [
   {"faculty": "文学部", "year": "2025", "daimon": "IV", "theme": "江戸から明治への幕藩体制", "eras": ["近世", "近代"], "field": "政治・法制", "formats": ["正誤", "記述", "整序組合せ", "一問一答"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
   {"faculty": "文学部", "year": "2025", "daimon": "V", "theme": "近代日本の参政権拡大史", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["正誤", "記述", "一問一答"], "subQ": 12, "mark": 7, "write": 5, "shiryo": false},
   {"faculty": "文学部", "year": "2025", "daimon": "VI", "theme": "美術史研究の見直しと新説", "eras": ["中世", "近世"], "field": "文化史", "formats": ["正誤", "記述", "一問一答"], "subQ": 6, "mark": 4, "write": 2, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2000", "daimon": "I", "theme": "アイヌ民族史と北海道の変遷", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "政治・法制", "formats": ["空欄補充"], "subQ": 8, "mark": 4, "write": 4, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2000", "daimon": "II", "theme": "室町時代の合議政治と惣村自治", "eras": ["中世"], "field": "政治・法制", "formats": ["空欄補充", "一問一答"], "subQ": 10, "mark": 3, "write": 7, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2000", "daimon": "III", "theme": "江戸幕府の法による支配体制", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2000", "daimon": "IV", "theme": "自由民権運動と戦後民主化の憲法史", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "一問一答"], "subQ": 12, "mark": 6, "write": 6, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2001", "daimon": "I", "theme": "木簡・高札にみる情報伝達と統治", "eras": ["古代", "中世", "近世"], "field": "政治・法制", "formats": ["空欄補充", "正誤"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2001", "daimon": "II", "theme": "元禄期綱吉政権の政治と外交儀礼", "eras": ["近世"], "field": "政治・法制", "formats": ["空欄補充", "一問一答"], "subQ": 9, "mark": 3, "write": 6, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2001", "daimon": "III", "theme": "大正期の婦人解放運動と女性の地位", "eras": ["近代"], "field": "社会経済", "formats": ["史料", "空欄補充", "正誤"], "subQ": 9, "mark": 4, "write": 5, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2001", "daimon": "IV", "theme": "戦後日本経済の復興と高度成長", "eras": ["現代"], "field": "社会経済", "formats": ["空欄補充", "正誤", "一問一答"], "subQ": 12, "mark": 7, "write": 5, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2002", "daimon": "I", "theme": "古代・中世の都市政策と都市の変遷", "eras": ["古代", "中世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2002", "daimon": "II", "theme": "近世の検地と村落・新田開発", "eras": ["近世"], "field": "社会経済", "formats": ["空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2002", "daimon": "III", "theme": "近代教育政策と国民教化の展開", "eras": ["近代"], "field": "文化史", "formats": ["空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2002", "daimon": "IV", "theme": "野上弥生子日記にみる戦後外交史", "eras": ["現代"], "field": "外交史", "formats": ["史料", "整序組合せ", "空欄補充"], "subQ": 10, "mark": 2, "write": 8, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2003", "daimon": "I", "theme": "古代~中世の水田開発と土地制度", "eras": ["古代", "中世"], "field": "社会経済", "formats": ["空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2003", "daimon": "II", "theme": "江戸後期の異国船来航と対外政策", "eras": ["近世"], "field": "外交史", "formats": ["史料", "空欄補充", "一問一答"], "subQ": 10, "mark": 4, "write": 6, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2003", "daimon": "III", "theme": "近代新聞の発展とジャーナリズム史", "eras": ["近代"], "field": "文化史", "formats": ["空欄補充", "一問一答", "整序組合せ"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2003", "daimon": "IV", "theme": "戦時経済体制と戦後日本的経営", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 4, "write": 6, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2004", "daimon": "I", "theme": "古代~中世の仏教文化の展開", "eras": ["古代", "中世"], "field": "宗教・思想", "formats": ["空欄補充", "一問一答", "正誤"], "subQ": 10, "mark": 4, "write": 6, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2004", "daimon": "II", "theme": "江戸幕府の支配体制確立と鎖国", "eras": ["近世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2004", "daimon": "III", "theme": "昭和戦前期の政変と総動員体制", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "整序組合せ", "正誤", "一問一答"], "subQ": 10, "mark": 4, "write": 6, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2004", "daimon": "IV", "theme": "近代~現代の労働・公害問題史", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["史料", "空欄補充", "正誤", "一問一答"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2005", "daimon": "I", "theme": "遣唐使から日明貿易までの対外交渉", "eras": ["古代", "中世"], "field": "外交史", "formats": ["空欄補充", "記述", "正誤"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2005", "daimon": "II", "theme": "戦国~江戸初期の武家法体系", "eras": ["近世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "記述", "正誤"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2005", "daimon": "III", "theme": "大正期の社会運動と護憲運動", "eras": ["近代"], "field": "政治・法制", "formats": ["史料", "整序組合せ", "空欄補充", "記述", "正誤"], "subQ": 10, "mark": 5, "write": 5, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2005", "daimon": "IV", "theme": "戦後復興期の経済政策と安保体制", "eras": ["現代"], "field": "政治・法制", "formats": ["空欄補充", "記述", "正誤"], "subQ": 10, "mark": 5, "write": 5, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2006", "daimon": "I", "theme": "遷都と律令国家体制の変遷", "eras": ["古代"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "史料", "整序組合せ"], "subQ": 12, "mark": 12, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2006", "daimon": "II", "theme": "鎌倉~戦国期の武家政治と分国支配", "eras": ["中世"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "整序組合せ", "史料"], "subQ": 16, "mark": 16, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2006", "daimon": "III", "theme": "中世宗教思想と芸道の展開", "eras": ["中世", "近代"], "field": "文化史", "formats": ["史料", "空欄補充", "正誤"], "subQ": 16, "mark": 16, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2006", "daimon": "IV", "theme": "日本の植民地統治と対外進出", "eras": ["近代", "現代"], "field": "外交史", "formats": ["空欄補充", "正誤", "整序組合せ", "史料"], "subQ": 16, "mark": 16, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2007", "daimon": "I", "theme": "古代の対外交流と地方・中央政治", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2007", "daimon": "II", "theme": "荘園整理令と中世寺社勢力", "eras": ["古代", "中世"], "field": "社会経済", "formats": ["史料", "空欄補充", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2007", "daimon": "III", "theme": "近世の寺院統制と民衆信仰", "eras": ["近世"], "field": "宗教・思想", "formats": ["空欄補充", "正誤", "史料"], "subQ": 9, "mark": 9, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2007", "daimon": "IV", "theme": "日清・日露戦争期の東アジア外交", "eras": ["近代"], "field": "外交史", "formats": ["空欄補充", "正誤", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2007", "daimon": "V", "theme": "条約改正と戦間期~戦後の対外関係", "eras": ["近代", "現代"], "field": "外交史", "formats": ["空欄補充", "正誤", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2007", "daimon": "VI", "theme": "原始~近代の農業生産史", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["史料", "正誤", "整序組合せ"], "subQ": 14, "mark": 14, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2008", "daimon": "I", "theme": "古代の氏族・地方支配と税制", "eras": ["古代"], "field": "政治・法制", "formats": ["史料", "正誤"], "subQ": 12, "mark": 12, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2008", "daimon": "II", "theme": "中世仏教と室町文化の展開", "eras": ["中世"], "field": "文化史", "formats": ["空欄補充", "史料", "正誤"], "subQ": 12, "mark": 12, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2008", "daimon": "III", "theme": "近世都市の発展と三都の繁栄", "eras": ["近世"], "field": "社会経済", "formats": ["空欄補充", "正誤", "史料"], "subQ": 12, "mark": 12, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2008", "daimon": "IV", "theme": "明治期の法制と社会運動の展開", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "整序組合せ"], "subQ": 12, "mark": 12, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2008", "daimon": "V", "theme": "自然環境と災害からみる日本史", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "社会経済", "formats": ["空欄補充", "史料", "正誤", "整序組合せ"], "subQ": 16, "mark": 16, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2009", "daimon": "I", "theme": "古代の対外交流と武士の台頭", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "史料"], "subQ": 12, "mark": 12, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2009", "daimon": "II", "theme": "中世芸能史にみる猿楽と連歌", "eras": ["中世"], "field": "文化史", "formats": ["空欄補充", "正誤", "整序組合せ"], "subQ": 12, "mark": 12, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2009", "daimon": "III", "theme": "江戸時代の四つの口と対外関係", "eras": ["近世"], "field": "外交史", "formats": ["空欄補充", "正誤"], "subQ": 12, "mark": 12, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2009", "daimon": "IV", "theme": "近代新聞・雑誌にみるメディア史", "eras": ["近代"], "field": "文化史", "formats": ["空欄補充", "正誤"], "subQ": 12, "mark": 12, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2009", "daimon": "V", "theme": "原始~近代の病と医療の歴史", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["空欄補充", "史料", "正誤"], "subQ": 16, "mark": 16, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2010", "daimon": "I", "theme": "時代区分と時代名称の由来", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "史料", "一問一答"], "subQ": 12, "mark": 12, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2010", "daimon": "II", "theme": "中世女性の地位と経済活動", "eras": ["中世"], "field": "社会経済", "formats": ["一問一答", "空欄補充", "正誤", "史料"], "subQ": 12, "mark": 12, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2010", "daimon": "III", "theme": "近世貨幣経済と幕藩財政", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "空欄補充", "一問一答", "正誤"], "subQ": 12, "mark": 12, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2010", "daimon": "IV", "theme": "大陸政策と太平洋戦争への道", "eras": ["近代"], "field": "外交史", "formats": ["一問一答", "正誤"], "subQ": 12, "mark": 12, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2010", "daimon": "V", "theme": "教育制度史と学問・思想統制", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "文化史", "formats": ["史料", "空欄補充", "一問一答", "正誤"], "subQ": 16, "mark": 16, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2011", "daimon": "I", "theme": "住居・建築様式の変遷", "eras": ["古代"], "field": "文化史", "formats": ["正誤", "一問一答", "空欄補充"], "subQ": 12, "mark": 12, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2011", "daimon": "II", "theme": "中世の飢饉と社会変動", "eras": ["中世"], "field": "社会経済", "formats": ["史料", "空欄補充", "一問一答", "正誤"], "subQ": 12, "mark": 12, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2011", "daimon": "III", "theme": "近世の商品作物と諸産業の発展", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "空欄補充", "一問一答", "正誤"], "subQ": 12, "mark": 12, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2011", "daimon": "IV", "theme": "近代日本の宗教と政教関係", "eras": ["近代", "現代"], "field": "宗教・思想", "formats": ["正誤", "一問一答", "空欄補充"], "subQ": 12, "mark": 12, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2011", "daimon": "V", "theme": "情報・メディアの歴史と発達", "eras": ["古代", "中世", "近世", "近代", "現代"], "field": "文化史", "formats": ["史料", "空欄補充", "一問一答", "正誤"], "subQ": 16, "mark": 16, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2012", "daimon": "I", "theme": "日本海交流と国風文化の形成", "eras": ["古代"], "field": "外交史", "formats": ["正誤", "一問一答", "整序組合せ"], "subQ": 6, "mark": 6, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2012", "daimon": "II", "theme": "中世日宋貿易と知識の蓄積", "eras": ["中世"], "field": "外交史", "formats": ["正誤", "一問一答", "空欄補充"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2012", "daimon": "III", "theme": "天保の改革と幕政の動揺", "eras": ["近世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "一問一答", "正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2012", "daimon": "IV", "theme": "近代日本の労働運動史", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["正誤", "一問一答", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2012", "daimon": "V", "theme": "外国人が見た日本の歴史", "eras": ["古代", "中世", "近世", "近代"], "field": "外交史", "formats": ["史料", "空欄補充", "一問一答", "正誤"], "subQ": 7, "mark": 7, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2013", "daimon": "I", "theme": "稲作の展開と土地支配の変遷", "eras": ["古代"], "field": "社会経済", "formats": ["整序組合せ", "正誤", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2013", "daimon": "II", "theme": "御成敗式目と武家法の継承", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "一問一答", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2013", "daimon": "III", "theme": "近世の外来学問と蘭学の発展", "eras": ["中世", "近世"], "field": "文化史", "formats": ["一問一答", "正誤", "空欄補充"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2013", "daimon": "IV", "theme": "近代国家日本の領土と主権", "eras": ["近代", "現代"], "field": "政治・法制", "formats": ["正誤", "一問一答", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2013", "daimon": "V", "theme": "女性の地位と権利の歴史", "eras": ["中世", "近世", "近代", "現代"], "field": "社会経済", "formats": ["史料", "空欄補充", "一問一答", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2014", "daimon": "I", "theme": "古代の史書編纂と文化", "eras": ["古代"], "field": "文化史", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2014", "daimon": "II", "theme": "中世の座と商品流通・往来物", "eras": ["中世"], "field": "社会経済", "formats": ["正誤", "空欄補充", "史料"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2014", "daimon": "III", "theme": "近世後期の国学と学問統制", "eras": ["近世"], "field": "文化史", "formats": ["正誤", "空欄補充", "史料", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2014", "daimon": "IV", "theme": "幕末から戦後にいたる日米関係史", "eras": ["近代", "現代"], "field": "外交史", "formats": ["正誤"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2014", "daimon": "V", "theme": "民俗学からみた食生活の変遷", "eras": ["中世", "近世", "近代", "現代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "整序組合せ", "史料"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2015", "daimon": "I", "theme": "対外交流からみた日本列島の形成", "eras": ["古代"], "field": "外交史", "formats": ["正誤", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2015", "daimon": "II", "theme": "中世港湾都市・城下町の考古学", "eras": ["中世"], "field": "社会経済", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2015", "daimon": "III", "theme": "江戸幕府における将軍権力の変遷", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "整序組合せ", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2015", "daimon": "IV", "theme": "近代日本の貿易と産業発展", "eras": ["近代", "現代"], "field": "社会経済", "formats": ["正誤", "整序組合せ", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2015", "daimon": "V", "theme": "民衆の住まいと貧困の歴史", "eras": ["古代", "近世", "近代", "現代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "史料", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
+  {"faculty": "人間科学部", "year": "2016", "daimon": "I", "theme": "律令国家の税制(租庸調)", "eras": ["古代"], "field": "政治・法制", "formats": ["正誤", "整序組合せ", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2016", "daimon": "II", "theme": "鎌倉幕府の政治過程と衰退", "eras": ["中世"], "field": "政治・法制", "formats": ["正誤", "整序組合せ", "空欄補充", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2016", "daimon": "III", "theme": "近世後期における村落自治の展開", "eras": ["近世"], "field": "社会経済", "formats": ["正誤", "整序組合せ", "空欄補充", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2016", "daimon": "IV", "theme": "近代日本の教育制度史", "eras": ["近代", "現代"], "field": "文化史", "formats": ["正誤", "整序組合せ", "一問一答"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
+  {"faculty": "人間科学部", "year": "2016", "daimon": "V", "theme": "民衆の衣服にみる風俗の変遷", "eras": ["古代", "中世", "近世", "近代"], "field": "文化史", "formats": ["正誤", "整序組合せ", "史料", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
   {"faculty": "人間科学部", "year": "2017", "daimon": "I", "theme": "遣唐使と古代東アジア外交", "eras": ["古代"], "field": "外交史", "formats": ["正誤", "整序組合せ"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
   {"faculty": "人間科学部", "year": "2017", "daimon": "II", "theme": "戦国大名の分国法", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "空欄補充", "正誤", "整序組合せ"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
   {"faculty": "人間科学部", "year": "2017", "daimon": "III", "theme": "近世の都市経済と農村社会", "eras": ["近世"], "field": "社会経済", "formats": ["史料", "正誤", "整序組合せ"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
@@ -217,172 +706,483 @@ const FACULTY_TRENDS = [
   {"faculty": "人間科学部", "year": "2024", "daimon": "II", "theme": "中世の国司・守護をめぐる統治制度史", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "正誤", "空欄補充", "整序組合せ"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
   {"faculty": "人間科学部", "year": "2024", "daimon": "III", "theme": "江戸時代の仏教統制と民間信仰", "eras": ["近世"], "field": "宗教・思想", "formats": ["空欄補充", "正誤"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
   {"faculty": "人間科学部", "year": "2024", "daimon": "IV", "theme": "帝国主義下の日本の植民地拡大と戦後解放", "eras": ["近代", "現代"], "field": "外交史", "formats": ["正誤", "整序組合せ"], "subQ": 10, "mark": 10, "write": 0, "shiryo": false},
-  {"faculty": "人間科学部", "year": "2024", "daimon": "V", "theme": "船の歴史にみる交通と海運の発展", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "史料"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true},
-  {"faculty": "第一文学部", "year": "2003", "daimon": "I", "theme": "縄文時代の生業と社会の変容", "eras": ["古代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "一問一答"], "subQ": 8, "mark": 8, "write": 0, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2003", "daimon": "II", "theme": "木簡と歴史書にみる古代史料批判", "eras": ["古代"], "field": "文化史", "formats": ["空欄補充", "正誤", "記述"], "subQ": 8, "mark": 3, "write": 5, "shiryo": true},
-  {"faculty": "第一文学部", "year": "2003", "daimon": "III", "theme": "主従関係の連鎖と封建社会の変遷", "eras": ["中世", "近世"], "field": "政治・法制", "formats": ["空欄補充", "記述", "一問一答"], "subQ": 8, "mark": 3, "write": 5, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2003", "daimon": "IV", "theme": "近世日本の対外関係と鎖国の実態", "eras": ["近世"], "field": "外交史", "formats": ["空欄補充", "正誤", "記述"], "subQ": 8, "mark": 3, "write": 5, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2003", "daimon": "V", "theme": "近代日本の民権運動と治安法制", "eras": ["近代"], "field": "政治・法制", "formats": ["空欄補充", "正誤", "記述"], "subQ": 10, "mark": 4, "write": 6, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2003", "daimon": "VI", "theme": "奈良仏教美術と近世絵画の鑑賞", "eras": ["古代", "近世"], "field": "文化史", "formats": ["空欄補充", "記述", "一問一答"], "subQ": 8, "mark": 3, "write": 5, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2004", "daimon": "I", "theme": "旧石器から弥生への移行と時代区分", "eras": ["古代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 5, "mark": 2, "write": 3, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2004", "daimon": "II", "theme": "藤原氏の台頭と平安初期の政変", "eras": ["古代"], "field": "政治・法制", "formats": ["記述", "正誤", "空欄補充"], "subQ": 6, "mark": 2, "write": 4, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2004", "daimon": "III", "theme": "災害・飢饉と中世社会の変動", "eras": ["古代", "中世"], "field": "社会経済", "formats": ["空欄補充", "記述", "一問一答"], "subQ": 7, "mark": 3, "write": 4, "shiryo": true},
-  {"faculty": "第一文学部", "year": "2004", "daimon": "IV", "theme": "江戸幕府の大名統制と幕藩体制の崩壊", "eras": ["近世"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 7, "mark": 3, "write": 4, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2004", "daimon": "V", "theme": "日清戦争前後の東アジア外交と国内政治", "eras": ["近代"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 4, "write": 6, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2004", "daimon": "VI", "theme": "仏教美術の系譜と近世文人画", "eras": ["古代", "中世", "近世"], "field": "文化史", "formats": ["記述", "一問一答"], "subQ": 5, "mark": 1, "write": 4, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2005", "daimon": "I", "theme": "出土文字資料が語る古代史", "eras": ["古代"], "field": "文化史", "formats": ["一問一答", "正誤", "空欄補充"], "subQ": 7, "mark": 7, "write": 0, "shiryo": true},
-  {"faculty": "第一文学部", "year": "2005", "daimon": "II", "theme": "古語拾遺にみる氏族と歴史認識", "eras": ["古代"], "field": "文化史", "formats": ["一問一答", "正誤", "記述"], "subQ": 6, "mark": 2, "write": 4, "shiryo": true},
-  {"faculty": "第一文学部", "year": "2005", "daimon": "III", "theme": "浄土教信仰の展開と本願寺教団", "eras": ["古代", "中世", "近世"], "field": "宗教・思想", "formats": ["記述", "空欄補充", "一問一答"], "subQ": 8, "mark": 3, "write": 5, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2005", "daimon": "IV", "theme": "近世の農業技術革新と出版文化", "eras": ["近世"], "field": "社会経済", "formats": ["正誤", "空欄補充", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2005", "daimon": "V", "theme": "日露戦争後の大陸政策と桂園体制", "eras": ["近代"], "field": "政治・法制", "formats": ["正誤", "空欄補充", "記述"], "subQ": 10, "mark": 6, "write": 4, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2005", "daimon": "VI", "theme": "仏教美術と近世絵画・工芸の展開", "eras": ["古代", "中世", "近世"], "field": "文化史", "formats": ["一問一答", "記述"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2006", "daimon": "I", "theme": "弥生時代の国家形成と邪馬台国", "eras": ["古代"], "field": "社会経済", "formats": ["一問一答", "空欄補充", "正誤"], "subQ": 7, "mark": 6, "write": 1, "shiryo": true},
-  {"faculty": "第一文学部", "year": "2006", "daimon": "II", "theme": "古代都城の変遷と律令国家体制", "eras": ["古代"], "field": "政治・法制", "formats": ["記述", "正誤", "空欄補充", "整序組合せ"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2006", "daimon": "III", "theme": "中世日記史料にみる争乱と社会", "eras": ["中世"], "field": "政治・法制", "formats": ["史料", "記述", "一問一答", "整序組合せ"], "subQ": 7, "mark": 3, "write": 4, "shiryo": true},
-  {"faculty": "第一文学部", "year": "2006", "daimon": "IV", "theme": "近世後期の対外危機と鎖国論の形成", "eras": ["近世"], "field": "外交史", "formats": ["正誤", "空欄補充", "記述"], "subQ": 8, "mark": 5, "write": 3, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2006", "daimon": "V", "theme": "満州事変から占領政策までの外交軍事", "eras": ["近代", "現代"], "field": "外交史", "formats": ["正誤", "記述", "空欄補充"], "subQ": 12, "mark": 7, "write": 5, "shiryo": false},
-  {"faculty": "第一文学部", "year": "2006", "daimon": "VI", "theme": "古代~近代の美術・書・建築史", "eras": ["古代", "中世", "近世", "近代"], "field": "文化史", "formats": ["一問一答", "記述"], "subQ": 7, "mark": 4, "write": 3, "shiryo": false}
+  {"faculty": "人間科学部", "year": "2024", "daimon": "V", "theme": "船の歴史にみる交通と海運の発展", "eras": ["古代", "中世", "近世", "近代"], "field": "社会経済", "formats": ["正誤", "空欄補充", "史料"], "subQ": 8, "mark": 8, "write": 0, "shiryo": true}
 ];
 
 const FACULTY_TREND_SUMMARY = {
  "法学部": {
   "years": [
+   "2000",
+   "2001",
+   "2002",
+   "2003",
+   "2004",
+   "2005",
+   "2006",
+   "2007",
+   "2008",
+   "2009",
+   "2010",
+   "2011",
+   "2012",
+   "2013",
+   "2014",
+   "2015",
+   "2016",
+   "2017",
+   "2018",
+   "2019",
+   "2020",
+   "2021",
    "2022",
    "2023",
    "2024",
    "2025",
    "2026"
   ],
-  "daimonAvg": 4.0,
-  "subQAvg": 40.0,
-  "writeRate": 48,
-  "shiryoRate": 25,
+  "daimonAvg": 4.2,
+  "subQAvg": 42.0,
+  "writeRate": 41,
+  "shiryoRate": 45,
   "eraCount": {
-   "古代": 5,
-   "中世": 7,
-   "近世": 4,
-   "近代": 6,
-   "現代": 5
+   "古代": 28,
+   "中世": 30,
+   "近世": 24,
+   "近代": 44,
+   "現代": 27
   },
   "fieldCount": {
-   "政治・法制": 8,
-   "外交史": 5,
-   "社会経済": 5,
-   "文化史": 2,
-   "宗教・思想": 0
+   "政治・法制": 54,
+   "外交史": 25,
+   "社会経済": 21,
+   "文化史": 9,
+   "宗教・思想": 5
   },
   "formatCount": {
    "正誤": 0,
    "空欄補充": 0,
-   "記述": 20,
+   "記述": 114,
    "論述": 0,
-   "史料": 5,
+   "史料": 51,
    "一問一答": 0,
    "整序組合せ": 0
   },
   "byYear": {
+   "2000": {
+    "daimon": 5,
+    "subQ": 55,
+    "write": 14,
+    "shiryo": 3,
+    "writeRate": 25
+   },
+   "2001": {
+    "daimon": 5,
+    "subQ": 56,
+    "write": 14,
+    "shiryo": 3,
+    "writeRate": 25
+   },
+   "2002": {
+    "daimon": 5,
+    "subQ": 45,
+    "write": 12,
+    "shiryo": 4,
+    "writeRate": 27
+   },
+   "2003": {
+    "daimon": 5,
+    "subQ": 47,
+    "write": 13,
+    "shiryo": 4,
+    "writeRate": 28
+   },
+   "2004": {
+    "daimon": 5,
+    "subQ": 47,
+    "write": 13,
+    "shiryo": 3,
+    "writeRate": 28
+   },
+   "2005": {
+    "daimon": 5,
+    "subQ": 47,
+    "write": 14,
+    "shiryo": 4,
+    "writeRate": 30
+   },
+   "2006": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 20,
+    "shiryo": 2,
+    "writeRate": 50
+   },
+   "2007": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 20,
+    "shiryo": 0,
+    "writeRate": 50
+   },
+   "2008": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 19,
+    "shiryo": 2,
+    "writeRate": 48
+   },
+   "2009": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 17,
+    "shiryo": 3,
+    "writeRate": 42
+   },
+   "2010": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 20,
+    "shiryo": 1,
+    "writeRate": 50
+   },
+   "2011": {
+    "daimon": 4,
+    "subQ": 38,
+    "write": 21,
+    "shiryo": 2,
+    "writeRate": 55
+   },
+   "2012": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 17,
+    "shiryo": 2,
+    "writeRate": 42
+   },
+   "2013": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 18,
+    "shiryo": 2,
+    "writeRate": 45
+   },
+   "2014": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 18,
+    "shiryo": 3,
+    "writeRate": 45
+   },
+   "2015": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 17,
+    "shiryo": 1,
+    "writeRate": 42
+   },
+   "2016": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 19,
+    "shiryo": 1,
+    "writeRate": 48
+   },
+   "2017": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 18,
+    "shiryo": 2,
+    "writeRate": 45
+   },
+   "2018": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 17,
+    "shiryo": 1,
+    "writeRate": 42
+   },
+   "2019": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 16,
+    "shiryo": 1,
+    "writeRate": 40
+   },
+   "2020": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 18,
+    "shiryo": 1,
+    "writeRate": 45
+   },
+   "2021": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 18,
+    "shiryo": 1,
+    "writeRate": 45
+   },
    "2022": {
     "daimon": 4,
     "subQ": 40,
     "write": 17,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 42
    },
    "2023": {
     "daimon": 4,
     "subQ": 40,
     "write": 17,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 42
    },
    "2024": {
     "daimon": 4,
     "subQ": 40,
     "write": 19,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 48
    },
    "2025": {
     "daimon": 4,
     "subQ": 40,
     "write": 22,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 55
    },
    "2026": {
     "daimon": 4,
     "subQ": 40,
     "write": 20,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 50
    }
   }
  },
  "社会科学部": {
   "years": [
+   "2000",
+   "2001",
+   "2002",
+   "2003",
+   "2004",
+   "2005",
+   "2006",
+   "2007",
+   "2008",
+   "2009",
+   "2010",
+   "2011",
+   "2012",
+   "2013",
+   "2014",
+   "2015",
+   "2016",
    "2017",
    "2018",
    "2019",
    "2020",
    "2024"
   ],
-  "daimonAvg": 4.0,
-  "subQAvg": 39.6,
-  "writeRate": 1,
-  "shiryoRate": 55,
+  "daimonAvg": 4.2,
+  "subQAvg": 39.9,
+  "writeRate": 8,
+  "shiryoRate": 71,
   "eraCount": {
-   "古代": 16,
-   "中世": 17,
-   "近世": 19,
-   "近代": 19,
-   "現代": 14
+   "古代": 34,
+   "中世": 36,
+   "近世": 40,
+   "近代": 43,
+   "現代": 21
   },
   "fieldCount": {
-   "政治・法制": 5,
-   "外交史": 3,
-   "社会経済": 8,
-   "文化史": 4,
-   "宗教・思想": 0
+   "政治・法制": 38,
+   "外交史": 17,
+   "社会経済": 20,
+   "文化史": 11,
+   "宗教・思想": 6
   },
   "formatCount": {
-   "正誤": 20,
-   "空欄補充": 4,
-   "記述": 0,
+   "正誤": 88,
+   "空欄補充": 47,
+   "記述": 30,
    "論述": 1,
-   "史料": 11,
-   "一問一答": 14,
-   "整序組合せ": 9
+   "史料": 52,
+   "一問一答": 33,
+   "整序組合せ": 22
   },
   "byYear": {
+   "2000": {
+    "daimon": 3,
+    "subQ": 40,
+    "write": 0,
+    "shiryo": 2,
+    "writeRate": 0
+   },
+   "2001": {
+    "daimon": 3,
+    "subQ": 40,
+    "write": 0,
+    "shiryo": 2,
+    "writeRate": 0
+   },
+   "2002": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 10,
+    "shiryo": 4,
+    "writeRate": 25
+   },
+   "2003": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 10,
+    "shiryo": 4,
+    "writeRate": 25
+   },
+   "2004": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 10,
+    "shiryo": 4,
+    "writeRate": 25
+   },
+   "2005": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 8,
+    "shiryo": 2,
+    "writeRate": 20
+   },
+   "2006": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 8,
+    "shiryo": 2,
+    "writeRate": 20
+   },
+   "2007": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 8,
+    "shiryo": 1,
+    "writeRate": 20
+   },
+   "2008": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 9,
+    "shiryo": 2,
+    "writeRate": 22
+   },
+   "2009": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 10,
+    "shiryo": 4,
+    "writeRate": 25
+   },
+   "2010": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 0,
+    "shiryo": 4,
+    "writeRate": 0
+   },
+   "2011": {
+    "daimon": 5,
+    "subQ": 40,
+    "write": 0,
+    "shiryo": 4,
+    "writeRate": 0
+   },
+   "2012": {
+    "daimon": 5,
+    "subQ": 40,
+    "write": 0,
+    "shiryo": 5,
+    "writeRate": 0
+   },
+   "2013": {
+    "daimon": 5,
+    "subQ": 40,
+    "write": 0,
+    "shiryo": 3,
+    "writeRate": 0
+   },
+   "2014": {
+    "daimon": 5,
+    "subQ": 40,
+    "write": 0,
+    "shiryo": 2,
+    "writeRate": 0
+   },
+   "2015": {
+    "daimon": 5,
+    "subQ": 40,
+    "write": 0,
+    "shiryo": 4,
+    "writeRate": 0
+   },
+   "2016": {
+    "daimon": 5,
+    "subQ": 40,
+    "write": 0,
+    "shiryo": 5,
+    "writeRate": 0
+   },
    "2017": {
     "daimon": 4,
     "subQ": 40,
     "write": 0,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 0
    },
    "2018": {
     "daimon": 4,
     "subQ": 40,
     "write": 0,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 0
    },
    "2019": {
     "daimon": 4,
     "subQ": 40,
     "write": 0,
-    "shiryo": 3
+    "shiryo": 3,
+    "writeRate": 0
    },
    "2020": {
     "daimon": 4,
     "subQ": 40,
     "write": 0,
-    "shiryo": 2
+    "shiryo": 2,
+    "writeRate": 0
    },
    "2024": {
     "daimon": 4,
     "subQ": 38,
     "write": 1,
-    "shiryo": 4
+    "shiryo": 4,
+    "writeRate": 3
    }
   }
  },
  "商学部": {
   "years": [
+   "2006",
+   "2007",
+   "2008",
+   "2009",
+   "2010",
+   "2011",
+   "2012",
+   "2013",
+   "2014",
+   "2015",
+   "2016",
+   "2017",
+   "2018",
    "2019",
    "2020",
    "2024",
@@ -390,135 +1190,400 @@ const FACULTY_TREND_SUMMARY = {
    "2026"
   ],
   "daimonAvg": 6.0,
-  "subQAvg": 59.0,
-  "writeRate": 16,
-  "shiryoRate": 57,
+  "subQAvg": 58.6,
+  "writeRate": 19,
+  "shiryoRate": 48,
   "eraCount": {
-   "古代": 5,
-   "中世": 5,
-   "近世": 5,
-   "近代": 11,
-   "現代": 5
+   "古代": 19,
+   "中世": 19,
+   "近世": 22,
+   "近代": 44,
+   "現代": 18
   },
   "fieldCount": {
-   "政治・法制": 18,
-   "外交史": 1,
-   "社会経済": 9,
-   "文化史": 2,
-   "宗教・思想": 0
+   "政治・法制": 51,
+   "外交史": 11,
+   "社会経済": 35,
+   "文化史": 7,
+   "宗教・思想": 4
   },
   "formatCount": {
-   "正誤": 30,
-   "空欄補充": 19,
-   "記述": 10,
-   "論述": 3,
-   "史料": 17,
-   "一問一答": 17,
-   "整序組合せ": 7
+   "正誤": 100,
+   "空欄補充": 69,
+   "記述": 36,
+   "論述": 7,
+   "史料": 52,
+   "一問一答": 33,
+   "整序組合せ": 21
   },
   "byYear": {
+   "2006": {
+    "daimon": 6,
+    "subQ": 57,
+    "write": 12,
+    "shiryo": 1,
+    "writeRate": 21
+   },
+   "2007": {
+    "daimon": 6,
+    "subQ": 59,
+    "write": 14,
+    "shiryo": 2,
+    "writeRate": 24
+   },
+   "2008": {
+    "daimon": 6,
+    "subQ": 58,
+    "write": 13,
+    "shiryo": 2,
+    "writeRate": 22
+   },
+   "2009": {
+    "daimon": 6,
+    "subQ": 58,
+    "write": 13,
+    "shiryo": 4,
+    "writeRate": 22
+   },
+   "2010": {
+    "daimon": 6,
+    "subQ": 58,
+    "write": 13,
+    "shiryo": 3,
+    "writeRate": 22
+   },
+   "2011": {
+    "daimon": 6,
+    "subQ": 58,
+    "write": 13,
+    "shiryo": 3,
+    "writeRate": 22
+   },
+   "2012": {
+    "daimon": 6,
+    "subQ": 58,
+    "write": 13,
+    "shiryo": 3,
+    "writeRate": 22
+   },
+   "2013": {
+    "daimon": 6,
+    "subQ": 58,
+    "write": 13,
+    "shiryo": 3,
+    "writeRate": 22
+   },
+   "2014": {
+    "daimon": 6,
+    "subQ": 59,
+    "write": 10,
+    "shiryo": 3,
+    "writeRate": 17
+   },
+   "2015": {
+    "daimon": 6,
+    "subQ": 59,
+    "write": 10,
+    "shiryo": 3,
+    "writeRate": 17
+   },
+   "2016": {
+    "daimon": 6,
+    "subQ": 59,
+    "write": 9,
+    "shiryo": 3,
+    "writeRate": 15
+   },
+   "2017": {
+    "daimon": 6,
+    "subQ": 59,
+    "write": 9,
+    "shiryo": 3,
+    "writeRate": 15
+   },
+   "2018": {
+    "daimon": 6,
+    "subQ": 59,
+    "write": 10,
+    "shiryo": 2,
+    "writeRate": 17
+   },
    "2019": {
     "daimon": 6,
     "subQ": 59,
     "write": 9,
-    "shiryo": 3
+    "shiryo": 3,
+    "writeRate": 15
    },
    "2020": {
     "daimon": 6,
     "subQ": 59,
     "write": 8,
-    "shiryo": 3
+    "shiryo": 3,
+    "writeRate": 14
    },
    "2024": {
     "daimon": 6,
     "subQ": 59,
     "write": 10,
-    "shiryo": 4
+    "shiryo": 4,
+    "writeRate": 17
    },
    "2025": {
     "daimon": 6,
     "subQ": 59,
     "write": 10,
-    "shiryo": 4
+    "shiryo": 4,
+    "writeRate": 17
    },
    "2026": {
     "daimon": 6,
     "subQ": 59,
     "write": 9,
-    "shiryo": 3
+    "shiryo": 3,
+    "writeRate": 15
    }
   }
  },
  "教育学部": {
   "years": [
+   "2000",
+   "2001",
+   "2002",
+   "2003",
+   "2004",
+   "2005",
+   "2006",
+   "2007",
+   "2008",
+   "2009",
+   "2010",
+   "2011",
+   "2012",
+   "2013",
+   "2014",
+   "2015",
+   "2016",
+   "2017",
+   "2018",
    "2019",
    "2020",
    "2024",
    "2025",
    "2026"
   ],
-  "daimonAvg": 5.2,
-  "subQAvg": 40.8,
-  "writeRate": 24,
-  "shiryoRate": 88,
+  "daimonAvg": 5.1,
+  "subQAvg": 38.4,
+  "writeRate": 28,
+  "shiryoRate": 59,
   "eraCount": {
-   "古代": 7,
-   "中世": 4,
-   "近世": 6,
-   "近代": 9,
-   "現代": 6
+   "古代": 28,
+   "中世": 24,
+   "近世": 34,
+   "近代": 41,
+   "現代": 23
   },
   "fieldCount": {
-   "政治・法制": 10,
-   "外交史": 5,
-   "社会経済": 7,
-   "文化史": 1,
-   "宗教・思想": 3
+   "政治・法制": 49,
+   "外交史": 21,
+   "社会経済": 35,
+   "文化史": 9,
+   "宗教・思想": 8
   },
   "formatCount": {
-   "正誤": 26,
-   "空欄補充": 19,
-   "記述": 23,
+   "正誤": 100,
+   "空欄補充": 93,
+   "記述": 117,
    "論述": 2,
-   "史料": 23,
-   "一問一答": 0,
-   "整序組合せ": 12
+   "史料": 59,
+   "一問一答": 77,
+   "整序組合せ": 27
   },
   "byYear": {
+   "2000": {
+    "daimon": 5,
+    "subQ": 40,
+    "write": 12,
+    "shiryo": 3,
+    "writeRate": 30
+   },
+   "2001": {
+    "daimon": 5,
+    "subQ": 39,
+    "write": 11,
+    "shiryo": 3,
+    "writeRate": 28
+   },
+   "2002": {
+    "daimon": 5,
+    "subQ": 38,
+    "write": 14,
+    "shiryo": 2,
+    "writeRate": 37
+   },
+   "2003": {
+    "daimon": 5,
+    "subQ": 40,
+    "write": 14,
+    "shiryo": 0,
+    "writeRate": 35
+   },
+   "2004": {
+    "daimon": 5,
+    "subQ": 42,
+    "write": 13,
+    "shiryo": 2,
+    "writeRate": 31
+   },
+   "2005": {
+    "daimon": 6,
+    "subQ": 38,
+    "write": 12,
+    "shiryo": 4,
+    "writeRate": 32
+   },
+   "2006": {
+    "daimon": 5,
+    "subQ": 38,
+    "write": 12,
+    "shiryo": 3,
+    "writeRate": 32
+   },
+   "2007": {
+    "daimon": 5,
+    "subQ": 37,
+    "write": 8,
+    "shiryo": 2,
+    "writeRate": 22
+   },
+   "2008": {
+    "daimon": 5,
+    "subQ": 33,
+    "write": 8,
+    "shiryo": 1,
+    "writeRate": 24
+   },
+   "2009": {
+    "daimon": 5,
+    "subQ": 37,
+    "write": 9,
+    "shiryo": 3,
+    "writeRate": 24
+   },
+   "2010": {
+    "daimon": 5,
+    "subQ": 37,
+    "write": 10,
+    "shiryo": 4,
+    "writeRate": 27
+   },
+   "2011": {
+    "daimon": 5,
+    "subQ": 36,
+    "write": 11,
+    "shiryo": 2,
+    "writeRate": 31
+   },
+   "2012": {
+    "daimon": 5,
+    "subQ": 37,
+    "write": 12,
+    "shiryo": 3,
+    "writeRate": 32
+   },
+   "2013": {
+    "daimon": 5,
+    "subQ": 40,
+    "write": 10,
+    "shiryo": 3,
+    "writeRate": 25
+   },
+   "2014": {
+    "daimon": 5,
+    "subQ": 38,
+    "write": 11,
+    "shiryo": 3,
+    "writeRate": 29
+   },
+   "2015": {
+    "daimon": 5,
+    "subQ": 38,
+    "write": 12,
+    "shiryo": 1,
+    "writeRate": 32
+   },
+   "2016": {
+    "daimon": 5,
+    "subQ": 38,
+    "write": 12,
+    "shiryo": 4,
+    "writeRate": 32
+   },
+   "2017": {
+    "daimon": 5,
+    "subQ": 36,
+    "write": 10,
+    "shiryo": 3,
+    "writeRate": 28
+   },
+   "2018": {
+    "daimon": 5,
+    "subQ": 36,
+    "write": 11,
+    "shiryo": 3,
+    "writeRate": 31
+   },
    "2019": {
     "daimon": 5,
     "subQ": 36,
     "write": 10,
-    "shiryo": 4
+    "shiryo": 4,
+    "writeRate": 28
    },
    "2020": {
     "daimon": 5,
     "subQ": 43,
     "write": 11,
-    "shiryo": 4
+    "shiryo": 4,
+    "writeRate": 26
    },
    "2024": {
     "daimon": 5,
     "subQ": 42,
     "write": 12,
-    "shiryo": 4
+    "shiryo": 4,
+    "writeRate": 29
    },
    "2025": {
     "daimon": 6,
     "subQ": 42,
     "write": 8,
-    "shiryo": 6
+    "shiryo": 6,
+    "writeRate": 19
    },
    "2026": {
     "daimon": 5,
     "subQ": 41,
     "write": 7,
-    "shiryo": 5
+    "shiryo": 5,
+    "writeRate": 17
    }
   }
  },
  "文化構想学部": {
   "years": [
+   "2007",
+   "2008",
+   "2009",
+   "2010",
+   "2011",
+   "2012",
+   "2013",
+   "2014",
+   "2015",
+   "2016",
+   "2017",
+   "2018",
    "2019",
    "2020",
    "2024",
@@ -526,203 +1591,167 @@ const FACULTY_TREND_SUMMARY = {
    "2026"
   ],
   "daimonAvg": 4.0,
-  "subQAvg": 44.2,
-  "writeRate": 34,
-  "shiryoRate": 25,
+  "subQAvg": 43.3,
+  "writeRate": 38,
+  "shiryoRate": 24,
   "eraCount": {
-   "古代": 19,
-   "中世": 19,
-   "近世": 20,
-   "近代": 18,
-   "現代": 12
+   "古代": 58,
+   "中世": 61,
+   "近世": 64,
+   "近代": 53,
+   "現代": 26
   },
   "fieldCount": {
-   "政治・法制": 7,
-   "外交史": 2,
-   "社会経済": 5,
-   "文化史": 5,
-   "宗教・思想": 1
+   "政治・法制": 19,
+   "外交史": 8,
+   "社会経済": 22,
+   "文化史": 15,
+   "宗教・思想": 4
   },
   "formatCount": {
-   "正誤": 20,
-   "空欄補充": 20,
-   "記述": 20,
+   "正誤": 68,
+   "空欄補充": 62,
+   "記述": 61,
    "論述": 0,
-   "史料": 0,
-   "一問一答": 6,
-   "整序組合せ": 7
+   "史料": 1,
+   "一問一答": 28,
+   "整序組合せ": 19
   },
   "byYear": {
+   "2007": {
+    "daimon": 4,
+    "subQ": 43,
+    "write": 18,
+    "shiryo": 2,
+    "writeRate": 42
+   },
+   "2008": {
+    "daimon": 4,
+    "subQ": 43,
+    "write": 17,
+    "shiryo": 2,
+    "writeRate": 40
+   },
+   "2009": {
+    "daimon": 4,
+    "subQ": 42,
+    "write": 19,
+    "shiryo": 1,
+    "writeRate": 45
+   },
+   "2010": {
+    "daimon": 4,
+    "subQ": 41,
+    "write": 17,
+    "shiryo": 3,
+    "writeRate": 41
+   },
+   "2011": {
+    "daimon": 4,
+    "subQ": 41,
+    "write": 15,
+    "shiryo": 0,
+    "writeRate": 37
+   },
+   "2012": {
+    "daimon": 4,
+    "subQ": 46,
+    "write": 21,
+    "shiryo": 0,
+    "writeRate": 46
+   },
+   "2013": {
+    "daimon": 4,
+    "subQ": 44,
+    "write": 17,
+    "shiryo": 1,
+    "writeRate": 39
+   },
+   "2014": {
+    "daimon": 4,
+    "subQ": 43,
+    "write": 15,
+    "shiryo": 0,
+    "writeRate": 35
+   },
+   "2015": {
+    "daimon": 4,
+    "subQ": 43,
+    "write": 16,
+    "shiryo": 0,
+    "writeRate": 37
+   },
+   "2016": {
+    "daimon": 4,
+    "subQ": 44,
+    "write": 18,
+    "shiryo": 1,
+    "writeRate": 41
+   },
+   "2017": {
+    "daimon": 4,
+    "subQ": 44,
+    "write": 16,
+    "shiryo": 0,
+    "writeRate": 36
+   },
+   "2018": {
+    "daimon": 4,
+    "subQ": 41,
+    "write": 16,
+    "shiryo": 1,
+    "writeRate": 39
+   },
    "2019": {
     "daimon": 4,
     "subQ": 42,
     "write": 15,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 36
    },
    "2020": {
     "daimon": 4,
     "subQ": 43,
     "write": 17,
-    "shiryo": 0
+    "shiryo": 0,
+    "writeRate": 40
    },
    "2024": {
     "daimon": 4,
     "subQ": 46,
     "write": 15,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 33
    },
    "2025": {
     "daimon": 4,
     "subQ": 44,
     "write": 14,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 32
    },
    "2026": {
     "daimon": 4,
     "subQ": 46,
     "write": 14,
-    "shiryo": 2
-   }
-  }
- },
- "政治経済学部": {
-  "years": [
-   "2015",
-   "2016",
-   "2017",
-   "2018",
-   "2019"
-  ],
-  "daimonAvg": 5.0,
-  "subQAvg": 45.8,
-  "writeRate": 28,
-  "shiryoRate": 76,
-  "eraCount": {
-   "古代": 5,
-   "中世": 5,
-   "近世": 8,
-   "近代": 9,
-   "現代": 5
-  },
-  "fieldCount": {
-   "政治・法制": 7,
-   "外交史": 5,
-   "社会経済": 12,
-   "文化史": 1,
-   "宗教・思想": 0
-  },
-  "formatCount": {
-   "正誤": 21,
-   "空欄補充": 11,
-   "記述": 21,
-   "論述": 5,
-   "史料": 19,
-   "一問一答": 25,
-   "整序組合せ": 6
-  },
-  "byYear": {
-   "2015": {
-    "daimon": 5,
-    "subQ": 50,
-    "write": 14,
-    "shiryo": 5
-   },
-   "2016": {
-    "daimon": 5,
-    "subQ": 48,
-    "write": 13,
-    "shiryo": 4
-   },
-   "2017": {
-    "daimon": 5,
-    "subQ": 47,
-    "write": 13,
-    "shiryo": 4
-   },
-   "2018": {
-    "daimon": 5,
-    "subQ": 42,
-    "write": 13,
-    "shiryo": 3
-   },
-   "2019": {
-    "daimon": 5,
-    "subQ": 42,
-    "write": 11,
-    "shiryo": 3
-   }
-  }
- },
- "国際教養学部": {
-  "years": [
-   "2015",
-   "2016",
-   "2017",
-   "2018",
-   "2019"
-  ],
-  "daimonAvg": 4.0,
-  "subQAvg": 40.0,
-  "writeRate": 25,
-  "shiryoRate": 35,
-  "eraCount": {
-   "古代": 5,
-   "中世": 7,
-   "近世": 7,
-   "近代": 9,
-   "現代": 3
-  },
-  "fieldCount": {
-   "政治・法制": 8,
-   "外交史": 9,
-   "社会経済": 2,
-   "文化史": 1,
-   "宗教・思想": 0
-  },
-  "formatCount": {
-   "正誤": 19,
-   "空欄補充": 20,
-   "記述": 20,
-   "論述": 0,
-   "史料": 7,
-   "一問一答": 6,
-   "整序組合せ": 3
-  },
-  "byYear": {
-   "2015": {
-    "daimon": 4,
-    "subQ": 40,
-    "write": 5,
-    "shiryo": 0
-   },
-   "2016": {
-    "daimon": 4,
-    "subQ": 40,
-    "write": 8,
-    "shiryo": 0
-   },
-   "2017": {
-    "daimon": 4,
-    "subQ": 40,
-    "write": 14,
-    "shiryo": 2
-   },
-   "2018": {
-    "daimon": 4,
-    "subQ": 40,
-    "write": 13,
-    "shiryo": 3
-   },
-   "2019": {
-    "daimon": 4,
-    "subQ": 40,
-    "write": 10,
-    "shiryo": 2
+    "shiryo": 2,
+    "writeRate": 30
    }
   }
  },
  "文学部": {
   "years": [
+   "2007",
+   "2008",
+   "2009",
+   "2010",
+   "2011",
+   "2012",
+   "2013",
+   "2014",
+   "2015",
+   "2016",
+   "2017",
    "2018",
    "2019",
    "2020",
@@ -730,191 +1759,353 @@ const FACULTY_TREND_SUMMARY = {
    "2025"
   ],
   "daimonAvg": 6.0,
-  "subQAvg": 46.4,
+  "subQAvg": 46.1,
   "writeRate": 38,
   "shiryoRate": 10,
   "eraCount": {
-   "古代": 14,
-   "中世": 9,
-   "近世": 11,
-   "近代": 8,
-   "現代": 6
+   "古代": 40,
+   "中世": 29,
+   "近世": 33,
+   "近代": 23,
+   "現代": 12
   },
   "fieldCount": {
-   "政治・法制": 10,
-   "外交史": 4,
-   "社会経済": 8,
-   "文化史": 7,
-   "宗教・思想": 1
+   "政治・法制": 35,
+   "外交史": 11,
+   "社会経済": 21,
+   "文化史": 25,
+   "宗教・思想": 4
   },
   "formatCount": {
-   "正誤": 28,
-   "空欄補充": 16,
-   "記述": 30,
+   "正誤": 88,
+   "空欄補充": 58,
+   "記述": 95,
    "論述": 0,
-   "史料": 3,
-   "一問一答": 18,
-   "整序組合せ": 4
+   "史料": 10,
+   "一問一答": 40,
+   "整序組合せ": 9
   },
   "byYear": {
+   "2007": {
+    "daimon": 6,
+    "subQ": 49,
+    "write": 20,
+    "shiryo": 1,
+    "writeRate": 41
+   },
+   "2008": {
+    "daimon": 6,
+    "subQ": 45,
+    "write": 18,
+    "shiryo": 0,
+    "writeRate": 40
+   },
+   "2009": {
+    "daimon": 6,
+    "subQ": 46,
+    "write": 15,
+    "shiryo": 2,
+    "writeRate": 33
+   },
+   "2010": {
+    "daimon": 6,
+    "subQ": 46,
+    "write": 16,
+    "shiryo": 1,
+    "writeRate": 35
+   },
+   "2011": {
+    "daimon": 6,
+    "subQ": 46,
+    "write": 18,
+    "shiryo": 0,
+    "writeRate": 39
+   },
+   "2012": {
+    "daimon": 6,
+    "subQ": 44,
+    "write": 16,
+    "shiryo": 0,
+    "writeRate": 36
+   },
+   "2013": {
+    "daimon": 6,
+    "subQ": 45,
+    "write": 18,
+    "shiryo": 1,
+    "writeRate": 40
+   },
+   "2014": {
+    "daimon": 6,
+    "subQ": 47,
+    "write": 20,
+    "shiryo": 2,
+    "writeRate": 43
+   },
+   "2015": {
+    "daimon": 6,
+    "subQ": 46,
+    "write": 17,
+    "shiryo": 0,
+    "writeRate": 37
+   },
+   "2016": {
+    "daimon": 6,
+    "subQ": 46,
+    "write": 16,
+    "shiryo": 0,
+    "writeRate": 35
+   },
+   "2017": {
+    "daimon": 6,
+    "subQ": 45,
+    "write": 16,
+    "shiryo": 0,
+    "writeRate": 36
+   },
    "2018": {
     "daimon": 6,
     "subQ": 47,
     "write": 18,
-    "shiryo": 0
+    "shiryo": 0,
+    "writeRate": 38
    },
    "2019": {
     "daimon": 6,
     "subQ": 45,
     "write": 17,
-    "shiryo": 0
+    "shiryo": 0,
+    "writeRate": 38
    },
    "2020": {
     "daimon": 6,
     "subQ": 47,
     "write": 18,
-    "shiryo": 0
+    "shiryo": 0,
+    "writeRate": 38
    },
    "2024": {
     "daimon": 6,
     "subQ": 46,
     "write": 16,
-    "shiryo": 1
+    "shiryo": 1,
+    "writeRate": 35
    },
    "2025": {
     "daimon": 6,
     "subQ": 47,
     "write": 20,
-    "shiryo": 2
+    "shiryo": 2,
+    "writeRate": 43
    }
   }
  },
  "人間科学部": {
   "years": [
+   "2000",
+   "2001",
+   "2002",
+   "2003",
+   "2004",
+   "2005",
+   "2006",
+   "2007",
+   "2008",
+   "2009",
+   "2010",
+   "2011",
+   "2012",
+   "2013",
+   "2014",
+   "2015",
+   "2016",
    "2017",
    "2018",
    "2019",
    "2020",
    "2024"
   ],
-  "daimonAvg": 5.0,
-  "subQAvg": 42.0,
-  "writeRate": 0,
-  "shiryoRate": 44,
+  "daimonAvg": 4.7,
+  "subQAvg": 47.3,
+  "writeRate": 12,
+  "shiryoRate": 45,
   "eraCount": {
-   "古代": 10,
-   "中世": 10,
-   "近世": 9,
-   "近代": 10,
-   "現代": 5
+   "古代": 36,
+   "中世": 39,
+   "近世": 37,
+   "近代": 42,
+   "現代": 26
   },
   "fieldCount": {
-   "政治・法制": 7,
-   "外交史": 4,
-   "社会経済": 5,
-   "文化史": 4,
-   "宗教・思想": 5
+   "政治・法制": 32,
+   "外交史": 17,
+   "社会経済": 29,
+   "文化史": 18,
+   "宗教・思想": 8
   },
   "formatCount": {
-   "正誤": 25,
-   "空欄補充": 20,
-   "記述": 0,
+   "正誤": 98,
+   "空欄補充": 82,
+   "記述": 4,
    "論述": 0,
-   "史料": 11,
-   "一問一答": 0,
-   "整序組合せ": 16
+   "史料": 47,
+   "一問一答": 47,
+   "整序組合せ": 41
   },
   "byYear": {
+   "2000": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 21,
+    "shiryo": 0,
+    "writeRate": 52
+   },
+   "2001": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 21,
+    "shiryo": 1,
+    "writeRate": 52
+   },
+   "2002": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 22,
+    "shiryo": 1,
+    "writeRate": 55
+   },
+   "2003": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 21,
+    "shiryo": 1,
+    "writeRate": 52
+   },
+   "2004": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 21,
+    "shiryo": 2,
+    "writeRate": 52
+   },
+   "2005": {
+    "daimon": 4,
+    "subQ": 40,
+    "write": 20,
+    "shiryo": 2,
+    "writeRate": 50
+   },
+   "2006": {
+    "daimon": 4,
+    "subQ": 60,
+    "write": 0,
+    "shiryo": 4,
+    "writeRate": 0
+   },
+   "2007": {
+    "daimon": 6,
+    "subQ": 63,
+    "write": 0,
+    "shiryo": 3,
+    "writeRate": 0
+   },
+   "2008": {
+    "daimon": 5,
+    "subQ": 64,
+    "write": 0,
+    "shiryo": 4,
+    "writeRate": 0
+   },
+   "2009": {
+    "daimon": 5,
+    "subQ": 64,
+    "write": 0,
+    "shiryo": 2,
+    "writeRate": 0
+   },
+   "2010": {
+    "daimon": 5,
+    "subQ": 64,
+    "write": 0,
+    "shiryo": 4,
+    "writeRate": 0
+   },
+   "2011": {
+    "daimon": 5,
+    "subQ": 64,
+    "write": 0,
+    "shiryo": 3,
+    "writeRate": 0
+   },
+   "2012": {
+    "daimon": 5,
+    "subQ": 43,
+    "write": 0,
+    "shiryo": 2,
+    "writeRate": 0
+   },
+   "2013": {
+    "daimon": 5,
+    "subQ": 42,
+    "write": 0,
+    "shiryo": 2,
+    "writeRate": 0
+   },
+   "2014": {
+    "daimon": 5,
+    "subQ": 42,
+    "write": 0,
+    "shiryo": 3,
+    "writeRate": 0
+   },
+   "2015": {
+    "daimon": 5,
+    "subQ": 42,
+    "write": 0,
+    "shiryo": 1,
+    "writeRate": 0
+   },
+   "2016": {
+    "daimon": 5,
+    "subQ": 42,
+    "write": 0,
+    "shiryo": 1,
+    "writeRate": 0
+   },
    "2017": {
     "daimon": 5,
     "subQ": 42,
     "write": 0,
-    "shiryo": 3
+    "shiryo": 3,
+    "writeRate": 0
    },
    "2018": {
     "daimon": 5,
     "subQ": 42,
     "write": 0,
-    "shiryo": 2
+    "shiryo": 2,
+    "writeRate": 0
    },
    "2019": {
     "daimon": 5,
     "subQ": 42,
     "write": 0,
-    "shiryo": 2
+    "shiryo": 2,
+    "writeRate": 0
    },
    "2020": {
     "daimon": 5,
     "subQ": 42,
     "write": 0,
-    "shiryo": 2
+    "shiryo": 2,
+    "writeRate": 0
    },
    "2024": {
     "daimon": 5,
     "subQ": 42,
     "write": 0,
-    "shiryo": 2
-   }
-  }
- },
- "第一文学部": {
-  "years": [
-   "2003",
-   "2004",
-   "2005",
-   "2006"
-  ],
-  "daimonAvg": 6.0,
-  "subQAvg": 46.2,
-  "writeRate": 48,
-  "shiryoRate": 25,
-  "eraCount": {
-   "古代": 14,
-   "中世": 7,
-   "近世": 10,
-   "近代": 5,
-   "現代": 1
-  },
-  "fieldCount": {
-   "政治・法制": 7,
-   "外交史": 4,
-   "社会経済": 5,
-   "文化史": 7,
-   "宗教・思想": 1
-  },
-  "formatCount": {
-   "正誤": 16,
-   "空欄補充": 19,
-   "記述": 21,
-   "論述": 0,
-   "史料": 1,
-   "一問一答": 12,
-   "整序組合せ": 2
-  },
-  "byYear": {
-   "2003": {
-    "daimon": 6,
-    "subQ": 50,
-    "write": 26,
-    "shiryo": 1
-   },
-   "2004": {
-    "daimon": 6,
-    "subQ": 40,
-    "write": 25,
-    "shiryo": 1
-   },
-   "2005": {
-    "daimon": 6,
-    "subQ": 46,
-    "write": 19,
-    "shiryo": 2
-   },
-   "2006": {
-    "daimon": 6,
-    "subQ": 49,
-    "write": 19,
-    "shiryo": 2
+    "shiryo": 2,
+    "writeRate": 0
    }
   }
  }

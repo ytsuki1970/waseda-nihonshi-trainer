@@ -96,6 +96,9 @@
   .ftbar .tr{flex:1; height:11px; background:#efe8d8; border-radius:6px; overflow:hidden}
   .ftbar .tr i{display:block; height:100%; background:var(--accent2); border-radius:6px}
   .ftbar .vl{width:2.2em; text-align:right; color:var(--sub); flex:none}
+  table.heat.fac-cmp .yr{display:block; font-size:.62rem; color:var(--sub); font-weight:400}
+  table.heat.fac-cmp td.sparkcell{min-width:104px; padding:4px 8px}
+  .spark{width:88px; height:26px; display:block; margin:0 auto; overflow:visible}
   .legend{display:flex; align-items:center; gap:6px; font-size:.72rem; color:var(--sub);
     font-family:"Hiragino Kaku Gothic ProN",sans-serif; margin-top:10px; flex-wrap:wrap}
   .legend .box{width:16px;height:16px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
@@ -527,23 +530,39 @@ function rateCell(v){
 }
 function renderFacCmp(){
   const S = FACULTY_TREND_SUMMARY;
-  let h = "<tr><th class='rowh'>学部</th><th>年</th><th>大問</th><th>小問</th>"+
-          "<th>記述率</th><th>史料率</th><th>最頻の時代</th><th>最頻の分野</th></tr>";
+  let h = "<tr><th class='rowh'>学部</th><th>収録年</th><th>大問</th><th>小問</th>"+
+          "<th>記述率</th><th>記述率の移り変わり</th><th>史料率</th><th>最頻の時代</th><th>最頻の分野</th></tr>";
   facCmpOrder().forEach(f=>{
     const s = S[f]; if(!s) return;
     const me = f==="法学部";
+    const ys = s.years, last = s.byYear[ys[ys.length-1]].writeRate;
     h += `<tr${me?" style='background:#fdf6e8'":""}>`+
          `<td class="rowh"${me?" style='background:#fdf6e8'":""}>${me?"★ ":""}${f}</td>`+
-         `<td>${s.years.length}</td><td>${s.daimonAvg}</td><td>${s.subQAvg}</td>`+
-         rateCell(s.writeRate) + rateCell(s.shiryoRate) +
+         `<td>${ys.length}年<span class="yr">${ys[0]}-${ys[ys.length-1]}</span></td>`+
+         `<td>${s.daimonAvg}</td><td>${s.subQAvg}</td>`+
+         rateCell(s.writeRate)+
+         `<td class="sparkcell">${sparkline(s.byYear, ys)}<span class="yr">直近${last}%</span></td>`+
+         rateCell(s.shiryoRate)+
          `<td>${topKey(s.eraCount)}</td><td>${topKey(s.fieldCount)}</td></tr>`;
   });
   document.getElementById("facCmpTable").innerHTML = h;
   document.getElementById("facCmpNote").textContent =
-    "★＝第一志望。数字は各学部の直近5年（第一文学部は現存する全4年）を大問単位で読み、"+
-    "小問数・記述数・史料の有無を数えた実測値。大問・小問は1年あたりの平均。"+
-    "法学部だけは全27年ぶんのデータがあるが、ここでは条件をそろえるため直近5年で算出している。"+
-    "テーマの複製はしていない。";
+    "★＝第一志望。数字は各学部の過去問を大問単位で読み、小問数・記述数・史料の有無を数えた実測値"+
+    "（大問・小問は1年あたりの平均）。年数は学部によって違う＝東進の過去問データベースに残っている全年度を使っており、"+
+    "学部の設置年（文化構想・文は2007年開設）やデータの欠落（2021〜2023年は全学部で未収録）で上限が決まる。"+
+    "現存しない学部（第一文学部）と、日本史で受験できない学部（政治経済・国際教養）は載せていない。"+
+    "問題文の複製はしていない。";
+}
+/* 記述率の年次推移スパークライン */
+function sparkline(byYear, years){
+  const w = 100, h = 26;
+  const pts = years.map((y, i) => {
+    const x = years.length > 1 ? i / (years.length - 1) * w : w / 2;
+    return [x, h - (byYear[y].writeRate / 100) * h];
+  });
+  const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">`+
+         `<path d="${d}" fill="none" stroke="var(--accent)" stroke-width="1.6"/></svg>`;
 }
 function barRow(label, n, max){
   const w = max ? Math.round(n/max*100) : 0;
@@ -554,7 +573,7 @@ function renderFacDetail(){
   const sel = document.getElementById("facSel");
   if(!sel.options.length){
     sel.innerHTML = facCmpOrder().map(f=>`<option value="${f}">${f}</option>`).join("");
-    sel.value = "社会科学部";
+    sel.value = "文学部";
   }
   const f = sel.value, s = FACULTY_TREND_SUMMARY[f];
   const box = document.getElementById("facDetail");
@@ -566,6 +585,7 @@ function renderFacDetail(){
 
   let h = `<div class="ftstats">`+
     `<div class="ftstat"><b>${s.years[0]}〜${s.years[s.years.length-1]}</b><span>${s.years.length}年分</span></div>`+
+    ``+
     `<div class="ftstat"><b>${s.daimonAvg}題</b><span>1年の大問数</span></div>`+
     `<div class="ftstat"><b>${s.subQAvg}問</b><span>1年の小問数</span></div>`+
     `<div class="ftstat"><b>${s.writeRate}%</b><span>記述の割合</span></div>`+
@@ -583,6 +603,16 @@ function renderFacDetail(){
          Object.keys(fc).filter(k=>fc[k]>0).map(k=>barRow(k, fc[k], oMax)).join("")+`</div>`;
   }
 
+  /* 年ごとの移り変わり */
+  h += `<div class="sum-h" style="margin-top:18px">年ごとの移り変わり</div>`+
+       `<div class="heat-wrap"><table class="heat fac-list"><tr>`+
+       `<th>年</th><th>大問</th><th>小問</th><th>記述</th><th>記述率</th><th>史料つき大問</th></tr>`+
+       s.years.map(y=>{const b=s.byYear[y];
+         return `<tr><td>${y}</td><td>${b.daimon}</td><td>${b.subQ}</td>`+
+           `<td>${b.write||"—"}</td>`+rateCell(b.writeRate)+
+           `<td>${b.shiryo}/${b.daimon}</td></tr>`;}).join("")+
+       `</table></div>`;
+
   h += `<div class="sum-h" style="margin-top:18px">大問ごとの中身</div>`+
        `<div class="heat-wrap"><table class="heat fac-list"><tr>`+
        `<th>年</th><th>大問</th><th class="rowh" style="position:static">テーマ</th>`+
@@ -593,9 +623,15 @@ function renderFacDetail(){
          `<td>${r.subQ}</td><td>${r.write||"—"}</td><td>${r.shiryo?"○":""}</td></tr>`).join("")+
        `</table></div>`;
 
-  h += `<div class="src-note">${f==="法学部"
-      ? "法学部はこのページ上部に全27年ぶんの詳しい分析がある。ここは他学部と同じ条件（直近5年）で並べたもの。"
-      : "実際の過去問PDFを大問単位で読み、時代・分野・形式・小問数だけを記録した。テーマ名はこちらで要約したもので、問題文・選択肢・史料の文言は使っていない。"}</div>`;
+  const gaps = [];
+  for(let y=+s.years[0]; y<=+s.years[s.years.length-1]; y++)
+    if(!s.years.includes(String(y))) gaps.push(y);
+  h += `<div class="src-note">`+
+    (f==="法学部"
+      ? "法学部はこのページ上部にも詳しい分析がある。ここは他学部と同じ形式で並べたもの。"
+      : "実際の過去問PDFを大問単位で読み、時代・分野・形式・小問数だけを記録した。テーマ名はこちらで要約したもので、問題文・選択肢・史料の文言は使っていない。")+
+    (gaps.length ? `　※${gaps.join("・")}年は過去問データベースに収録がなく、集計から抜けている。` : "")+
+    `</div>`;
   box.innerHTML = h;
 }
 const MARK = {3:"◎", 2:"◯", 1:"△"};

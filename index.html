@@ -796,17 +796,26 @@ const FAC_SHORT = {"法学部":"法","社会科学部":"社学","商学部":"商
 function facShort(f){ if(!f) return "法"; return FAC_SHORT[f] || f.replace(/学部$/,""); }
 /* 出典セレクトの選択肢：学部ごとに「学部まるごと」＋「学部×年度」を並べる
    値の形式： "" = すべて / "any" = 過去問論点すべて / "fac:法学部" / "法学部|2024" */
+/* 今は日本史で受験できない学部（演習量としては有効なので問題は残してある） */
+const PAST_ONLY = {
+  "政治経済学部":"今は日本史なし",
+  "国際教養学部":"今は日本史なし",
+  "第一文学部":"募集停止"
+};
 function sourceOptionsHtml(){
   const map={};
   QUESTIONS.filter(q=>q.source).forEach(q=>{
     const f=q.faculty||"法学部";
     (map[f]=map[f]||new Set()).add(q.source);
   });
-  const facs=Object.keys(map).sort((a,b)=>map[b].size-map[a].size);
+  // 現行学部を年数順に並べ、受験できない学部は末尾へ
+  const facs=Object.keys(map).sort((a,b)=>
+    (!!PAST_ONLY[a]-!!PAST_ONLY[b]) || (map[b].size-map[a].size));
   let html="<option value=''>すべて（全問）</option><option value='any'>📖 過去問論点のみ（全学部）</option>";
   facs.forEach(f=>{
     const ys=[...map[f]].sort();
-    html+=`<optgroup label="${f}">`;
+    const tag=PAST_ONLY[f]?`（${PAST_ONLY[f]}）`:"";
+    html+=`<optgroup label="${f}${tag}">`;
     html+=`<option value="fac:${f}">📖 ${f} すべて（${ys.length}年）</option>`;
     html+=ys.map(y=>`<option value="${f}|${y}">　${facShort(f)} ${y}年</option>`).join("");
     html+=`</optgroup>`;
